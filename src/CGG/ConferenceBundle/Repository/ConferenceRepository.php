@@ -28,4 +28,9 @@ class ConferenceRepository extends EntityRepository
         $connection = $this->entityManager->getConnection();
         return $connection->fetchAll("SELECT * FROM Conference;");
     }
+
+    public function find($idConference){
+        return $this->entityManager->find("CGGConferenceBundle:Conference", $idConference);
+
+    }
 }

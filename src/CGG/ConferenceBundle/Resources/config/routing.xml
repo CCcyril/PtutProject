@@ -23,7 +23,7 @@
     <route id="cgg_conference_listConferences" path="/liste-conferences">
         <default key="_controller">CGGConferenceBundle:Conference:list</default>
     </route>
-    <route id="cgg_conference_detailConference" path="/conference/{id}">
+    <route id="cgg_conference_detailConference" path="/conference/{idConference}">
         <default key="_controller">CGGConferenceBundle:Conference:detail</default>
     </route>
 </routes>
