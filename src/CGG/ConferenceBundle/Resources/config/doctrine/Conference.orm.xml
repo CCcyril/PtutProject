@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity repository-class="CGG\ConferenceBundle\Entity\ConferenceRepository" name="CGG\ConferenceBundle\Entity\Conference">
-    <id name="id" type="integer" column="id">
+    <id name="id" type="integer" column="conference_id">
       <generator strategy="AUTO"/>
     </id>
-    <field name="name" type="string" column="name" length="255"/>
-    <field name="creationDate" type="string" column="creation_date" length="255"/>
-    <field name="startDate" type="string" column="start_date" length="255"/>
-    <field name="endDate" type="string" column="end_date" length="255"/>
+    <field name="name" type="string" column="conference_name" length="255"/>
+    <field name="creationDate" type="string" column="conference_creation_date" length="255"/>
+    <field name="startDate" type="string" column="conference_start_date" length="255"/>
+    <field name="endDate" type="string" column="conference_end_date" length="255"/>
+    <one-to-many target-entity="Page" mapped-by="Conference" field="pages" >
+        <cascade>
+            <cascade-persist/>
+        </cascade>
+    </one-to-many>
+
   </entity>
 </doctrine-mapping>

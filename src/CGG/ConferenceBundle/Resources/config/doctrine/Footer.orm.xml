@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity repository-class="CGG\ConferenceBundle\Entity\FooterRepository" name="CGG\ConferenceBundle\Entity\Footer">
-    <id name="id" type="integer" column="id">
+    <id name="id" type="integer" column="footer_id">
       <generator strategy="AUTO"/>
     </id>
-    <field name="text" type="string" column="text" length="255"/>
+    <field name="text" type="string" column="footer_text" length="255"/>
+
   </entity>
 </doctrine-mapping>
