@@ -1,8 +1,8 @@
 {% extends("::base.html.twig") %}
 
 {% block body %}
-    <h2>Connexion</h2>
-    <form action="{{ path("cgg_conference_login_check") }}" method="POST">
+    <form action="{{ path("cgg_conference_login_check") }}" method="POST" class="signin">
+        <h2>Connexion</h2>
         <div class="form-group">
             <label for="login">Login</label>
             <input type="text" name="_username" class="form-control"/>
@@ -12,7 +12,10 @@
             <input type="password" name="_password" class="form-control"/>
         </div>
         <div class="form-group">
-            <button type="submit" class="form-control btn btn-primary">Connexion</button>
+            <a href="{{ path("cgg_conference_register") }}">Pas encore inscrit? Inscrivez-vous maintenant</a>
+        </div>
+        <div class="form-group t_center">
+            <button type="submit" class="btn btn-primary">Connexion</button>
         </div>
     </form>
 {% endblock %}
