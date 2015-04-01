@@ -20,10 +20,10 @@
             {% endimage %}
             <div class="log">
                 {% if app.user %}
-                    <a href="{{ path("cgg_conference_logout") }}"><span class="glyphicon glyphicon-user"></span> Déconnexion</a>
+                    <a href="{{ path("cgg_conference_logout") }}"> Déconnexion</a>
                 {% else %}
-                    <a href="{{ path("cgg_conference_login") }}"><span class="glyphicon glyphicon-user"></span> Connexion</a>
-                    <a href="{{ path("cgg_conference_register") }}"><span class="glyphicon glyphicon-user"></span> Inscription</a>
+                    <a href="{{ path("cgg_conference_login") }}"> Connexion</a>
+                    <a href="{{ path("cgg_conference_register") }}"> Inscription</a>
                 {% endif %}
             </div>
         </div>

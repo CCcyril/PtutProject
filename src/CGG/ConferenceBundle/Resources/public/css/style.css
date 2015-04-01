@@ -10,6 +10,10 @@
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover{
     background-color: #49033e;
 }
+.navbar-inverse .navbar-toggle {
+    border-color: #49033e;
+}
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {background-color: #49033e;}
 .log {
     position: absolute;
     right: 20px;
