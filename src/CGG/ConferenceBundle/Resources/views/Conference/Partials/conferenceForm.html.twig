@@ -1,0 +1,7 @@
+{{ form_start(form, {'attr' : { 'class' : 'form-horizontal'}}) }}
+{{ form_errors(form) }}
+<div class="form-group">
+    {{ form_label(form.name, 'Nom de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
+    {{ form_errors(form.name) }}
+    {{ form_widget(form.name, { 'attr' : { 'class' : 'form-control'}}) }}
+</div>
