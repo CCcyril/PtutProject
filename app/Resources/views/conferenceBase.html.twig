@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{{ conference.name }}{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% stylesheets '@CGGConferenceBundle/Resources/public/css/bootstrap/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
+        {% stylesheets '@CGGConferenceBundle/Resources/public/css/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
+    </head>
+    <body>
+        <div class="jumbotron header-home">
+            <h1>{{ headband.title }}</h1>
+            <span>{{  headband.text }}</span>
+        </div>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        {% for menuItem in menuItems %}
+                            <span class="icon-bar"></span>
+                        {% endfor %}
+                    </button>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        {% for menuItem in menuItems %}
+                            {% if menuItem.depth == 1 %}
+                                <li class="first">
+                            {% elseif menuItem.depth == menuItems|length %}
+                                <li class="last">
+                            {% else %}
+                                <li>
+                            {% endif %}
+                                <a href="/">{{ menuItem.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <p>{{ content.text }}</p>
+        </div>
+        <footer class="conference-footer">
+            <p>{{ footer.text }}</p>
+        </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </body>
+</html>
