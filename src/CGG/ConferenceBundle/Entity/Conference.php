@@ -34,6 +34,11 @@ class Conference
      */
     private $endDate;
 
+    function __construct()
+    {
+        $this->creationDate = \date('r');
+    }
+
 
     /**
      * Get id

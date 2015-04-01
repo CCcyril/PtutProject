@@ -24,7 +24,7 @@ class ConferenceController extends Controller
             $form->submit($request);
             if($form->isValid()){
                 $this->get('conference_repository')->save($conference);
-                return new Response('ok');
+                return $this->render('CGGConferenceBundle:Conference:conferenceCreated.html.twig');
             }
         }
 
