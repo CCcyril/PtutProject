@@ -22,8 +22,8 @@ class ConferenceController extends Controller
     }
 
     public function listAction() {
-
-        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array());
+        $conferenceList = $this->get('conference_repository')->findAll();
+        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList));
     }
 
     public function createConferenceAction(Request $request){
@@ -39,5 +39,8 @@ class ConferenceController extends Controller
         }
 
         return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form'=>$form->createView()]);
+    }
+    public function detailAction(){
+        return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array());
     }
 }

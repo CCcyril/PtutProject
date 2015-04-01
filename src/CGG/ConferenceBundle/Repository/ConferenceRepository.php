@@ -24,4 +24,8 @@ class ConferenceRepository extends EntityRepository
         $this->entityManager->persist($conference);
         $this->entityManager->flush();
     }
+    public function findAll(){
+        $connection = $this->entityManager->getConnection();
+        return $connection->fetchAll("SELECT * FROM Conference;");
+    }
 }

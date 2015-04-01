@@ -16,11 +16,20 @@
         <default key="_controller">CGGConferenceBundle:User:register</default>
     </route>
 
+    <route id="cgg_conference_login" path="/login">
+        <default key="_controller">CGGConferenceBundle:User:login</default>
+    </route>
+    <route id="cgg_conference_login_check" pattern="/login_check" />
+    <route id="cgg_conference_logout" path="/logout"/>
+
     <route id="cgg_conference_home" path="/">
         <default key="_controller">CGGConferenceBundle:Conference:home</default>
     </route>
 
     <route id="cgg_conference_listConferences" path="/liste-conferences">
         <default key="_controller">CGGConferenceBundle:Conference:list</default>
+    </route>
+    <route id="cgg_conference_detailConference" path="/conference/{id}">
+        <default key="_controller">CGGConferenceBundle:Conference:detail</default>
     </route>
 </routes>

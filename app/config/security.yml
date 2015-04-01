@@ -44,9 +44,19 @@ security:
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
+        security_admin:
+            pattern:  ^/
+            provider:   in_memory
+            anonymous: ~
+            form_login:
+                login_path:   cgg_conference_login
+                check_path:   cgg_conference_login_check
+            logout:
+                path:   cgg_conference_logout
+                target:   cgg_conference_home
 
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/cookbook/security/access_control.html
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/createConference, roles: ROLE_USER}
