@@ -19,6 +19,9 @@
     right: 20px;
     top: 10px;
 }
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border-color: #49033e;
+}
 a{
     color: #730a63;
 }
