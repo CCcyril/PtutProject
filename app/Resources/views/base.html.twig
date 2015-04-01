@@ -2,13 +2,34 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}CGG Conférence{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        {% stylesheets '@CGGConferenceBundle/Resources/public/css/bootstrap/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
+        {% stylesheets '@CGGConferenceBundle/Resources/public/css/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="jumbotron header-home">
+            <h1>CGG Conférence</h1>
+            <div class="log">
+                <a href="#">Connexion</a>
+                <a href="#">Inscription</a>
+            </div>
+        </div>
+        {{ include("CGGConferenceBundle:Conference/partials:menu.html.twig") }}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+        <footer>
+            <p><a href="#">Mentions légales</a> <a href="#">Plan du site</a></p>
+        </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </body>
 </html>
