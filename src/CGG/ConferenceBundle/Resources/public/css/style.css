@@ -3,13 +3,39 @@
 }
 .navbar-inverse {
     border-radius: 0;
+    background: #730a63;
+    border-color: #49033e;
+    clear: both;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover{
+    background-color: #49033e;
 }
 .log {
     position: absolute;
     right: 20px;
     top: 10px;
 }
+a{
+    color: #730a63;
+}
+a:hover{
+    color: #49033e;
+    text-decoration: none;
+}
+.jumbotron{
+    background: transparent;
+}
+.jumbotron h1{
+    float: left;
+    margin-left: 20px;
+}
+.imageConf{
+    float: right;
+    right: 20px;
+}
 footer {
-    background-color: #222;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ddd;
+    padding: 20px 0px;
     text-align: center;
 }

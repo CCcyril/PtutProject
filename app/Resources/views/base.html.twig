@@ -6,7 +6,7 @@
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         {% stylesheets '@CGGConferenceBundle/Resources/public/css/bootstrap/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
-        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
         {% stylesheets '@CGGConferenceBundle/Resources/public/css/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
@@ -15,12 +15,15 @@
     <body>
         <div class="jumbotron header-home">
             <h1>CGG Conférence</h1>
+            {% image '@CGGConferenceBundle/Resources/public/images/Conference.png'  output="images/Conference.png" %}
+                <img src="{{ asset_url }}"  alt="Conference" class="imageConf">
+            {% endimage %}
             <div class="log">
                 {% if app.user %}
-                    <a href="{{ path("cgg_conference_logout") }}">Déconnexion</a>
+                    <a href="{{ path("cgg_conference_logout") }}"><span class="glyphicon glyphicon-user"></span> Déconnexion</a>
                 {% else %}
-                    <a href="{{ path("cgg_conference_login") }}">Connexion</a>
-                    <a href="{{ path("cgg_conference_register") }}">Inscription</a>
+                    <a href="{{ path("cgg_conference_login") }}"><span class="glyphicon glyphicon-user"></span> Connexion</a>
+                    <a href="{{ path("cgg_conference_register") }}"><span class="glyphicon glyphicon-user"></span> Inscription</a>
                 {% endif %}
             </div>
         </div>
@@ -29,11 +32,7 @@
             {% block body %}{% endblock %}
         </div>
         <footer>
-            <p><a href="#">Mentions légales</a> <a href="#">Plan du site</a></p>
+            <p>CGG Comférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a></p>
         </footer>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
     </body>
 </html>
