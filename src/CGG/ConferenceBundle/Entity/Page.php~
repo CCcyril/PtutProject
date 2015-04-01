@@ -1,0 +1,47 @@
+<?php
+
+namespace CGG\ConferenceBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use CGG\ConferenceBundle\Entity\Conference;
+
+/**
+ * Page
+ */
+class Page
+{
+
+    private $id;
+    private $title;
+    private $page_conference_id;
+
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setPageConferenceId(Conference $pageConferenceId = null)
+    {
+        $this->page_conference_id = $pageConferenceId;
+
+        return $this;
+    }
+
+    public function getPageConferenceId()
+    {
+        return $this->page_conference_id;
+    }
+}

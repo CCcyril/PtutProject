@@ -6,19 +6,13 @@ use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Form\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+
 
 class ConferenceController extends Controller
 {
-    public function indexAction($name)
-    {
-
-        return $this->render('CGGConferenceBundle:Default:index.html.twig', array('name' => "mathis"));
-    }
-
     public function homeAction() {
 
-        return $this->render('CGGConferenceBundle:Conference:home.html.twig', array());
+        return $this->render('CGGConferenceBundle:Conference:home.html.twig');
     }
 
     public function listAction() {
@@ -41,6 +35,6 @@ class ConferenceController extends Controller
         return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form'=>$form->createView()]);
     }
     public function detailAction(){
-        return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array());
+        return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig');
     }
 }

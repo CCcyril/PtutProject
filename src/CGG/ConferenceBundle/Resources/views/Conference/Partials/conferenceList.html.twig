@@ -9,12 +9,12 @@
     {% else %}
         {% for conference in conferenceList %}
             <div class="panel panel-default">
-                <div class="panel-heading">{{ conference.name }} : {{ conference.start_date }} - {{ conference.end_date }}</div>
+                <div class="panel-heading">{{ conference.name }} : {{ conference.startDate }} - {{ conference.endDate }}</div>
                 <div class="panel-body">
                     <p>
                         Description
                     </p>
-                    <a href="{{ path("cgg_conference_detailConference",{"id":conference.id}) }}" target="_blank" class="btn btn-primary">Accéder au site</a>
+                    <a href="{{ path("cgg_conference_detailConference",{"idConference":conference.id}) }}" target="_blank" class="btn btn-primary">Accéder au site</a>
                     <a href="#" class="btn btn-primary">Demander à participer</a>
                 </div>
             </div>
