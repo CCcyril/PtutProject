@@ -2,6 +2,7 @@
 
 namespace CGG\ConferenceBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,33 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Menu
 {
-    /**
-     * @var integer
-     */
     private $id;
-
-    /**
-     * @var string
-     */
     private $title;
+    private $menuItem;
 
+    public function __construct(){
+        $this->menuItem = new ArrayCollection();
+    }
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Menu
-     */
     public function setTitle($title)
     {
         $this->title = $title;
@@ -43,13 +30,22 @@ class Menu
         return $this;
     }
 
-    /**
-     * Get title
-     *
-     * @return string 
-     */
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function addMenuItem(MenuItem $menuItem){
+        $this->menuItem[] = $menuItem;
+        $menuItem->setMenu($this);
+        return $this;
+    }
+
+    public function removeMenuItem(MenuItem $menuitem){
+        $this->menuItem->removeElement($menuitem);
+    }
+
+    public function getMenuItem(){
+        return $this->menuItem;
     }
 }

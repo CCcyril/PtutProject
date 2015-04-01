@@ -17,6 +17,7 @@ class Page
 
     private $id;
     private $title;
+    private $isHome;
     private $page_conference_id;
     private $page_menu;
     private $page_headBand;
@@ -43,6 +44,14 @@ class Page
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function getIsHome(){
+        return $this->isHome;
+    }
+
+    public function setIsHome($isHome){
+        $this->isHome = $isHome;
     }
 
     public function setPageConferenceId(Conference $pageConferenceId = null)

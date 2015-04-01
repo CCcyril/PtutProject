@@ -5,5 +5,10 @@
       <generator strategy="AUTO"/>
     </id>
     <field name="title" type="string" column="menu_title" length="255"/>
+      <one-to-many target-entity="MenuItem" mapped-by="menu_id" field="menuItem">
+        <cascade>
+            <cascade-persist/>
+        </cascade>
+      </one-to-many>
   </entity>
 </doctrine-mapping>

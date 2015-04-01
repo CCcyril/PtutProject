@@ -6,5 +6,8 @@
     </id>
     <field name="title" type="string" column="menuItem_title" length="255"/>
     <field name="depth" type="integer" column="menuItem_depth"/>
+      <many-to-one target-entity="Menu" field="menuItem_menu" inversed-by="Menuitem" >
+          <join-column name="menu_id" referenced-column-name="menu_id" />
+      </many-to-one>
   </entity>
 </doctrine-mapping>
