@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="CGG\ConferenceBundle\Entity\Conference">
-    <id name="id" type="integer" column="conference_id">
+  <entity name="CGG\ConferenceBundle\Entity\ConferenceUser">
+    <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
     </id>
-    <field name="name" type="string" column="conference_name" length="255"/>
-    <field name="description" type="string" column="conference_description" length="255"/>
-    <field name="creationDate" type="string" column="conference_creation_date" length="255"/>
-    <field name="startDate" type="string" column="conference_start_date" length="255"/>
-    <field name="endDate" type="string" column="conference_end_date" length="255"/>
-    <one-to-many target-entity="Page" mapped-by="Conference" field="pages" >
-        <cascade>
-            <cascade-persist/>
-        </cascade>
-    </one-to-many>
-
+    <field name="isAdmin" type="string" column="user_isAdmin" length="255"/>
+    <field name="isJury" type="string" column="user_isJury" length="255"/>
+      <many-to-one target-entity="Conference" inversed-by="ConferenceUser" field="conference" >
+        <join-column name="conference_id" referenced-column-name="conference_id" />
+      </many-to-one>
+      <many-to-one target-entity="User" inversed-by="ConferenceUser" field="user" >
+          <join-column name="user_id" referenced-column-name="user_id" />
+      </many-to-one>
   </entity>
 </doctrine-mapping>
