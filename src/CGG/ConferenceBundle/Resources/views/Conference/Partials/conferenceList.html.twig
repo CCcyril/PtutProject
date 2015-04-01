@@ -1,10 +1,22 @@
-<div class="panel panel-default">
-    <div class="panel-heading">{{ conference.name }} : {{ conference.start_date }} - {{ conference.end_date }}</div>
-    <div class="panel-body">
-        <p>
-            Description
-        </p>
-        <a href="{{ path("cgg_conference_detailConference",{"id":conference.id}) }}" class="btn btn-primary">Accéder au site</a>
-        <a href="#" class="btn btn-primary">Demander à participer</a>
+{% if(conferenceList == null) %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Aucune conférence n'a été créée</div>
+        <div class="panel-body">
+            <p>N'attendez plus pour créer votre conférence</p>
+            <a href="{{ path("cgg_conference_createConference") }}" class="btn btn-primary">Créer ma conférence</a>
+        </div>
     </div>
-</div>
+    {% else %}
+        {% for conference in conferenceList %}
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ conference.name }} : {{ conference.start_date }} - {{ conference.end_date }}</div>
+                <div class="panel-body">
+                    <p>
+                        Description
+                    </p>
+                    <a href="{{ path("cgg_conference_detailConference",{"id":conference.id}) }}" target="_blank" class="btn btn-primary">Accéder au site</a>
+                    <a href="#" class="btn btn-primary">Demander à participer</a>
+                </div>
+            </div>
+        {% endfor %}
+{% endif %}

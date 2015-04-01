@@ -3,8 +3,5 @@
 {% block headTitle %}Accueil{% endblock %}
 
 {% block body %}
-        {% for conference in conferenceList %}
-            {{ include("CGGConferenceBundle:Conference/Partials:conferenceList.html.twig") }}
-        {% endfor %}
-
+        {{ include("CGGConferenceBundle:Conference/Partials:conferenceList.html.twig") }}
 {% endblock %}
