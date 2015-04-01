@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+    <div class="panel-heading">{{ conference.name }} : {{ conference.start_date }} - {{ conference.end_date }}</div>
+    <div class="panel-body">
+        <p>
+            Description
+        </p>
+        <a href="{{ path("cgg_conference_detailConference",{"id":conference.id}) }}" class="btn btn-primary">Accéder au site</a>
+        <a href="#" class="btn btn-primary">Demander à participer</a>
+    </div>
+</div>

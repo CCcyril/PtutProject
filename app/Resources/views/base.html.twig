@@ -17,10 +17,10 @@
             <h1>CGG Conférence</h1>
             <div class="log">
                 <a href="#">Connexion</a>
-                <a href="#">Inscription</a>
+                <a href="{{ path("cgg_conference_register") }}">Inscription</a>
             </div>
         </div>
-        {{ include("CGGConferenceBundle:Conference/partials:menu.html.twig") }}
+        {{ include("CGGConferenceBundle:Conference/Partials:menu.html.twig") }}
         <div class="container">
             {% block body %}{% endblock %}
         </div>
