@@ -1,1 +1,5 @@
-{{ form(form) }}
+{% extends("::base.html.twig") %}
+
+{% block body %}
+    {{ include("CGGConferenceBundle:User/Partials:UserForm.html.twig") }}
+{% endblock %}
