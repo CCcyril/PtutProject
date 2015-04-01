@@ -1,0 +1,15 @@
+.header-home {
+    margin: 0;
+}
+.navbar-inverse {
+    border-radius: 0;
+}
+.log {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+footer {
+    background-color: #222;
+    text-align: center;
+}

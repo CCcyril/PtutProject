@@ -16,16 +16,6 @@ class ConferenceController extends Controller
         return $this->render('CGGConferenceBundle:Default:index.html.twig', array('name' => "mathis"));
     }
 
-    public function homeAction() {
-
-        return $this->render('CGGConferenceBundle:Conference:home.html.twig', array());
-    }
-
-    public function listAction() {
-
-        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array());
-    }
-
     public function createConferenceAction(Request $request){
         $conference = new Conference();
         $form = $this->createForm(New ConferenceType(), $conference);
