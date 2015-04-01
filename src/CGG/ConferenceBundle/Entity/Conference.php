@@ -6,9 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use CGG\ConferenceBundle\Entity\Page;
 
-/**
- * Conference
- */
 class Conference
 {
 
