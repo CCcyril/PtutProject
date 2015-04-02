@@ -96,6 +96,7 @@
 
     <route id="cgg_conference_admin_saveChangeHeadband" path="/conference/admin/sauvegarder-les-changements-header">
         <default key="_controller">CGGConferenceBundle:Admin:saveChangeHeadband</default>
+        <option key="expose">true</option>
     </route>
 
     <route id="cgg_conference_admin_add_sub_item" path="/conference/admin/ajouter-un-sous-menu">
