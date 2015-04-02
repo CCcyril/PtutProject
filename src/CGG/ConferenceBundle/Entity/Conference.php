@@ -35,7 +35,7 @@ class Conference
      * @var string
      */
     private $endDate;
-
+    private $pages;
     function __construct()
     {
         $this->creationDate = \date('r');
