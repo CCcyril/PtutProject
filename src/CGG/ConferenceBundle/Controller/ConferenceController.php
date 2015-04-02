@@ -42,7 +42,7 @@ class ConferenceController extends Controller
     public function createConferenceAction(Request $request){
         $conference = new Conference();
         $form = $this->createForm(New ConferenceType(), $conference);
-
+        $conference->setStatus("P");
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){

@@ -18,6 +18,7 @@ class ConferenceType extends AbstractType
             ->add('name', 'text')
             ->add('startDate', 'text')
             ->add('endDate', 'text')
+            ->add('description', 'textarea')
             ->add('send', 'submit')
         ;
     }
