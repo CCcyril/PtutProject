@@ -89,7 +89,7 @@ class AdminController extends Controller
         $this->get('page_repository')->save($page);
         $this->get('conference_repository')->save($conference);
 
-
+        return new response('OK');
     }
 
     public function addMenuItemAction($idConference){
