@@ -36,6 +36,8 @@ class Conference
      */
     private $endDate;
     private $pages;
+    private $status;
+
     function __construct()
     {
         $this->creationDate = \date('r');
@@ -160,5 +162,14 @@ class Conference
     public function getPageId()
     {
         return $this->pages;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 }

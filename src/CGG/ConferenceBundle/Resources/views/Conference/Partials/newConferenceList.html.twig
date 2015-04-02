@@ -1,0 +1,21 @@
+{% if(conferenceList == null) %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Aucune conférence à valider</div>
+        <div class="panel-body">
+            <p>Toutes les conférences sont déjà validées</p>
+        </div>
+    </div>
+{% else %}
+    {% for conference in conferenceList %}
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ conference.name }} : {{ conference.startDate }} - {{ conference.endDate }}</div>
+            <div class="panel-body">
+                <p>
+                    Description
+                </p>
+                <a href="{{ path("cgg_conference_validConference",{"idConference":conference.id}) }}" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Valider</a>
+                <a href="{{ path("cgg_conference_declineConference",{"idConference":conference.id}) }}" class="btn btn-primary"><span class="glyphicon glyphicon-remove"></span> Décliner</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

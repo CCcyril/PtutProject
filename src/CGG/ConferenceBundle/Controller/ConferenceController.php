@@ -9,6 +9,7 @@ use CGG\ConferenceBundle\Entity\HeadBand;
 use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ConferenceController extends Controller
@@ -19,10 +20,25 @@ class ConferenceController extends Controller
     }
 
     public function listAction() {
-        $conferenceList = $this->get('conference_repository')->findAll();
-        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList));
+        $conferenceList = $this->get('conference_repository')->findAllValid();
+        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList,"valid"=>true));
     }
-
+    public function listNewConferencesAction(){
+        $conferenceList = $this->get('conference_repository')->findAllProgress();
+        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList,"valid"=>false ));
+    }
+    public function validConferenceAction($idConference){
+        $conference = $this->get('conference_repository')->find($idConference);
+        $conference->setStatus("V");
+        $this->get("conference_repository")->save($conference);
+        return new RedirectResponse( $this->generateUrl("cgg_conference_listNewConferences"));
+    }
+    public function declineConferenceAction($idConference){
+        $conference = $this->get('conference_repository')->find($idConference);
+        $conference->setStatus("D");
+        $this->get("conference_repository")->save($conference);
+        return new RedirectResponse( $this->generateUrl("cgg_conference_listNewConferences"));
+    }
     public function createConferenceAction(Request $request){
         $conference = new Conference();
         $form = $this->createForm(New ConferenceType(), $conference);

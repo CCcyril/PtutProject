@@ -3,5 +3,9 @@
 {% block headTitle %}Accueil{% endblock %}
 
 {% block body %}
+    {% if(valid) %}
         {{ include("CGGConferenceBundle:Conference/Partials:conferenceList.html.twig") }}
+    {% else %}
+        {{ include("CGGConferenceBundle:Conference/Partials:newConferenceList.html.twig") }}
+    {% endif %}
 {% endblock %}

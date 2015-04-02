@@ -8,6 +8,7 @@
     <field name="creationDate" type="string" column="conference_creation_date" length="255"/>
     <field name="startDate" type="string" column="conference_start_date" length="255"/>
     <field name="endDate" type="string" column="conference_end_date" length="255"/>
+    <field name="status" type="string" column="conference_status" length="1"/>
     <one-to-many target-entity="Page" mapped-by="Conference" field="pages" >
         <cascade>
             <cascade-persist/>

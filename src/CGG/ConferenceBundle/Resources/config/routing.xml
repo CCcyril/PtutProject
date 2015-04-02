@@ -29,6 +29,15 @@
     <route id="cgg_conference_listConferences" path="/liste-conferences">
         <default key="_controller">CGGConferenceBundle:Conference:list</default>
     </route>
+    <route id="cgg_conference_listNewConferences" path="/liste-nouvelle-conferences">
+        <default key="_controller">CGGConferenceBundle:Conference:listNewConferences</default>
+    </route>
+    <route id="cgg_conference_validConference" path="/liste-nouvelle-conferences/valid-conference/{idConference}">
+        <default key="_controller">CGGConferenceBundle:Conference:validConference</default>
+    </route>
+    <route id="cgg_conference_declineConference" path="/liste-nouvelle-conferences/decline-conference/{idConference}">
+        <default key="_controller">CGGConferenceBundle:Conference:declineConference</default>
+    </route>
     <route id="cgg_conference_detailConference" path="/conference/{idConference}">
         <default key="_controller">CGGConferenceBundle:Conference:detail</default>
     </route>

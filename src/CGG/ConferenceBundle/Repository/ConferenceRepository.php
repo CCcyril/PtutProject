@@ -25,8 +25,15 @@ class ConferenceRepository extends EntityRepository
         $this->entityManager->flush();
     }
 
-    public function findAll(){
-       return $this->entityManager->getRepository('CGGConferenceBundle:Conference')->findAll();
+    public function findAllValid(){
+       return $this->entityManager->getRepository('CGGConferenceBundle:Conference')->findBy(
+           array('status' => 'V')
+       );
+    }
+    public function findAllProgress(){
+        return $this->entityManager->getRepository('CGGConferenceBundle:Conference')->findBy(
+            array('status' => 'P')
+        );
     }
 
     public function find($idConference){

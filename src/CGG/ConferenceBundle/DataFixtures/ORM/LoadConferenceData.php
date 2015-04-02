@@ -49,6 +49,7 @@ class LoadConference implements FixtureInterface {
             $conference->setStartDate(\date('r'));
             $conference->setEndDate("09/09/2020");
             $conference->addPageId($page);
+            $conference->setStatus("V");
 
             $manager->persist($conference);
 
