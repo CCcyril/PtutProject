@@ -23,21 +23,32 @@ class AdminController extends Controller
                 }
 
                 $headBand = $conference->getHeadBand();
-
                 $menu = $conference->getMenu();
-
                 $idMenu = $menu->getId();
-
                 $menuItems = $this->get('menuitem_repository')->findByMenuIdOrderByDepth($idMenu);
+                $menuItemsTable = array();
+                foreach($menuItems as $menuItem){
+                    if($menuItem->getParent() == NULL){
+                        $menuItemsTable[$menuItem->getId()] = array();
+                        $menuItemsTable[$menuItem->getId()]['menuItem'] = $menuItem;
+                        $menuItemsTable[$menuItem->getId()]['children'] = array();
+                    }
+                }
+                foreach($menuItems as $menuItem){
+                    if($menuItem->getParent() !== NULL) {
+                        $menuItemsTable[$menuItem->getParent()]['children'][] = $menuItem;
+                    }
+                }
+
 
                 $contents = $this->get('content_repository')->findByPageId($idPage);
 
                 $footer = $conference->getFooter();
 
                 return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
+                    'menuItemsTable'=>$menuItemsTable,
                     'conference' => $conference,
                     'headband' => $headBand,
-                    'menuItems' => $menuItems,
                     'contents' => $contents,
                     'footer' => $footer
                 ));
@@ -132,6 +143,7 @@ class AdminController extends Controller
     }
 
     public function addSubItemAction(Request $request){
+
         $conferenceRepository = $this->get('conference_repository');
         $idConference = $request->request->get('idConference');
         $conference = $conferenceRepository->find($idConference);
@@ -147,6 +159,8 @@ class AdminController extends Controller
         $menuItem->setDepth($depth+1);
         $idParent = $request->request->get('idParent');
         $menuItem->setParent($idParent);
+
+        $menuItemParent = $this->get('menuitem_repository')->find($idParent);
 
         $menu->addMenuItem($menuItem);
 
