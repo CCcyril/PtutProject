@@ -11,6 +11,18 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="page_repository" class="CGG\ConferenceBundle\Repository\PageRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="menuItem_repository" class="CGG\ConferenceBundle\Repository\MenuItemRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="content_repository" class="CGG\ConferenceBundle\Repository\ContentRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
         <service id="user_repository" class="CGG\ConferenceBundle\Repository\UserRepository">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>

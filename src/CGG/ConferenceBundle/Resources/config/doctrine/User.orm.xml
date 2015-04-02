@@ -7,6 +7,7 @@
     <field name="lname" type="string" column="user_lname" length="255"/>
     <field name="fname" type="string" column="user_fname" length="255"/>
     <field name="email" type="string" column="user_email" length="255"/>
+    <field name="password" type="string" column="user_password" length="255"/>
     <field name="address" type="string" column="user_address" length="255"/>
     <field name="country" type="string" column="user_country" length="255"/>
     <field name="zipcode" type="string" column="user_zipcode" length="255"/>

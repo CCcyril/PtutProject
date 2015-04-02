@@ -57,41 +57,34 @@ class ConferenceController extends Controller
 
         $conference = $this->get('conference_repository')->find($idConference);
 
-        $headBand = new HeadBand();
+        $pages = $this->get('page_repository')->findByConferenceId($idConference);
 
-        $headBand->setTitle("Titre Header");
-        $headBand->setText("Un header qui a un titre et un texte !");
+        foreach ($pages as $page) {
+            $conference->addPageId($page);
+        }
 
-        $menuItem1 = new MenuItem();
-        $menuItem2 = new MenuItem();
-        $menuItem3 = new MenuItem();
+        $page = $conference->getHomePage();
 
-        $menuItem1->setTitle('Page 1');
-        $menuItem2->setTitle('Page 2');
-        $menuItem3->setTitle('Page 3');
+        $idPage = $page->getId();
 
-        $menuItem1->setDepth(1);
-        $menuItem2->setDepth(2);
-        $menuItem3->setDepth(3);
+        $headBand = $page->getPageHeadBand();
 
-        $menuItems = array($menuItem1, $menuItem2, $menuItem3);
+        $menu = $page->getPageMenu();
 
-        $content = new Content();
+        $idMenu = $menu->getId();
 
-        $content->setText("Alors au début y avait un texte dans le content, du coup fallait que je l'écrive et j'avais la flemme du coup bah comme j'avais la flemme j'ai fait contrôle (comme le contrôleur mdr) + C puis CTRL + V mdr.
-                           Alors au début y avait un texte dans le content, du coup fallait que je l'écrive et j'avais la flemme du coup bah comme j'avais la flemme j'ai fait contrôle (comme le contrôleur mdr) + C puis CTRL + V mdr.
-                           Alors au début y avait un texte dans le content, du coup fallait que je l'écrive et j'avais la flemme du coup bah comme j'avais la flemme j'ai fait contrôle (comme le contrôleur mdr) + C puis CTRL + V mdr.");
+        $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
 
-        $footer = new Footer();
+        $contents = $this->get('content_repository')->findByPageId($idPage);
 
-        $footer->setText("Ceci est le texte du footer!");
+        $footer = $page->getPageFooter();
 
         if ($conference !== NULL) {
             return $this->render('::conferenceBase.html.twig', array(
                 'conference' => $conference,
                 'headband' => $headBand,
                 'menuItems' => $menuItems,
-                'content' => $content,
+                'contents' => $contents,
                 'footer' => $footer
             ));
         } else {
