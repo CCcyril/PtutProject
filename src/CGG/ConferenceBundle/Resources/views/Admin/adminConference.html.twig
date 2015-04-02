@@ -28,6 +28,10 @@
 {% endblock %}
 
 {% block body %}
+    <!-- inputs cachés -->
+    <input type="hidden" id="idConference" value="{{ conference.id }}">
+    <input type="hidden" id="idPage" value="{{ app.request.get('idPage') }}">
+    <!-- fin inputs cachés -->
     <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
     <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
         <a href="/" class="btn btn-success">
@@ -44,12 +48,12 @@
 {#TODO : intégrer le js dans admin.js (problème avec le routing => fosjsrouting)#}
 {% block javascript %}
     {{ parent() }}
-    {#{% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}#}
-        {#<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
-        {#<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>#}
-        {#<script type='text/javascript' src="{{ asset_url }}"></script>#}
-    {#{% endjavascripts %}#}
-    <script>
+    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+        <script type='text/javascript' src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+   {# <script>
         $(document).ready(function(){
             $("#saveChangesAdminConference").click(function (){
                 var data = [];
@@ -75,12 +79,12 @@
                     }
                 });
             });
-            var mouseX;
+            /*var mouseX;
             var mouseY;
             $(document).mousemove( function(e) {
                 mouseX = e.pageX;
                 mouseY = e.pageY;
-            });
+            });*/
             /*$(".navbar-nav li:not(:last-child)").click(function(){
                 $('#menuItemOptions').css({'top':mouseY,'left':mouseX,'position':'absolute'}).fadeIn('slow');
                 $('#menuItemOptions').removeClass('hidden');
@@ -109,6 +113,6 @@
                 }
             })*/
         });
-    </script>
+    </script>#}
 {% endblock %}
 
