@@ -4,7 +4,6 @@ namespace CGG\ConferenceBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use CGG\ConferenceBundle\Entity\Page;
 
 class Conference
 {
@@ -16,13 +15,16 @@ class Conference
     private $startDate;
     private $endDate;
     private $pages;
-
+    private $headband;
+    private $menu;
+    private $footer;
     private $status;
 
     function __construct()
     {
         $this->creationDate = \date('r');
         $this->pages = new ArrayCollection();
+        $this->setStatus('P');
     }
 
     public function getId()
@@ -116,8 +118,33 @@ class Conference
     {
         return $this->status;
     }
+
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    public function getHeadband(){
+        return $this->headband;
+    }
+
+    public function setHeadband(HeadBand $headband){
+        $this->headband = $headband;
+    }
+
+    public function getMenu(){
+        return $this->menu;
+    }
+
+    public function setMenu(Menu $menu){
+        $this->menu = $menu;
+    }
+
+    public function getFooter(){
+        return $this->footer;
+    }
+
+    public function setFooter(Footer $footer){
+        $this->footer = $footer;
     }
 }

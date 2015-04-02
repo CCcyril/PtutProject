@@ -9,12 +9,10 @@ use CGG\ConferenceBundle\Entity\Footer;
 use CGG\ConferenceBundle\Entity\Menu;
 use CGG\ConferenceBundle\Entity\HeadBand;
 
-/**
- * Page
- */
 class Page
 {
 
+    /*TODO : trucs inutiles à virer*/
     private $id;
     private $title;
     private $isHome;

@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="CGG\ConferenceBundle\Entity\User">
-    <id name="id" type="integer" column="user_id">
-      <generator strategy="AUTO"/>
-    </id>
-    <field name="lname" type="string" column="user_lname" length="255"/>
-    <field name="fname" type="string" column="user_fname" length="255"/>
-    <field name="email" type="string" column="user_email" length="255"/>
-    <field name="password" type="string" column="user_password" length="255"/>
-    <field name="address" type="string" column="user_address" length="255"/>
-    <field name="country" type="string" column="user_country" length="255"/>
-    <field name="zipcode" type="string" column="user_zipcode" length="255"/>
-    <field name="status" type="string" column="user_status" length="255"/>
-    <field name="phone" type="string" column="user_phone" length="255"/>
-    <field name="inscriptionDate" type="string" column="inscription_date" length="255"/>
-  </entity>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="CGG\ConferenceBundle\Entity\User" table="cgg_user" repository-class="CGG\ConferenceBundle\Repository\UserRepository" >
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="salt" type="string" length="255" unique="true"/>
+        <field name="username" type="string" length="25" unique="true" />
+        <field name="password" type="string" length="255" unique="true"/>
+        <field name="email" type="string" length="255" unique="true"/>
+        <field name="isActive" type="boolean"/>
+        <many-to-many target-entity="Role" field="roles" />
+    </entity>
 </doctrine-mapping>

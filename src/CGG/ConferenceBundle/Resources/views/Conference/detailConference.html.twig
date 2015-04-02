@@ -1,7 +1,26 @@
-{% extends "::base.html.twig" %}
+{% extends "::conferenceBase.html.twig" %}
 
-{% block headTitle %}Détail de la conférence{% endblock %}
-
-{% block body %}
-    test
+{% block headbandTitle %}
+    <h1>{{ parent() }}</h1>
 {% endblock %}
+
+{% block headbandText %}
+    <span>{{ parent() }}</span>
+{% endblock %}
+
+{% block menuItemTitle %}
+    <a href="{{ path('cgg_conference_detailConference',{'idConference':conference.id, 'idPage':menuItem.page.id}) }}">
+        {{ parent() }}
+    </a>
+{% endblock %}
+
+{% block contentText %}
+    <div>
+        {{ parent() }}
+    </div>
+{% endblock %}
+
+{% block footerText %}
+    <p>{{ parent() }}</p>
+{% endblock %}
+

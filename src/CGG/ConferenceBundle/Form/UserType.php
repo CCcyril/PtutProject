@@ -8,29 +8,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
+    /*TODO : Mettre ", null, array(option) pour utiliser les contraintes des orm*/
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('lname')
-            ->add('fname')
-            ->add('email')
-            ->add('address')
-            ->add('country')
-            ->add('zipcode')
-            ->add('status')
-            ->add('phone')
-            ->add('inscriptionDate')
+            ->add('username')
+            ->add('plainPassword', 'repeated', ['type' => 'password'])
+            ->add('email', 'email')
             ->add('send', 'submit')
         ;
     }
-    
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -38,9 +26,6 @@ class UserType extends AbstractType
         ));
     }
 
-    /**
-     * @return string
-     */
     public function getName()
     {
         return 'cgg_conferencebundle_user';

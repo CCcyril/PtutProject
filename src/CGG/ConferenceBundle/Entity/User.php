@@ -1,54 +1,100 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: user01
+ * Date: 23/04/15
+ * Time: 13:59
+ */
 
 namespace CGG\ConferenceBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * User
- */
-class User
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+class User implements UserInterface, \Serializable
 {
 
     private $id;
-    private $lname;
-    private $fname;
-    private $email;
+    private $salt;
+    private $username;
+    private $plainPassword;
     private $password;
-    private $address;
-    private $country;
-    private $zipcode;
-    private $status;
-    private $phone;
-    private $inscriptionDate;
+    private $email;
+    private $isActive;
+    private $roles;
+
+    public function __construct()
+    {
+        $this->isActive = true;
+        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->roles = new ArrayCollection();
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    public function getPlainPassword(){
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword){
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+            ) = unserialize($serialized);
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setLname($lname)
+    public function setUsername($username)
     {
-        $this->lname = $lname;
+        $this->username = $username;
 
         return $this;
     }
 
-    public function getLname()
+    public function setPassword($password)
     {
-        return $this->lname;
-    }
-
-    public function setFname($fname)
-    {
-        $this->fname = $fname;
-
-        return $this;
-    }
-
-    public function getFname()
-    {
-        return $this->fname;
+        $this->password = $password;
     }
 
     public function setEmail($email)
@@ -63,83 +109,34 @@ class User
         return $this->email;
     }
 
-    public function getPassword(){
-        return $this->password;
-    }
-
-    public function setPassword($password){
-       $this->password = $password;
-    }
-
-    public function setAddress($address)
+    public function setIsActive($isActive)
     {
-        $this->address = $address;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
-    public function getAddress()
+    public function getIsActive()
     {
-        return $this->address;
+        return $this->isActive;
     }
 
-    public function setCountry($country)
-    {
-        $this->country = $country;
 
-        return $this;
+    public function isEnabled()
+    {
+        return $this->isActive;
     }
 
-    public function getCountry()
-    {
-        return $this->country;
+    public function addRole(Role $role){
+        $this->roles[] = $role;
     }
 
-    public function setZipcode($zipcode)
-    {
-        $this->zipcode = $zipcode;
-
-        return $this;
+    public function removeRole(Role $role){
+        $this->roles->removeElement($role);
     }
 
-    public function getZipcode()
-    {
-        return $this->zipcode;
+    public function getRoles(){
+        return $this->roles->toArray();
     }
 
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    public function setInscriptionDate($inscriptionDate)
-    {
-        $this->inscriptionDate = $inscriptionDate;
-
-        return $this;
-    }
-
-    public function getInscriptionDate()
-    {
-        return $this->inscriptionDate;
-    }
 }

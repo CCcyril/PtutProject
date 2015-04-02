@@ -13,6 +13,13 @@
         {% endstylesheets %}
     </head>
     <body>
+    {% if app.session.flashBag.has('success') %}
+        <div class="alert alert-success">
+            {% for msg in app.session.flashBag.get('success') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
         <div class="jumbotron header-home">
             <h1>CGG Conférence</h1>
             {% image '@CGGConferenceBundle/Resources/public/images/Conference.png'  output="images/Conference.png" %}
@@ -36,7 +43,7 @@
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
-        <script src="{{ asset_url }}"></script>
+            <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
     </body>
 </html>

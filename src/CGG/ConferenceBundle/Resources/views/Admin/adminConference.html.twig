@@ -1,0 +1,114 @@
+{% extends "::conferenceBase.html.twig" %}
+
+{% block headbandTitle %}
+    <h1 contenteditable="true" id="headbandTitle">{{ parent() }}</h1>
+{% endblock %}
+
+{% block headbandText %}
+    <span contenteditable="true" id="headbandText">{{ parent() }}</span>
+{% endblock %}
+
+{% block menuItemTitle %}
+    {#<a href="{{ path('cgg_conference_adminConference',{'idConference':conference.id, 'idPage':menuItem.page.id}) }}" id="menuItemTitle{{ loop.index }}">{{ parent() }}</a>#}
+    <button id="menuItemTitle{{ loop.index }}">{{ parent() }}</button>
+{% endblock %}
+
+{% block addMenuItem %}
+    <li><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}"><span class="glyphicon glyphicon-plus"></span></a></li>
+{% endblock %}
+
+{% block contentText %}
+    <div contenteditable="true" id="content{{ loop.index }}">
+        {{ parent() }}
+    </div>
+{% endblock %}
+
+{% block footerText %}
+    <p contenteditable="true" id="footerText">{{ parent() }}</p>
+{% endblock %}
+
+{% block body %}
+    <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
+    <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
+        <a href="/" class="btn btn-success">
+            Aller à
+        </a>
+        <a href="/" class="btn btn-primary">
+            Editer
+        </a>
+        <a href="/" class="btn btn-default">
+            AJouter un bouton
+        </a>
+    </div>
+{% endblock %}
+{#TODO : intégrer le js dans admin.js (problème avec le routing => fosjsrouting)#}
+{% block javascript %}
+    {{ parent() }}
+    {#{% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}#}
+        {#<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+        {#<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>#}
+        {#<script type='text/javascript' src="{{ asset_url }}"></script>#}
+    {#{% endjavascripts %}#}
+    <script>
+        $(document).ready(function(){
+            $("#saveChangesAdminConference").click(function (){
+                var data = [];
+                var url = "{{ path('cgg_conference_admin_saveChangesConference', {'idConference':conference.id, 'idPage': app.request.get('idPage')}) }}";
+                var nbMenuItemTitle = $(".navbar-nav a").length;
+                var nbContent = $(".container div").length;
+                for(var i=1; i<=nbMenuItemTitle ; i++){
+                    data.push({name: 'menuItemTitle'+i, value:$("#menuItemTitle"+i).text()});
+                }
+                for(i=1; i<=nbContent; i++){
+                    data.push({name: 'content'+i, value: $("#content"+i).text()});
+                }
+                data.push({name: 'headbandTitle', value: $('#headbandTitle').text()});
+                data.push({name: 'headbandText', value: $('#headbandText').text()});
+                data.push({name: 'footerText', value: $('#footerText').text()});
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    dataType: 'html',
+                    success: function(data){
+                    }
+                });
+            });
+            var mouseX;
+            var mouseY;
+            $(document).mousemove( function(e) {
+                mouseX = e.pageX;
+                mouseY = e.pageY;
+            });
+            /*$(".navbar-nav li:not(:last-child)").click(function(){
+                $('#menuItemOptions').css({'top':mouseY,'left':mouseX,'position':'absolute'}).fadeIn('slow');
+                $('#menuItemOptions').removeClass('hidden');
+            });*/
+            $('.navbar-nav li:not(:last-child)').click(function(event){
+                var itemId = event.target.id;
+                var offsets = $('#'+itemId).offset();
+                var top = offsets.top;
+                var left = offsets.left;
+                $('#menuItemOptions').css({'top':(top+50),'left':(left-100),'position':'absolute'}).fadeIn('slow');
+                $('#menuItemOptions').removeClass('hidden');
+            })
+            /*$('.navbar-nav li:not(:last-child)').mouseout(function(){
+                alert('p');
+                *//**//*var timer;
+
+                $("#a, #b").mouseleave(function() {
+                    timer = setTimeout(doSomething, 10);
+                }).mouseenter(function() {
+                    clearTimeout(timer);
+                });
+
+
+                function doSomething() {
+                    alert('mouse left');
+                }
+            })*/
+        });
+    </script>
+{% endblock %}
+

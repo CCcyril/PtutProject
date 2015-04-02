@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="CGG\ConferenceBundle\Entity\Menu">
-    <id name="id" type="integer" column="menu_id">
+  <entity name="CGG\ConferenceBundle\Entity\Menu" table="cgg_menu">
+    <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
     </id>
     <field name="title" type="string" column="menu_title" length="255"/>
-      <one-to-many target-entity="MenuItem" mapped-by="menu_id" field="menuItem">
+      <one-to-many target-entity="MenuItem" mapped-by="menuItem_menu" field="menuItem">
         <cascade>
             <cascade-persist/>
         </cascade>

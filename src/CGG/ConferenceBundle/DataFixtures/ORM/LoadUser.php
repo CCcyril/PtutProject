@@ -8,53 +8,93 @@
 
 namespace CGG\ConferenceBundle\DataFixtures\ORM;
 
-
+use CGG\ConferenceBundle\Entity\Role;
 use CGG\ConferenceBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadUser implements FixtureInterface {
+class LoadUser implements FixtureInterface, ContainerAwareInterface {
+
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
 
     public function load(ObjectManager $entityManager){
+        $superAdmin = new User();
         $admin = new User();
         $jury = new User();
         $user = new User();
+        $user2 = new User();
+        $user3 = new User();
+        $roleSuperAdmin = new Role('superAdmin', 'ROLE_SUPER_ADMIN');
+        $entityManager->persist($roleSuperAdmin);
+        $roleAdmin = new Role('admin', 'ROLE_ADMIN');
+        $entityManager->persist($roleAdmin);
+        $roleJury = new Role('jury', 'ROLE_JURY');
+        $entityManager->persist($roleJury);
+        $roleUser = new Role('user', 'ROLE_USER');
+        $entityManager->persist($roleUser);
 
-        $admin->setLname('admin');
-        $admin->setfname('admin');
-        $admin->setPassword('admin');
+        $superAdmin->setUsername('superAdmin');
+        $superAdmin->setEmail('superAdmin@superAdmin.fr');
+        $plainPassword = 'superAdmin';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($superAdmin, $plainPassword);
+        $superAdmin->setPassword($encoded);
+        $superAdmin->addRole($roleSuperAdmin);
+        $entityManager->persist($superAdmin);
+
+        $admin->setUsername('admin');
         $admin->setEmail('admin@admin.fr');
-        $admin->setPhone('0123456789');
-        $admin->setAddress('admin_adress');
-        $admin->setCountry('adminCountry');
-        $admin->setZipcode('01234');
-        $admin->setStatus('admin');
-        $admin->setInscriptionDate(\date('r'));
+        $plainPassword = 'admin';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($admin, $plainPassword);
+        $admin->setPassword($encoded);
+        $admin->addRole($roleAdmin);
         $entityManager->persist($admin);
 
-        $jury->setLname('jury');
-        $jury->setfname('jury');
-        $jury->setPassword('jury');
+        $jury->setUsername('jury');
         $jury->setEmail('jury@jury.fr');
-        $jury->setPhone('0123456789');
-        $jury->setAddress('jury_adress');
-        $jury->setCountry('juryCountry');
-        $jury->setZipcode('01234');
-        $jury->setStatus('jury');
-        $jury->setInscriptionDate(\date('r'));
+        $plainPassword = 'jury';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($jury, $plainPassword);
+        $jury->setPassword($encoded);
+        $jury->addRole($roleJury);
         $entityManager->persist($jury);
 
-        $user->setLname('user');
-        $user->setfname('user');
-        $user->setPassword('user');
+        /*TODO : check pourquoi ce user bug lors de la connexion (pas de role) (pas d'id dans la table role : jury 3 3 user 3 4*/
+        $user->setUsername('user');
         $user->setEmail('user@user.fr');
-        $user->setPhone('0123456789');
-        $user->setAddress('user_adress');
-        $user->setCountry('userCountry');
-        $user->setZipcode('01234');
-        $user->setStatus('user');
-        $user->setInscriptionDate(\date('r'));
+        $plainPassword = 'user';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, $plainPassword);
+        $user->setPassword($encoded);
+        $jury->addRole($roleUser);
         $entityManager->persist($user);
+
+        $user2->setUsername('user2');
+        $user2->setEmail('user2@user2.fr');
+        $plainPassword = 'user2';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user2, $plainPassword);
+        $user2->setPassword($encoded);
+        $user2->addRole($roleUser);
+        $entityManager->persist($user2);
+
+
+        $user3->setUsername('user3');
+        $user3->setEmail('user3@user3.fr');
+        $plainPassword = 'user3';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user3, $plainPassword);
+        $user3->setPassword($encoded);
+        $user3->addRole($roleUser);
+        $entityManager->persist($user3);
 
         $entityManager->flush();
     }

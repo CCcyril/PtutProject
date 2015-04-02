@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="CGG\ConferenceBundle\Entity\HeadBand">
-    <id name="id" type="integer" column="headBand_id">
+  <entity name="CGG\ConferenceBundle\Entity\HeadBand" table="cgg_headband">
+    <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
     </id>
     <field name="title" type="string" column="headBand_title" length="255"/>
-    <field name="image" type="string" column="headBand_image" length="255"/>
+    <field name="image" type="string" column="headBand_image" length="255" nullable="true"/>
     <field name="text" type="string" column="headBand_text" length="255"/>
   </entity>
 </doctrine-mapping>

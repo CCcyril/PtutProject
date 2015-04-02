@@ -3,14 +3,13 @@
 namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\Conference;
-use CGG\ConferenceBundle\Entity\Content;
-use CGG\ConferenceBundle\Entity\Footer;
-use CGG\ConferenceBundle\Entity\HeadBand;
-use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 class ConferenceController extends Controller
 {
@@ -20,56 +19,75 @@ class ConferenceController extends Controller
     }
 
     public function listAction() {
-        $conferenceList = $this->get('conference_repository')->findAllValid();
+        $conferenceList = $this->get('conference_repository')->findAllConferenceByStatus('V');
+        /*TODO : refaire entité conference, ... ex : addPageId*/
+        foreach($conferenceList as $conference){
+            $pages = $this->get('page_repository')->findByConferenceId($conference->getId());
+            foreach($pages as $page){
+                $conference->addPageId($page);
+            }
+        }
         return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList,"valid"=>true));
     }
+
     public function listNewConferencesAction(){
-        $conferenceList = $this->get('conference_repository')->findAllProgress();
+        $conferenceList = $this->get('conference_repository')->findAllConferenceByStatus('P');
         return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList,"valid"=>false ));
     }
+
     public function validConferenceAction($idConference){
         $conference = $this->get('conference_repository')->find($idConference);
         $conference->setStatus("V");
         $this->get("conference_repository")->save($conference);
         return new RedirectResponse( $this->generateUrl("cgg_conference_listNewConferences"));
     }
+
     public function declineConferenceAction($idConference){
         $conference = $this->get('conference_repository')->find($idConference);
         $conference->setStatus("D");
         $this->get("conference_repository")->save($conference);
         return new RedirectResponse( $this->generateUrl("cgg_conference_listNewConferences"));
     }
+
     public function createConferenceAction(Request $request){
+        /*TODO : Validation*/
         $conference = new Conference();
         $form = $this->createForm(New ConferenceType(), $conference);
         $conference->setStatus("P");
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){
+                /*TODO : multi-step FORM ?*/
+                $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
+
                 $this->get('conference_repository')->save($conference);
+
+                $aclProvider = $this->get('security.acl.provider');
+                $objectIdentity = ObjectIdentity::fromDomainObject($conference);
+                $acl = $aclProvider ->createAcl($objectIdentity);
+
+                $tokenStorage = $this->get('security.token_storage');
+                $user = $tokenStorage->getToken()->getUser();
+                $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+                $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+                $aclProvider->updateAcl($acl);
+
                 return $this->render('CGGConferenceBundle:Conference:conferenceCreated.html.twig');
             }
         }
 
         return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form'=>$form->createView()]);
     }
-    public function detailAction($idConference){
+
+    public function detailAction($idConference, $idPage){
 
         $conference = $this->get('conference_repository')->find($idConference);
+        /*TODO Check que la page appartient bien à la conférence sinon possible d'afficher les pages d'autres conférences.*/
 
-        $pages = $this->get('page_repository')->findByConferenceId($idConference);
+        $headBand = $conference->getHeadBand();
 
-        foreach ($pages as $page) {
-            $conference->addPageId($page);
-        }
-
-        $page = $conference->getHomePage();
-
-        $idPage = $page->getId();
-
-        $headBand = $page->getPageHeadBand();
-
-        $menu = $page->getPageMenu();
+        $menu = $conference->getMenu();
 
         $idMenu = $menu->getId();
 
@@ -77,10 +95,10 @@ class ConferenceController extends Controller
 
         $contents = $this->get('content_repository')->findByPageId($idPage);
 
-        $footer = $page->getPageFooter();
+        $footer = $conference->getFooter();
 
         if ($conference !== NULL) {
-            return $this->render('::conferenceBase.html.twig', array(
+            return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
                 'conference' => $conference,
                 'headband' => $headBand,
                 'menuItems' => $menuItems,

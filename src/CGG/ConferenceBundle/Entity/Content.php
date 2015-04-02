@@ -4,9 +4,6 @@ namespace CGG\ConferenceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Content
- */
 class Content
 {
 
@@ -20,12 +17,6 @@ class Content
         return $this->id;
     }
 
-    /**
-     * Set text
-     *
-     * @param string $text
-     * @return Content
-     */
     public function setText($text)
     {
         $this->text = $text;
@@ -33,11 +24,6 @@ class Content
         return $this;
     }
 
-    /**
-     * Get text
-     *
-     * @return string 
-     */
     public function getText()
     {
         return $this->text;

@@ -4,10 +4,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="cgg_conference_homepage" path="/hello/{name}">
-        <default key="_controller">CGGConferenceBundle:Conference:index</default>
-    </route>
-
     <route id="cgg_conference_createConference" path="/createConference">
         <default key="_controller">CGGConferenceBundle:Conference:createConference</default>
     </route>
@@ -29,16 +25,34 @@
     <route id="cgg_conference_listConferences" path="/liste-conferences">
         <default key="_controller">CGGConferenceBundle:Conference:list</default>
     </route>
+
     <route id="cgg_conference_listNewConferences" path="/liste-nouvelle-conferences">
         <default key="_controller">CGGConferenceBundle:Conference:listNewConferences</default>
     </route>
+
     <route id="cgg_conference_validConference" path="/liste-nouvelle-conferences/valid-conference/{idConference}">
         <default key="_controller">CGGConferenceBundle:Conference:validConference</default>
     </route>
+
     <route id="cgg_conference_declineConference" path="/liste-nouvelle-conferences/decline-conference/{idConference}">
         <default key="_controller">CGGConferenceBundle:Conference:declineConference</default>
     </route>
-    <route id="cgg_conference_detailConference" path="/conference/{idConference}">
+
+    <route id="cgg_conference_detailConference" path="/conference/{idConference}/{idPage}">
         <default key="_controller">CGGConferenceBundle:Conference:detail</default>
+    </route>
+
+    <route id="cgg_conference_adminConference" path="/conference/admin/{idConference}/{idPage}">
+        <default key="_controller">CGGConferenceBundle:Admin:admin</default>
+        <requirement key="idConference">\d+</requirement>
+        <requirement key="idPage">\d+</requirement>
+    </route>
+
+    <route id="cgg_conference_admin_saveChangesConference" path="/conference/admin/{idConference}/{idPage}/sauvegarder-les-changements">
+        <default key="_controller">CGGConferenceBundle:Admin:saveChangesAdminConference</default>
+    </route>
+
+    <route id="cgg_conference_admin_addMenuItem" path="/conference/admin/{idConference}/addmenuitem ">
+        <default key="_controller">CGGConferenceBundle:Admin:addMenuItem</default>
     </route>
 </routes>
