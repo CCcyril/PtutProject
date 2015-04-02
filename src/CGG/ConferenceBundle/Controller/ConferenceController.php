@@ -26,8 +26,8 @@ class ConferenceController extends Controller
     }
 
     public function listAction() {
-        $conferenceList = $this->get('conference_repository')->findAll();
-        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList));
+        $conferenceList = $this->get('conference_repository');
+        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList->findAll()));
     }
 
     public function createConferenceAction(Request $request){
