@@ -19,6 +19,7 @@ class MenuBuilder extends ContainerAware {
         $menu->addChild('Création d\'une conférence', array('route' => 'cgg_conference_createConference'));
         if($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
             $menu->addChild('Liste des conférences à valider', array('route' => 'cgg_conference_listNewConferences'));
+            $menu->addChild('Gestion des Utilisateurs', array('route'=>'cgg_conference_list_user'));
         }
 
         return $menu;

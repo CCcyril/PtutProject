@@ -40,6 +40,8 @@
 
     <route id="cgg_conference_detailConference" path="/conference/{idConference}/{idPage}">
         <default key="_controller">CGGConferenceBundle:Conference:detail</default>
+        <requirement key="idConference">\d+</requirement>
+        <requirement key="idPage">\d+</requirement>
     </route>
 
     <route id="cgg_conference_adminConference" path="/conference/admin/{idConference}/{idPage}">
@@ -57,4 +59,26 @@
     <route id="cgg_conference_admin_addMenuItem" path="/conference/admin/{idConference}/addmenuitem ">
         <default key="_controller">CGGConferenceBundle:Admin:addMenuItem</default>
     </route>
+
+    <route id="cgg_conference_list_user" path="/admin/gestion-utilisateurs">
+        <default key="_controller">CGGConferenceBundle:User:listUser</default>
+    </route>
+
+    <route id="cgg_conference_admin_saveChangesRolesUsers" path="/admin/gestion-utilisateurs/sauvegarder-les-roles">
+        <default key="_controller">CGGConferenceBundle:User:saveChangesRolesUsers</default>
+    </route>
+
+    <route id="cgg_conference_user_removeRole" path="/admin/gestion-utilisateurs/supprimer-roles">
+        <default key="_controller">CGGConferenceBundle:User:removeRole</default>
+    </route>
+
+    <route id="cgg_conference_delete_conference" path="/admin/conference/supprimer-conference/{idConference}">
+        <requirement key="idConference">\d+</requirement>
+        <default key="_controller">CGGConferenceBundle:Conference:deleteConference</default>
+    </route>
+
+    <route id="cgg_conference_admin_saveChangeHeadband" path="/conference/admin/sauvegarder-les-changements-header">
+        <default key="_controller">CGGConferenceBundle:Admin:saveChangeHeadband</default>
+    </route>
+
 </routes>

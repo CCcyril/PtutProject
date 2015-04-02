@@ -6,6 +6,5 @@
     </id>
     <field name="name" type="string" column="role_name" length="255"/>
     <field name="role" type="string" column="role_role" length="255"/>
-    <many-to-many target-entity="User" field="users" />
   </entity>
 </doctrine-mapping>

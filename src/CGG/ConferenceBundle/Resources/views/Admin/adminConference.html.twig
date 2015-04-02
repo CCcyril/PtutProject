@@ -1,11 +1,17 @@
 {% extends "::conferenceBase.html.twig" %}
+{% block headband %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        WTF
+    </button>
+    {% block headbandTitle %}
+        <h1 contenteditable="true" id="headbandTitle">{{ parent() }}</h1>
+        <button id="saveChangeHeadband" class="btn btn-success">Sauvegarder Header</button>
+    {% endblock %}
 
-{% block headbandTitle %}
-    <h1 contenteditable="true" id="headbandTitle">{{ parent() }}</h1>
-{% endblock %}
-
-{% block headbandText %}
-    <span contenteditable="true" id="headbandText">{{ parent() }}</span>
+    {% block headbandText %}
+        <span contenteditable="true" id="headbandText">{{ parent() }}</span>
+    {% endblock %}
 {% endblock %}
 
 {% block menuItemTitle %}
@@ -33,6 +39,7 @@
     <input type="hidden" id="idConference" value="{{ conference.id }}">
     <input type="hidden" id="idPage" value="{{ app.request.get('idPage') }}">
     <!-- fin inputs cachés -->
+    {% include 'CGGConferenceBundle:Admin/Partials:headerModal.html.twig' %}
     <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
     <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
         <a href="" id="pagePath" class="btn btn-success">
@@ -46,37 +53,64 @@
         </a>
     </div>
 {% endblock %}
+
 {% block javascript %}
     {{ parent() }}
     {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-        <script type='text/javascript' src="{{ asset_url }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type='text/javascript' src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    {#TODO : recacher la div quand on sort du menu ou de la div#}
-   {# <script>
-            /*var mouseX;
-            var mouseY;
-            $(document).mousemove( function(e) {
-                mouseX = e.pageX;
-                mouseY = e.pageY;
-            });*/
-            /*$(".navbar-nav li:not(:last-child)").click(function(){
-                $('#menuItemOptions').css({'top':mouseY,'left':mouseX,'position':'absolute'}).fadeIn('slow');
-                $('#menuItemOptions').removeClass('hidden');
-            });*/
-            /*$('.navbar-nav li:not(:last-child)').mouseout(function(){
-                alert('p');
-                *//**//*var timer;
+    <script>
+        $(document).ready(function(){
+            $("#btnAddPages").on('click', function(){
+                $("#addPages").removeClass('hidden');
+            });
 
-
-
-
-                function doSomething() {
-                    alert('mouse left');
+            $("#addInput").on('click', function(){
+                var lastDiv = $("#addPages form div:last");
+                lastDiv.after("<div class='form-group'>" + lastDiv.html() + "</div>");
+                if($("#removeInput").hasClass('disabled')){
+                    $("#removeInput").removeClass('disabled');
                 }
-            })*/
+            })
+
+            $("#removeInput").on('click', function(){
+                var countInput = $("#addPages form div").length;
+                if(countInput === 3){
+                    $("#removeInput").addClass('disabled');
+                }
+                $("#addPages form div:last").remove();
+            });
+
+            $("#btnUpdateBackground").on('click', function(){
+                $("#updateBackground").removeClass('hidden');
+            });
+
+            $('.demo-auto').colorpicker();
+
+            $("#saveChangeHeadband").on('click', function(){
+                var url="{{ path('cgg_conference_admin_saveChangeHeadband')}}";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        'idConference': $("#idConference").val(),
+                        'idPage': $("#idPage").val(),
+                        'headbandTitle': $("#headbandTitle").text(),
+                        'headbandText': $("#headbandText").text()
+                    },
+                    dataType: "html",
+                    success:function() {
+                        window.location.reload();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
         });
-    </script>#}
+    </script>
 {% endblock %}
 

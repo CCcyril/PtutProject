@@ -1,0 +1,97 @@
+{% extends("::base.html.twig") %}
+
+{% block body %}
+    <table class="table table-responsive table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom :</th>
+                <th>Email :</th>
+                <th>Rôle : </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td id="username">{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                {% for userRole in user.roles %}
+                    <td id="userRole">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="true" value="{{ userRole.name }}">
+                                {{ userRole.name }}
+                                <span class="caret"></span>
+                            </button>
+                            <button id="removeRole"><span class="glyphicon glyphicon-trash">D</span></button>
+                            <ul class="dropdown-menu list-group" role="menu" aria-labelledby="dropdownMenu1" id="test">
+                                {% for role in roles %}
+                                    {% if role.name != userRole.name %}
+                                        <li class="list-group-item">{{ role.name }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </td>
+                {% endfor %}
+                <td></td>
+            </tr>
+        {% endfor %}
+        <tbody>
+    </table>
+{% endblock %}
+{% block js %}
+    <script>
+        $(document).ready(function() {
+            $(".list-group li")
+            .on('mouseover', function(){
+                $(this).addClass("btn btn-info");
+            })
+            .on('mouseout', function(){
+                $(this).removeClass("btn btn-info");
+            })
+            .on('click', function(){
+                        var username = $(this).closest("tr").find("#username").text();
+                        var url = "{{ path('cgg_conference_admin_saveChangesRolesUsers') }}";
+                        var roleName = $(this).text();
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {
+                                'username' : username,
+                                'roleName' : roleName
+                            },
+                            dataType: 'html',
+                            success: function()
+                            {
+                                window.location.reload(true);
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown)
+                            {
+                                alert('Error : ' + errorThrown);
+                            }
+                        });
+            });
+            $(".dropdown #removeRole").on('click', function(){
+                var username = $(this).closest("tr").find("#username").text();
+                var roleName = $(this).closest("td").find("#dropdownMenuButton").val();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('cgg_conference_user_removeRole') }}",
+                    data: {
+                        'username': username,
+                        'roleName': roleName
+                    },
+                    dataType: "html",
+                    success: function(){
+                       window.location.reload(true);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                        alert('Error : ' + errorThrown + XMLHttpRequest);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

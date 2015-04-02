@@ -1,5 +1,4 @@
 security:
-    # TODO : check : bcrypt plutôt que sha512 : symfony bonnes pratiques => empêche le rainbow table attack
     encoders:
         CGG\ConferenceBundle\Entity\User: bcrypt
 
@@ -8,12 +7,6 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
-
         database_users:
             entity:
                 class: CGGConferenceBundle:User
@@ -29,7 +22,7 @@ security:
             anonymous: ~
             switch_user: ~
             remember_me:
-              key: "$A123poituLOL"
+              key: %cgg.secret%
             form_login:
                 login_path:   cgg_conference_login
                 check_path:   cgg_conference_login_check
@@ -40,6 +33,7 @@ security:
     access_control:
         - { path: ^/createConference, roles: ROLE_USER}
         - { path: ^/liste-nouvelle-conferences, roles: ROLE_ADMIN}
+        - { path: ^/admin, roles: ROLE_ADMIN}
 
     acl:
        connection: default
