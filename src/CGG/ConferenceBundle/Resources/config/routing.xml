@@ -98,4 +98,9 @@
         <default key="_controller">CGGConferenceBundle:Admin:saveChangeHeadband</default>
     </route>
 
+    <route id="cgg_conference_admin_add_sub_item" path="/conference/admin/ajouter-un-sous-menu">
+        <default key="_controller">CGGConferenceBundle:Admin:addSubItem</default>
+        <option key="expose">true</option>
+    </route>
+
 </routes>

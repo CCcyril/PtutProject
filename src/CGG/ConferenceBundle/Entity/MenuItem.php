@@ -11,6 +11,7 @@ class MenuItem
     private $title;
     private $depth;
     private $menuItem_menu;
+    private $idMenuItemParent = NULL;
     private $page;
 
     public function __construct(Page $page){
@@ -52,6 +53,14 @@ class MenuItem
 
     public function setMenu(Menu $menu){
         $this->menuItem_menu = $menu;
+    }
+
+    public function isParent(){
+        return $this->idMenuItemParent;
+    }
+
+    public function setParent($idMenuItem){
+        $this->idMenuItemParent = $idMenuItem;
     }
 
     public function getPage(){

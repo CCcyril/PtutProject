@@ -55,7 +55,6 @@ class AdminController extends Controller
             $conference = $this->get('conference_repository')->find($idConference);
             $page = $this->get('page_repository')->find($idPage);
 
-            /*TODO : Gérer les images*/
             $headbandTitle = $request->request->get('headbandTitle');
             $headbandText = $request->request->get('headbandText');
             $headband = $conference->getHeadBand();
@@ -63,7 +62,8 @@ class AdminController extends Controller
             $headband->setText($headbandText);
 
             $menu = $conference->getMenu();
-            $menuItems = $this->get('menuItem_repository')->findByMenuId($menu->getId());
+            $idMenu = $menu->getId();
+            $menuItems = $this->get('menuItem_repository')->findByMenuIdOrderByDepth($idMenu);
             $numberIdMenuItem = 1;
             foreach ($menuItems as $menuItem) {
                 $menuItemTitle = $request->request->get('menuItemTitle' . $numberIdMenuItem);
@@ -86,6 +86,9 @@ class AdminController extends Controller
             $this->get('page_repository')->save($page);
             $this->get('conference_repository')->save($conference);
 
+            $this->addFlash('success', 'Modifications enregistrées avec succès, c\'est le plus beau jour de ta vie');
+
+            return new Response('ok');
         }
     }
 
@@ -97,20 +100,7 @@ class AdminController extends Controller
         $menu = $conference->getMenu();
         $idMenu = $menu->getId();
 
-        $newPage = new Page();
-        $newPage->setTitle('Nouvelle page');
-        $newPage->setIsHome('0');
-
-        $content = new Content();
-        $content->setText( "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-                            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-                            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                            consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
-                            quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
-                            nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-                            quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" );
-
+        $newPage = $this->createNewPage();
 
         $menuItem = new MenuItem($newPage);
         $menuItem->setTitle($newPage->getTitle());
@@ -118,8 +108,6 @@ class AdminController extends Controller
         $menuItem->setDepth($depth+1);
 
         $menu->addMenuItem($menuItem);
-        $newPage->setPageMenu($menu);
-        $newPage->addContent($content);
 
         $conference->addPageId($newPage);
         $conferenceRepository->save($conference);
@@ -141,6 +129,54 @@ class AdminController extends Controller
         $this->get('headband_repository')->save($headband);
         $this->addFlash('success', 'Changements effectués avec succccceeeeeyyyyyy');
         return new Response('ok');
+    }
+
+    public function addSubItemAction(Request $request){
+        $conferenceRepository = $this->get('conference_repository');
+        $idConference = $request->request->get('idConference');
+        $conference = $conferenceRepository->find($idConference);
+
+        $menu = $conference->getMenu();
+        $idMenu = $menu->getId();
+
+        $newPage = $this->createNewPage();
+
+        $menuItem = new MenuItem($newPage);
+        $menuItem->setTitle($newPage->getTitle());
+        $depth = $this->get('menuitem_repository')->countMenuItemDepth($idMenu);
+        $menuItem->setDepth($depth+1);
+        $idParent = $request->request->get('idParent');
+        $menuItem->setParent($idParent);
+
+        $menu->addMenuItem($menuItem);
+
+        $conference->addPageId($newPage);
+        $conferenceRepository->save($conference);
+
+        $this->addFlash('success', 'Sous menu ajouté avec SSSSUSUUUUUUUUUUUSSSSSSSSS(ccey)');
+
+        return new Response('ok');
+    }
+
+    public function createNewPage(){
+
+        $newPage = new Page();
+        $newPage->setTitle('Nouvelle page');
+        $newPage->setHome('0');
+
+        $content = new Content();
+        $content->setText( "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+                            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+                            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+                            consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+                            quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+                            nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
+                            quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" );
+
+        $newPage->addContent($content);
+
+        return $newPage;
     }
 }
 
