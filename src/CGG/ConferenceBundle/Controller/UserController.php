@@ -29,4 +29,7 @@ class UserController extends Controller{
         }
         return $this->render('CGGConferenceBundle:User:register.html.twig', ['form'=>$form->createView()]);
     }
+    public function loginAction(){
+        return $this->render('CGGConferenceBundle:User:login.html.twig', array());
+    }
 }

@@ -16,8 +16,12 @@
         <div class="jumbotron header-home">
             <h1>CGG Conférence</h1>
             <div class="log">
-                <a href="#">Connexion</a>
-                <a href="{{ path("cgg_conference_register") }}">Inscription</a>
+                {% if app.user %}
+                    <a href="{{ path("cgg_conference_logout") }}">Déconnexion</a>
+                {% else %}
+                    <a href="{{ path("cgg_conference_login") }}">Connexion</a>
+                    <a href="{{ path("cgg_conference_register") }}">Inscription</a>
+                {% endif %}
             </div>
         </div>
         {{ include("CGGConferenceBundle:Conference/Partials:menu.html.twig") }}

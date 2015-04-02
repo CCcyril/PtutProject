@@ -4,7 +4,6 @@ namespace CGG\ConferenceBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use CGG\ConferenceBundle\Entity\Page;
 
 /**
  * Conference
@@ -31,6 +30,8 @@ class Conference
      */
     private $startDate;
 
+    private $pages;
+
     /**
      * @var string
      */
@@ -41,7 +42,6 @@ class Conference
         $this->creationDate = \date('r');
         $this->pages = new ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -143,22 +143,5 @@ class Conference
     public function getEndDate()
     {
         return $this->endDate;
-    }
-
-    public function addPageId(Page $page)
-    {
-        $this->pages[] = $page;
-        $page->setPageConferenceId($this);
-        return $this;
-    }
-
-    public function removePageId(Page $page)
-    {
-        $this->pages->removeElement($page);
-    }
-
-    public function getPageId()
-    {
-        return $this->pages;
     }
 }

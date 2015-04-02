@@ -10,24 +10,17 @@ use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ConferenceController extends Controller
 {
-    public function indexAction($name)
-    {
-
-        return $this->render('CGGConferenceBundle:Default:index.html.twig', array('name' => "mathis"));
-    }
-
     public function homeAction() {
 
-        return $this->render('CGGConferenceBundle:Conference:home.html.twig', array());
+        return $this->render('CGGConferenceBundle:Conference:home.html.twig');
     }
 
     public function listAction() {
-        $conferenceList = $this->get('conference_repository');
-        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList->findAll()));
+        $conferenceList = $this->get('conference_repository')->findAll();
+        return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList));
     }
 
     public function createConferenceAction(Request $request){

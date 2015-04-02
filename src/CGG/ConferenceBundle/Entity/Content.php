@@ -9,22 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Content
 {
-    /**
-     * @var integer
-     */
+
     private $id;
-
-    /**
-     * @var string
-     */
     private $text;
+    private $page;
 
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
     public function getId()
     {
         return $this->id;
@@ -51,5 +41,17 @@ class Content
     public function getText()
     {
         return $this->text;
+    }
+
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    public function setPage(Page $page = null)
+    {
+        $this->page = $page;
+
+        return $this;
     }
 }
