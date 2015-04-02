@@ -103,12 +103,7 @@ a:hover,a:focus{
     background: transparent;
 }
 .jumbotron h1{
-    float: left;
     margin-left: 20px;
-}
-.imageConf{
-    float: right;
-    right: 20px;
 }
 /* Footer */
 footer {

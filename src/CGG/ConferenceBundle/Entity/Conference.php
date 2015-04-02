@@ -100,4 +100,13 @@ class Conference
     {
         return $this->pages;
     }
+
+    public function getHomePage() {
+        foreach ($this->pages as $page) {
+            if ($page->getIsHome() === '1') {
+                return $page;
+            }
+        }
+        return null;
+    }
 }

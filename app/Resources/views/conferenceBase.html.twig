@@ -8,7 +8,7 @@
         {% stylesheets '@CGGConferenceBundle/Resources/public/css/bootstrap/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
-        {% stylesheets '@CGGConferenceBundle/Resources/public/css/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
+        {% stylesheets '@CGGConferenceBundle/Resources/public/css/siteConference/style.css' filter="cssrewrite" output='css/stylesheets.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
     </head>
@@ -46,9 +46,13 @@
             </div>
         </nav>
         <div class="container">
-            <p>{{ content.text }}</p>
+            {% for content in contents %}
+                <div>
+                    {{ content.text }}
+                </div>
+            {% endfor %}
         </div>
-        <footer class="conference-footer">
+        <footer>
             <p>{{ footer.text }}</p>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
