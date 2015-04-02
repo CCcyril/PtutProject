@@ -22,14 +22,20 @@
     {% endif %}
         <div class="jumbotron header-home">
             {% block headband %}
+            <div class="container-edit-content">
+                <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
                 {% block headbandTitle %}
                     {{ headband.title}}
                 {% endblock %}
+            </div>
+            <div class="container-edit-content">
+                <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
                 {% block headbandText %}
                     {{ headband.text }}
                 {% endblock %}
+            </div>
             {% endblock %}
-        </div>
+        </div>      
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -78,21 +84,27 @@
         </nav>
         <div class="container">
             {% for content in contents %}
-                {% block contentText %}
-                    {{ content.text }}
-                {% endblock %}
+                <div class="container-edit-content">
+                    <input type="button" data-type="contentText" class="btn btn-success btn-edit-content" value="%">
+                    {% block contentText %}
+                        {{ content.text }}
+                    {% endblock %}
+                </div>
             {% endfor %}
         </div>
         {% block body %}
         {% endblock %}
-        <footer>
+        <footer class="container-edit-content">
+            <input type="button" data-type="footerText" class="btn btn-success btn-edit-content" value="%">
             {% block footerText %}
                 {{ footer.text }}
             {% endblock %}
         </footer>
         {% block javascript %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-            {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
+            {% javascripts
+                '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'
+                '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js'
+                output='js/script.js' %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
             {% javascripts '@CGGConferenceBundle/Resources/public/js/colorpicker/*.js' output='js/script.js' %}

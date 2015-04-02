@@ -50,4 +50,12 @@ $(document).ready(function(){
     function hideMenuItemOptions(){
         $("#menuItemOptions").hide();
     }
+
+    $(".container-edit-content").mouseover(function(){
+        $(this).find('input').show();
+    });
+
+    $(".container-edit-content").mouseleave(function(){
+        $(this).find('input').hide();
+    });
 });

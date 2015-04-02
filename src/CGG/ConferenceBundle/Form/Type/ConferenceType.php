@@ -12,11 +12,28 @@ class ConferenceType extends AbstractType
     {
         $builder
             ->add('name', 'text')
-            ->add('description', 'textarea')
             ->add('startDate', 'text')
             ->add('endDate', 'text')
             ->add('send', 'submit')
         ;
+
+        $builder->add('description', 'ckeditor', array(
+            'config' => array(
+                'toolbar' => array(
+                    array(
+                        'name'  => 'document',
+                        'items' => array('Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'),
+                    ),
+                    '/',
+                    array(
+                        'name'  => 'basicstyles',
+                        'items' => array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'),
+                    ),
+                ),
+                'uiColor' => '#cecece',
+                //...
+            ),
+        ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

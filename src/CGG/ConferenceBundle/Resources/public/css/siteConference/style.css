@@ -124,3 +124,21 @@ footer {
     padding: 10px 0 30px 0;
 }
 /* Fin signin */
+
+/* Edition de conférence */
+
+.btn-edit-content {
+    position: absolute;
+    display: none;
+}
+
+.container-edit-content {
+    border: 1px solid lightgray;
+}
+
+.container-edit-content:hover {
+    transition: all 0.1s linear;
+    box-shadow: inset 0px 0px 10px;
+}
+
+/* Fin édition de contenu dans la conférence */

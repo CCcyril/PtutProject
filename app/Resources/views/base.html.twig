@@ -41,8 +41,10 @@
         <footer>
             <p>CGG Comférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a></p>
         </footer>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
+        {% javascripts
+        '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'
+        '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js'
+        output='js/script.js' %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
         {% block js %}
