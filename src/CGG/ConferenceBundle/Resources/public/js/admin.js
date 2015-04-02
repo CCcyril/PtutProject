@@ -23,4 +23,31 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('.navbar-nav li:not(:last-child)').on('click', function(event){
+        var itemId = event.target.id;
+        var offsets = $('#'+itemId).offset();
+        var top = offsets.top;
+        var left = offsets.left;
+        var pageId = $('#'+itemId).attr('data-pageId')
+        var url = Routing.generate('cgg_conference_adminConference', {'idConference':$("#idConference").val(), 'idPage':$("#"+itemId).attr('data-pageId')});
+        $('#menuItemOptions').css({'top':(top+50),'left':(left-100),'position':'absolute'}).fadeIn('slow');
+        $('#menuItemOptions').removeClass('hidden');
+        $("#pagePath").attr('href', url);
+        $("#editMenuItem").on('click', editMenuItem(itemId));
+    })
+
+    function editMenuItem (idMenuItem){
+        $("#"+idMenuItem).attr('contenteditable', 'true');
+    };
+
+    $(".navbar-nav, #menuItemOptions").mouseleave(function(){
+       timer = setTimeout(hideMenuItemOptions, 300);
+    }).mouseenter(function(){
+       clearTimeout(timer);
+    });
+
+    function hideMenuItemOptions(){
+        $("#menuItemOptions").hide();
+    }
 });

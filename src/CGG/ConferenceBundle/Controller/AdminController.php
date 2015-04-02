@@ -33,7 +33,7 @@ class AdminController extends Controller
 
         $idMenu = $menu->getId();
 
-        $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
+        $menuItems = $this->get('menuItem_repository')->findByMenuIdOrderByDepth($idMenu);
 
         $contents = $this->get('content_repository')->findByPageId($idPage);
 
@@ -66,7 +66,7 @@ class AdminController extends Controller
         $headband->setText($headbandText);
 
         $menu = $conference->getMenu();
-        $menuItems = $this->get('menuItem_repository')->findByMenuId($menu->getId());
+        $menuItems = $this->get('menuItem_repository')->findByMenuIdOrderByDepth($menu->getId());
         $numberIdMenuItem = 1;
         foreach($menuItems as $menuItem){
             $menuItemTitle = $request->request->get('menuItemTitle'.$numberIdMenuItem);
@@ -89,24 +89,41 @@ class AdminController extends Controller
         $this->get('page_repository')->save($page);
         $this->get('conference_repository')->save($conference);
 
+        return new Response('OK');
 
     }
 
     public function addMenuItemAction($idConference){
+
         $conferenceRepository = $this->get('conference_repository');
         $conference = $conferenceRepository->find($idConference);
+
         $menu = $conference->getMenu();
+        $idMenu = $menu->getId();
+
         $newPage = new Page();
-        $newPage->setTitle('test');
-        /*TODO : count select depth => maxdepth+1*/
+        $newPage->setTitle('Nouvelle page');
         $newPage->setIsHome('0');
+
+        $content = new Content();
+        $content->setText( "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+                            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+                            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+                            consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+                            quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+                            nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
+                            quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" );
+
 
         $menuItem = new MenuItem($newPage);
         $menuItem->setTitle($newPage->getTitle());
-        $menuItem->setDepth(5);
+        $depth = $this->get('menuitem_repository')->countMenuItemDepth($idMenu);
+        $menuItem->setDepth($depth+1);
 
         $menu->addMenuItem($menuItem);
         $newPage->setPageMenu($menu);
+        $newPage->addContent($content);
 
         $conference->addPageId($newPage);
         $conferenceRepository->save($conference);

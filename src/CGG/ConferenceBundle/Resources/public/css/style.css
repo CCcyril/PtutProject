@@ -20,6 +20,10 @@ h2{
 }
 /* Button */
 
+.navbar-nav > li .btn-primary{
+    padding: 14px 20px;
+}
+
 .btn-primary {
     color: #FFFFFF;
     background-color: #730A63;

@@ -46,6 +46,7 @@
         <default key="_controller">CGGConferenceBundle:Admin:admin</default>
         <requirement key="idConference">\d+</requirement>
         <requirement key="idPage">\d+</requirement>
+        <option key="expose">true</option>
     </route>
 
     <route id="cgg_conference_admin_saveChangesConference" path="/conference/admin/{idConference}/{idPage}/sauvegarder-les-changements">
