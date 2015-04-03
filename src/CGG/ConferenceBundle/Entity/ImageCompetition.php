@@ -17,6 +17,16 @@ class ImageCompetition {
     private $path;
     private $title;
     private $rating;
+    private $nbComment;
+
+    public function getNbComment()
+    {
+        return $this->nbComment;
+    }
+    public function setNbComment($nbComment)
+    {
+        $this->nbComment = $nbComment;
+    }
     private $conference_id;
 
     /**
@@ -123,5 +133,12 @@ class ImageCompetition {
 
         $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
         $this->path = $this->file->getClientOriginalName();
+    }
+
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
     }
 }

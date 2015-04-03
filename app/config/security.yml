@@ -34,6 +34,7 @@ security:
         - { path: ^/createConference, roles: ROLE_USER}
         - { path: ^/liste-nouvelle-conferences, roles: ROLE_ADMIN}
         - { path: ^/admin, roles: ROLE_ADMIN}
+        - { path: ^/gestion-des-images, roles: ROLE_ADMIN}
 
     acl:
        connection: default

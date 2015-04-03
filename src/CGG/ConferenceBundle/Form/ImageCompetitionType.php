@@ -20,7 +20,7 @@ class ImageCompetitionType extends AbstractType
             ->add('description', 'textarea')
             ->add('file', 'file')
             ->add('title', 'text')
-            ->add('send', 'submit')
+            ->add('envoyer', 'submit')
         ;
     }
 

@@ -22,22 +22,24 @@
         </div>
     {% endif %}
         <div class="jumbotron header-home">
-            {% block headband %}
-            <div class="container-edit-content">
-                <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
-                {% block headbandTitle %}
-                    {{ headband.title}}
+            <div class="container">
+                {% block headband %}
+                <div class="container-edit-content">
+                    <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
+                    {% block headbandTitle %}
+                        {{ headband.title}}
+                    {% endblock %}
+                </div>
+                <div class="container-edit-content">
+                    <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
+                    {% block headbandText %}
+                        {{ headband.text }}
+                    {% endblock %}
+                </div>
                 {% endblock %}
             </div>
-            <div class="container-edit-content">
-                <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
-                {% block headbandText %}
-                    {{ headband.text }}
-                {% endblock %}
-            </div>
-            {% endblock %}
         </div>      
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-inverse backgroundcolor">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -103,7 +105,7 @@
         </div>
         {% block body %}
         {% endblock %}
-        <footer class="container-edit-content">
+        <footer class="container-edit-content backgroundcolor">
             <input type="button" data-type="footerText" class="btn btn-success btn-edit-content" value="%">
             {% block footerText %}
                 {{ footer.text }}
