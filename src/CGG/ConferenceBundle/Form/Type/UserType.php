@@ -1,6 +1,6 @@
 <?php
 
-namespace CGG\ConferenceBundle\Form;
+namespace CGG\ConferenceBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

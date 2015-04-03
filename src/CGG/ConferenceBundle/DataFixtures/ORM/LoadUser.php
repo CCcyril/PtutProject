@@ -66,16 +66,7 @@ class LoadUser implements FixtureInterface, ContainerAwareInterface {
         $jury->setPassword($encoded);
         $jury->addRole($roleJury);
         $entityManager->persist($jury);
-
         /*TODO : check pourquoi ce user bug lors de la connexion (pas de role) (pas d'id dans la table role : jury 3 3 user 3 4*/
-        $user->setUsername('user');
-        $user->setEmail('user@user.fr');
-        $plainPassword = 'user';
-        $encoder = $this->container->get('security.password_encoder');
-        $encoded = $encoder->encodePassword($user, $plainPassword);
-        $user->setPassword($encoded);
-        $jury->addRole($roleUser);
-        $entityManager->persist($user);
 
         $user2->setUsername('user2');
         $user2->setEmail('user2@user2.fr');
@@ -86,6 +77,14 @@ class LoadUser implements FixtureInterface, ContainerAwareInterface {
         $user2->addRole($roleUser);
         $entityManager->persist($user2);
 
+        $user->setUsername('user');
+        $user->setEmail('user@user.fr');
+        $plainPassword = 'user';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, $plainPassword);
+        $user->setPassword($encoded);
+        $user->addRole($roleUser);
+        $entityManager->persist($user);
 
         $user3->setUsername('user3');
         $user3->setEmail('user3@user3.fr');

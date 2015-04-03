@@ -65,6 +65,10 @@ class UserRepository extends EntityRepository implements UserProviderInterface
     public function save(User $user){
         $this->_em->persist($user);
         $this->_em->flush();
+    }
 
+    public function listUser(){
+        $query = $this->createQueryBuilder('u')->getQuery();
+        return $query->getResult();
     }
 }

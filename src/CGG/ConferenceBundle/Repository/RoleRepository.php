@@ -15,4 +15,8 @@ class RoleRepository extends EntityRepository
 
         return $role;
     }
+
+    public function listRoles(){
+        return $this->createQueryBuilder('r')->getQuery()->getResult();
+    }
 }

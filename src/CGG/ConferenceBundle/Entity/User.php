@@ -109,14 +109,14 @@ class User implements UserInterface, \Serializable
         return $this->email;
     }
 
-    public function setIsActive($isActive)
+    public function setActive($isActive)
     {
         $this->isActive = $isActive;
 
         return $this;
     }
 
-    public function getIsActive()
+    public function isActive()
     {
         return $this->isActive;
     }

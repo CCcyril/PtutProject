@@ -44,11 +44,11 @@ class Page
         return $this->title;
     }
 
-    public function getIsHome(){
+    public function isHome(){
         return $this->isHome;
     }
 
-    public function setIsHome($isHome){
+    public function setHome($isHome){
         $this->isHome = $isHome;
     }
 
