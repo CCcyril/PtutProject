@@ -49,10 +49,12 @@
                         {% endfor %}
                     </button>
                 </div>
-                <div id="navbar" class="collapse navbar-collapse">
+                {% block menu %}
+                {% endblock %}
+                {#<div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         {% for menuItem in menuItemsTable %}
-                            {#{% if menuItem.depth == 1 %}
+                            &#123;&#35;{% if menuItem.depth == 1 %}
                                 <li class="first
                                     {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                         active
@@ -70,7 +72,7 @@
                                         class="active"
                                     {% endif %}
                                 >
-                            {% endif %}#}
+                            {% endif %}&#35;&#125;
                             {% if menuItem.children is empty %}
                                 <li>{{ menuItem.menuItem.title }}</li>
                             {% else %}
@@ -82,15 +84,15 @@
                                 </ul>
                                 </li>
                             {% endif %}
-                            {#{% block menuItemTitle %}
+                            &#123;&#35;{% block menuItemTitle %}
                                 {{ menuItem.title }}
-                            {% endblock %}#}
+                            {% endblock %}&#35;&#125;
                         {% endfor %}
                         {% block addMenuItem %}
                         {% endblock %}
                     </ul>
 
-                </div>
+                </div>#}
             </div>
         </nav>
         <div class="container">
