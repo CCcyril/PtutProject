@@ -14,12 +14,18 @@
     </head>
     <body>
         <div class="jumbotron header-home">
-            {% block headbandTitle %}
-                {{ headband.title }}
-            {% endblock %}
-            {% block headbandText %}
-                {{ headband.text }}
-            {% endblock %}
+            <div class="container-edit-content">
+                <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
+                {% block headbandTitle %}
+                    {{ headband.title | raw }}
+                {% endblock %}
+            </div>
+            <div class="container-edit-content">
+                <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
+                {% block headbandText %}
+                    {{ headband.text | raw }}
+                {% endblock %}
+            </div>
         </div>
         <nav class="navbar navbar-inverse">
             <div class="container">
@@ -69,14 +75,18 @@
         </nav>
         <div class="container">
             {% for content in contents %}
-                {% block contentText %}
-                    {{ content.text }}
-                {% endblock %}
+                <div class="container-edit-content">
+                    <input type="button" data-type="contentText" class="btn btn-success btn-edit-content" value="%">
+                    {% block contentText %}
+                        {{ content.text }}
+                    {% endblock %}
+                </div>
             {% endfor %}
         </div>
         {% block body %}
         {% endblock %}
-        <footer>
+        <footer class="container-edit-content">
+            <input type="button" data-type="footerText" class="btn btn-success btn-edit-content" value="%">
             {% block footerText %}
                 {{ footer.text }}
             {% endblock %}
