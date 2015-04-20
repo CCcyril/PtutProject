@@ -80,7 +80,7 @@ class ConferenceController extends Controller
         $footer = $page->getPageFooter();
 
         if ($conference !== NULL) {
-            return $this->render('::conferenceBase.html.twig', array(
+            return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
                 'conference' => $conference,
                 'headband' => $headBand,
                 'menuItems' => $menuItems,

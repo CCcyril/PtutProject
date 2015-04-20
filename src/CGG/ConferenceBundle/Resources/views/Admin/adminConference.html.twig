@@ -1,3 +1,35 @@
 {% extends "::conferenceBase.html.twig" %}
 
+{% block headbandTitle %}
+    <h1 contenteditable="true">{{ parent() }}</h1>
+{% endblock %}
+
+{% block headbandText %}
+    <span contenteditable="true">{{ parent() }}</span>
+{% endblock %}
+
+{% block menuItemTitle %}
+    <a contenteditable="true" href="/">{{ parent() }}</a>
+{% endblock %}
+
+{% block contentText %}
+    <div contenteditable="true">
+        {{ parent() }}
+    </div>
+{% endblock %}
+
+{% block footerText %}
+    <p contenteditable="true">{{ parent() }}</p>
+{% endblock %}
+
+{% block body %}
+    <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
+        <script type='text/javascript' src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
 

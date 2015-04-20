@@ -14,8 +14,12 @@
     </head>
     <body>
         <div class="jumbotron header-home">
-            <h1>{{ headband.title }}</h1>
-            <span>{{  headband.text }}</span>
+            {% block headbandTitle %}
+                {{ headband.title }}
+            {% endblock %}
+            {% block headbandText %}
+                {{ headband.text }}
+            {% endblock %}
         </div>
         <nav class="navbar navbar-inverse">
             <div class="container">
@@ -37,7 +41,9 @@
                             {% else %}
                                 <li>
                             {% endif %}
-                                <a href="/">{{ menuItem.title }}</a>
+                            {% block menuItemTitle %}
+                                {{ menuItem.title }}
+                            {% endblock %}
                             </li>
                         {% endfor %}
                     </ul>
@@ -47,17 +53,23 @@
         </nav>
         <div class="container">
             {% for content in contents %}
-                <div>
+                {% block contentText %}
                     {{ content.text }}
-                </div>
+                {% endblock %}
             {% endfor %}
         </div>
+        {% block body %}
+        {% endblock %}
         <footer>
-            <p>{{ footer.text }}</p>
+            {% block footerText %}
+                {{ footer.text }}
+            {% endblock %}
         </footer>
+        {% block javascript %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
-            <script src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+            {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </body>
 </html>

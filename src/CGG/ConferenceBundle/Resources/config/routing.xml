@@ -44,4 +44,7 @@
     <route id="cgg_conference_adminConference" path="/conference/admin/{idConference}">
         <default key="_controller">CGGConferenceBundle:Admin:admin</default>
     </route>
+    <route id="cgg_conference_admin_saveChangesConference" path="/conference/admin/{idConference}/sauvegarder-les-changements">
+        <default key="_controller">CGGConferenceBundle:Admin:saveChangesAdminConference</default>
+    </route>
 </routes>

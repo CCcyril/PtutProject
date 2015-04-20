@@ -11,6 +11,7 @@ use CGG\ConferenceBundle\Form\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
@@ -41,7 +42,7 @@ class AdminController extends Controller
         $footer = $page->getPageFooter();
 
         if ($conference !== NULL) {
-            return $this->render('::conferenceBase.html.twig', array(
+            return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
                 'conference' => $conference,
                 'headband' => $headBand,
                 'menuItems' => $menuItems,
@@ -50,6 +51,15 @@ class AdminController extends Controller
             ));
         } else {
             return $this->render('CGGConferenceBundle:Conference:conferenceNotFound.html.twig', array());
+        }
+    }
+
+    public function saveChangesAdminConferenceAction(Request $request){
+
+        if($request->isXmlHttpRequest()){
+            return new Response('Wahou');
+        }else{
+            return new Response('ohhhnnnon');
         }
     }
 }
