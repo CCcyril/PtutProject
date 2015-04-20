@@ -1,0 +1,18 @@
+detailConference :
+-Plus explicite viewConference
+-Route : detailConference, action : detailConference, mais vue detailConference n'a rien a voir.
+
+conference_repository :
+-findAllValid() -> findAllValidConference()
+-findAllProgress() =< findAllPending()?
+
+views/Conference/ :
+list.html.twig => conferenceList.html.twig
+
+listAction():
+-listAction() => listConferenceAction()
+-a voir valid
+
+routing.xml:
+-liste-nouvelleS-conferences
+

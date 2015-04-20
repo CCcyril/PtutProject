@@ -8,10 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,10 +24,7 @@ class UserType extends AbstractType
             ->add('send', 'submit')
         ;
     }
-    
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -38,9 +32,6 @@ class UserType extends AbstractType
         ));
     }
 
-    /**
-     * @return string
-     */
     public function getName()
     {
         return 'cgg_conferencebundle_user';

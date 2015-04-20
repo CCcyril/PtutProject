@@ -41,4 +41,7 @@
     <route id="cgg_conference_detailConference" path="/conference/{idConference}">
         <default key="_controller">CGGConferenceBundle:Conference:detail</default>
     </route>
+    <route id="cgg_conference_adminConference" path="/conference/admin/{idConference}">
+        <default key="_controller">CGGConferenceBundle:Admin:admin</default>
+    </route>
 </routes>
