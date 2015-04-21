@@ -27,6 +27,14 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="headband_repository" class="CGG\ConferenceBundle\Repository\HeadBandRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="footer_repository" class="CGG\ConferenceBundle\Repository\FooterRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
     </services>
 
 </container>

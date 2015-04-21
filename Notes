@@ -1,18 +1,53 @@
+Remarques :
 detailConference :
--Plus explicite viewConference
--Route : detailConference, action : detailConference, mais vue detailConference n'a rien a voir.
+-Plus explicite viewConference (route, action, vue "à changer")
+
+list :
+-Plus explicite conferenceList (route, action, vue "à changer")
 
 conference_repository :
 -findAllValid() -> findAllValidConference()
--findAllProgress() =< findAllPending()?
-
-views/Conference/ :
-list.html.twig => conferenceList.html.twig
+-findAllProgress() => findAllPending()?
 
 listAction():
--listAction() => listConferenceAction()
 -a voir valid
+
+--------------------------------------------------------------------------------------------------------------------------
+Fichiers ajoutés
+
+-ajout adminController
+-ajout adminConference.twig
+-admin.js
+-Ce fichier lololol
+
+--------------------------------------------------------------------------------------------------------------------------
+Modifications :
+
+Page_repository:
+-ajout de find pour detailConferenceAction()
+
+routing.xml:
+-ajout idPage dans la route detail_conference (l'id de la conference permettait de voir la homepage mais problème si plusieurs page btw)
+-ajout de la route admin_conference (/conference/admin/{idConference}/{idPage})
+
+listAction():
+-passe les conférences avec les pages ajoutées pour pouvoir passer les id des pages à la route des view conference
+
+conferenceList.html.twig:
+-Modif du path pour ajouter l'id de la page à la route
 
 routing.xml:
 -liste-nouvelleS-conferences
 
+Changements :
+
+ConferenceController:
+-Changement de la vue dans detail action (detail.twig à la place de conferenceBase)
+
+conferenceBase.twig:
+-Surround toutes les variables par des block car variables utilisées dans detailConference et adminConference mais class, id...
+ différents dans ces deux vues.
+
+-adminController
+-adminConference.twig
+-admin.js

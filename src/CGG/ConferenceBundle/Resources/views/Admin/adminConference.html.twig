@@ -1,25 +1,25 @@
 {% extends "::conferenceBase.html.twig" %}
 
 {% block headbandTitle %}
-    <h1 contenteditable="true">{{ parent() }}</h1>
+    <h1 contenteditable="true" id="headbandTitle">{{ parent() }}</h1>
 {% endblock %}
 
 {% block headbandText %}
-    <span contenteditable="true">{{ parent() }}</span>
+    <span contenteditable="true" id="headbandText">{{ parent() }}</span>
 {% endblock %}
 
 {% block menuItemTitle %}
-    <a contenteditable="true" href="/">{{ parent() }}</a>
+    <a contenteditable="true" href="/" id="menuItemTitle{{ loop.index }}">{{ parent() }}</a>
 {% endblock %}
 
 {% block contentText %}
-    <div contenteditable="true">
+    <div contenteditable="true" id="content{{ loop.index }}">
         {{ parent() }}
     </div>
 {% endblock %}
 
 {% block footerText %}
-    <p contenteditable="true">{{ parent() }}</p>
+    <p contenteditable="true" id="footerText">{{ parent() }}</p>
 {% endblock %}
 
 {% block body %}
@@ -28,8 +28,35 @@
 
 {% block javascript %}
     {{ parent() }}
-    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
+    {#{% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
         <script type='text/javascript' src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% endjavascripts %}#}
+    <script>
+        $(document).ready(function(){
+            $("#saveChangesAdminConference").click(function (){
+                var data = [];
+                var nbMenuItemTitle = $(".navbar-nav a").length;
+                var nbContent = $(".container div").length;
+                for(var i=1; i<=nbMenuItemTitle ; i++){
+                    data.push({name: 'menuItemTitle'+i, value:$("#menuItemTitle"+i).text()});
+                }
+                for(i=1; i<=nbContent; i++){
+                    data.push({name: 'content'+i, value: $("#content"+i)});
+                }
+                data.push({name: 'headbandTitle', value: $('#headbandTitle').text()});
+                data.push({name: 'headbandText', value: $('#headbandText').text()});
+                data.push({name: 'footerText', value: $('#footerText').text()});
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('cgg_conference_admin_saveChangesConference', {'idConference':conference.id, 'idPage': conference.homePage.id}) }}",
+                    data: data,
+                    dataType: 'html',
+                    success: function(data){
+
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
 

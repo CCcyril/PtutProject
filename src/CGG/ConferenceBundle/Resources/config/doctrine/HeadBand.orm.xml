@@ -5,7 +5,7 @@
       <generator strategy="AUTO"/>
     </id>
     <field name="title" type="string" column="headBand_title" length="255"/>
-    <field name="image" type="string" column="headBand_image" length="255"/>
+    <field name="image" type="string" column="headBand_image" length="255" nullable="true"/>
     <field name="text" type="string" column="headBand_text" length="255"/>
   </entity>
 </doctrine-mapping>

@@ -54,12 +54,33 @@ class AdminController extends Controller
         }
     }
 
-    public function saveChangesAdminConferenceAction(Request $request){
+    public function saveChangesAdminConferenceAction(Request $request, $idPage){
+        /*TODO : Une fonction ajax nommée pour chaque parties, un bouton par partie. Nommé les fonctions pour toutes les appeler si le bouton pour sauver tous les changements est cliqué*/
+        $page = $this->get('page_repository')->find($idPage);
 
-        if($request->isXmlHttpRequest()){
-            return new Response('Wahou');
-        }else{
-            return new Response('ohhhnnnon');
+        /*TODO : Gérer les images*/
+        $headbandTitle = $request->request->get('headbandTitle');
+        $headbandText = $request->request->get('headbandText');
+        $headband = $page->getPageHeadBand();
+        $headband->setTitle($headbandTitle);
+        $headband->setText($headbandText);
+
+        $menu = $page->getPageMenu();
+        $menuItems = $this->get('menuItem_repository')->findByMenuId($menu->getId());
+        $numberIdMenuItem = 1;
+        foreach($menuItems as $menuItem){
+            $menuItemTitle = $request->request->get('menuItemTitle'.$numberIdMenuItem);
+            $menuItem->setTitle($menuItemTitle);
+            $numberIdMenuItem += 1;
         }
+
+        
+
+        $footer = $page->getPageFooter();
+        $footerText = $request->request->get('footerText');
+        $footer->setText($footerText);
+
+        $this->get('page_repository')->save($page);
+
     }
 }

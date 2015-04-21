@@ -21,24 +21,34 @@ class ConferenceController extends Controller
 
     public function listAction() {
         $conferenceList = $this->get('conference_repository')->findAllValid();
+        foreach($conferenceList as $conference){
+            $pages = $this->get('page_repository')->findByConferenceId($conference->getId());
+            foreach($pages as $page){
+                $conference->addPageId($page);
+            }
+        }
         return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList,"valid"=>true));
     }
+
     public function listNewConferencesAction(){
         $conferenceList = $this->get('conference_repository')->findAllProgress();
         return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList,"valid"=>false ));
     }
+
     public function validConferenceAction($idConference){
         $conference = $this->get('conference_repository')->find($idConference);
         $conference->setStatus("V");
         $this->get("conference_repository")->save($conference);
         return new RedirectResponse( $this->generateUrl("cgg_conference_listNewConferences"));
     }
+
     public function declineConferenceAction($idConference){
         $conference = $this->get('conference_repository')->find($idConference);
         $conference->setStatus("D");
         $this->get("conference_repository")->save($conference);
         return new RedirectResponse( $this->generateUrl("cgg_conference_listNewConferences"));
     }
+
     public function createConferenceAction(Request $request){
         $conference = new Conference();
         $form = $this->createForm(New ConferenceType(), $conference);
@@ -53,19 +63,12 @@ class ConferenceController extends Controller
 
         return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form'=>$form->createView()]);
     }
-    public function detailAction($idConference){
+
+    public function detailAction($idConference, $idPage){
 
         $conference = $this->get('conference_repository')->find($idConference);
-
-        $pages = $this->get('page_repository')->findByConferenceId($idConference);
-
-        foreach ($pages as $page) {
-            $conference->addPageId($page);
-        }
-
-        $page = $conference->getHomePage();
-
-        $idPage = $page->getId();
+        /*TODO Check que la page appartient bien à la conférence sinon possible d'afficher les pages d'autres conférences.*/
+        $page = $this->get('page_repository')->find($idPage);
 
         $headBand = $page->getPageHeadBand();
 
@@ -73,6 +76,7 @@ class ConferenceController extends Controller
 
         $idMenu = $menu->getId();
 
+        /*TODO Check si les boutons du menu ont bien une page associée*/
         $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
 
         $contents = $this->get('content_repository')->findByPageId($idPage);
