@@ -3,24 +3,29 @@
 namespace CGG\ConferenceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * User
- */
-class User
+class User implements UserInterface, \Serializable
 {
 
-    private $id;
-    private $lname;
-    private $fname;
-    private $email;
-    private $password;
-    private $address;
-    private $country;
-    private $zipcode;
-    private $status;
-    private $phone;
-    private $inscriptionDate;
+    protected $id;
+    protected $lname;
+    protected $fname;
+    protected $username;
+    protected $email;
+    protected $salt;
+    protected $password;
+    protected $address;
+    protected $country;
+    protected $zipcode;
+    protected $status;
+    protected $phone;
+    protected $inscriptionDate;
+    protected $role;
+
+    public function __construct(){
+        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+    }
 
     public function getId()
     {
@@ -51,6 +56,14 @@ class User
         return $this->fname;
     }
 
+    public function getUsername(){
+        return $this->username;
+    }
+
+    public function setUsername($username){
+        $this->username = $username;
+    }
+
     public function setEmail($email)
     {
         $this->email = $email;
@@ -61,6 +74,10 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function getSalt(){
+        return $this->salt;
     }
 
     public function getPassword(){
@@ -141,5 +158,32 @@ class User
     public function getInscriptionDate()
     {
         return $this->inscriptionDate;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            ) = unserialize($serialized);
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function setRoles(Role $role){
+        $this->role = $role;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

@@ -4,15 +4,20 @@
     <id name="id" type="integer" column="user_id">
       <generator strategy="AUTO"/>
     </id>
-    <field name="lname" type="string" column="user_lname" length="255"/>
-    <field name="fname" type="string" column="user_fname" length="255"/>
-    <field name="email" type="string" column="user_email" length="255"/>
+    <field name="lname" type="string" column="user_lname" length="255" nullable="true"/>
+    <field name="fname" type="string" column="user_fname" length="255" nullable="true"/>
+    <field name="email" type="string" column="user_email" length="255" nullable="true"/>
+    <field name="username" type="string" column="user_username" length="255"/>
+    <field name="salt" type="string" column="user_salt" length="255" nullable="true"/>
     <field name="password" type="string" column="user_password" length="255"/>
-    <field name="address" type="string" column="user_address" length="255"/>
-    <field name="country" type="string" column="user_country" length="255"/>
-    <field name="zipcode" type="string" column="user_zipcode" length="255"/>
-    <field name="status" type="string" column="user_status" length="255"/>
-    <field name="phone" type="string" column="user_phone" length="255"/>
-    <field name="inscriptionDate" type="string" column="inscription_date" length="255"/>
+    <field name="address" type="string" column="user_address" length="255" nullable="true"/>
+    <field name="country" type="string" column="user_country" length="255" nullable="true"/>
+    <field name="zipcode" type="string" column="user_zipcode" length="255" nullable="true"/>
+    <field name="status" type="string" column="user_status" length="255" nullable="true"/>
+    <field name="phone" type="string" column="user_phone" length="255" nullable="true"/>
+    <field name="inscriptionDate" type="string" column="inscription_date" length="255" nullable="true"/>
+    <many-to-one target-entity="Role" field="role" inversed-by="user">
+        <join-column name="role_id" referenced-column-name="role_id"/>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

@@ -33,16 +33,31 @@ routing.xml:
 listAction():
 -passe les conférences avec les pages ajoutées pour pouvoir passer les id des pages à la route des view conference
 
+registerAction():
+-ajout de l'encodage des mdp
+
+User.php:
+-ajout salt, username avec getter, setter
+-ajout serializable, unserializable
+-ajout getRole(role user en dur pour le moment)
+
+user.orm.xml:
+-ajout salt, username en base.
+
+detailAction():
+-appel de la vue detailConference plutot que base
+
+detailConference.twig:
+-surround des différents block de la vue
+
 conferenceList.html.twig:
 -Modif du path pour ajouter l'id de la page à la route
 
 routing.xml:
 -liste-nouvelleS-conferences
 
-Changements :
-
-ConferenceController:
--Changement de la vue dans detail action (detail.twig à la place de conferenceBase)
+security.yml:
+-Adaptation pour aller chercher les users en base (pour le moment role user en dur dans la classe).
 
 conferenceBase.twig:
 -Surround toutes les variables par des block car variables utilisées dans detailConference et adminConference mais class, id...

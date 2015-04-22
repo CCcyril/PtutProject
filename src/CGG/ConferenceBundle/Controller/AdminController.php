@@ -55,6 +55,7 @@ class AdminController extends Controller
     }
 
     public function saveChangesAdminConferenceAction(Request $request, $idPage){
+        /*TODO : ajouter if xhtmlrequest + verif*/
         /*TODO : Une fonction ajax nommée pour chaque parties, un bouton par partie. Nommé les fonctions pour toutes les appeler si le bouton pour sauver tous les changements est cliqué*/
         $page = $this->get('page_repository')->find($idPage);
 
