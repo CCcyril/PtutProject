@@ -74,7 +74,13 @@ class AdminController extends Controller
             $numberIdMenuItem += 1;
         }
 
-        
+        $contents = $this->get('content_repository')->findByPageId($idPage);
+        $numberIdContent = 1;
+        foreach($contents as $content){
+            $contentText = $request->request->get('content'.$numberIdContent);
+            $content->setText($contentText);
+            $numberIdContent += 1;
+        }
 
         $footer = $page->getPageFooter();
         $footerText = $request->request->get('footerText');
