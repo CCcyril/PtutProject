@@ -3,14 +3,13 @@
 namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\Conference;
-use CGG\ConferenceBundle\Entity\Content;
-use CGG\ConferenceBundle\Entity\Footer;
-use CGG\ConferenceBundle\Entity\HeadBand;
-use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 class ConferenceController extends Controller
 {
@@ -56,7 +55,21 @@ class ConferenceController extends Controller
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){
+                $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
+
                 $this->get('conference_repository')->save($conference);
+
+                $aclProvider = $this->get('security.acl.provider');
+                $objectIdentity = ObjectIdentity::fromDomainObject($conference);
+                $acl = $aclProvider ->createAcl($objectIdentity);
+
+                $tokenStorage = $this->get('security.token_storage');
+                $user = $tokenStorage->getToken()->getUser();
+                $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+                $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+                $aclProvider->updateAcl($acl);
+
                 return $this->render('CGGConferenceBundle:Conference:conferenceCreated.html.twig');
             }
         }

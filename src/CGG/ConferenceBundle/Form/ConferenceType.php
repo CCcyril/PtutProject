@@ -12,6 +12,7 @@ class ConferenceType extends AbstractType
     {
         $builder
             ->add('name', 'text')
+            ->add('description', 'textarea')
             ->add('startDate', 'text')
             ->add('endDate', 'text')
             ->add('send', 'submit')

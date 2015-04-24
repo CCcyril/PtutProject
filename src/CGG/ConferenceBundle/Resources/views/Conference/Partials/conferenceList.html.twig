@@ -18,6 +18,12 @@
                         Accéder au site
                     </a>
                     <a href="#" class="btn btn-primary">Demander à participer</a>
+                    {#TODO : réfléxionnage le role admin vu que symfony utilise EDIT.#}
+                    {% if is_granted('EDIT', conference) %}
+                        <a href="{{ path('cgg_conference_adminConference', {'idConference': conference.id, 'idPage': conference.homePage.id}) }}" class="btn btn-primary">
+                            Administration
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

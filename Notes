@@ -12,13 +12,20 @@ conference_repository :
 listAction():
 -a voir valid
 
+-Remettre la BDD en ordre : doctrine:schema:validate est tout rouge :)
+
+-Créer page par défaut des confs lors de la création d'une conf ou faire le formulaire de création sous forme d'étape
+
 --------------------------------------------------------------------------------------------------------------------------
-Fichiers ajoutés
+Fichiers ajoutés/supprimé
 
 -ajout adminController
 -ajout adminConference.twig
--admin.js
--Ce fichier lololol
+-ajout admin.js
+-ajout de Role.php
+-ajout de role.orm.xml
+-ajout de ce fichier lololol
+-suppression de conferenceUser.orm.xml
 
 --------------------------------------------------------------------------------------------------------------------------
 Modifications :
@@ -39,10 +46,13 @@ registerAction():
 User.php:
 -ajout salt, username avec getter, setter
 -ajout serializable, unserializable
+-ajout de roles(array collection)
 -ajout getRole(role user en dur pour le moment)
 
 user.orm.xml:
 -ajout salt, username en base.
+-Recréation car bug pour aller chercher les user en base à cause de repository-class. Fonctionne maintenant correctement.
+-ajout d'une many-to-many avec role
 
 detailAction():
 -appel de la vue detailConference plutot que base
@@ -63,6 +73,7 @@ conferenceBase.twig:
 -Surround toutes les variables par des block car variables utilisées dans detailConference et adminConference mais class, id...
  différents dans ces deux vues.
 
--adminController
--adminConference.twig
--admin.js
+createConferenceAction
+conferenceform.twig
+ConferenceType
+conference.php -> construct

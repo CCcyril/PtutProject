@@ -16,13 +16,13 @@ class Conference
     private $startDate;
     private $endDate;
     private $pages;
-
     private $status;
 
     function __construct()
     {
         $this->creationDate = \date('r');
         $this->pages = new ArrayCollection();
+        $this->setStatus('P');
     }
 
     public function getId()
