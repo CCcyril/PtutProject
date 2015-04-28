@@ -20,6 +20,7 @@ class ConferenceController extends Controller
 
     public function listAction() {
         $conferenceList = $this->get('conference_repository')->findAllValid();
+        /*TODO : refaire entité conference, ... ex : addPageId*/
         foreach($conferenceList as $conference){
             $pages = $this->get('page_repository')->findByConferenceId($conference->getId());
             foreach($pages as $page){
@@ -55,6 +56,8 @@ class ConferenceController extends Controller
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){
+                /*TODO : Le service crée les pages, menu, header ... à voir pour les dissocier*/
+                /*TODO : multi-step FORM ?*/
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
 
                 $this->get('conference_repository')->save($conference);
