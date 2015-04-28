@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="CGG\ConferenceBundle\Entity\Page">
+  <entity name="CGG\ConferenceBundle\Entity\Page" table="cgg_page">
       <id name="id" type="integer" column="id">
         <generator strategy="AUTO"/>
       </id>
       <field name="title" type="string" column="title" length="255"/>
       <field name="isHome" type="string" column="page_is_home" length="255"/>
 
-      <one-to-many target-entity="Content" mapped-by="Page" field="contents" >
+      <one-to-many target-entity="Content" mapped-by="page" field="contents" >
           <cascade>
               <cascade-persist/>
           </cascade>
       </one-to-many>
 
-      <many-to-one target-entity="Conference" field="page_conference_id" inversed-by="Page" >
-          <join-column name="conference_id" referenced-column-name="conference_id" />
+      <many-to-one target-entity="Conference" field="page_conference_id" inversed-by="pages" >
+          <join-column name="conference_id" referenced-column-name="id" />
       </many-to-one>
-      <many-to-one target-entity="Menu" field="page_menu" inversed-by="Page" >
+      <many-to-one target-entity="Menu" field="page_menu">
           <cascade>
               <cascade-persist/>
           </cascade>
-        <join-column name="menu_id" referenced-column-name="menu_id" />
+        <join-column name="menu_id" referenced-column-name="id" />
       </many-to-one>
-      <many-to-one target-entity="HeadBand" field="page_headBand" inversed-by="Page" >
+      <many-to-one target-entity="HeadBand" field="page_headBand" >
           <cascade>
               <cascade-persist/>
           </cascade>
-        <join-column name="headBand_id" referenced-column-name="headBand_id" />
+        <join-column name="headBand_id" referenced-column-name="id" />
       </many-to-one>
-      <many-to-one target-entity="Footer" field="page_footer" inversed-by="Page" >
+      <many-to-one target-entity="Footer" field="page_footer">
           <cascade>
               <cascade-persist/>
           </cascade>
-        <join-column name="footer_id" referenced-column-name="footer_id" />
+        <join-column name="footer_id" referenced-column-name="id" />
       </many-to-one>
 
 

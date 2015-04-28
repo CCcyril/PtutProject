@@ -56,7 +56,6 @@ class ConferenceController extends Controller
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){
-                /*TODO : Le service crée les pages, menu, header ... à voir pour les dissocier*/
                 /*TODO : multi-step FORM ?*/
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
 
@@ -92,7 +91,6 @@ class ConferenceController extends Controller
 
         $idMenu = $menu->getId();
 
-        /*TODO Check si les boutons du menu ont bien une page associée*/
         $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
 
         $contents = $this->get('content_repository')->findByPageId($idPage);

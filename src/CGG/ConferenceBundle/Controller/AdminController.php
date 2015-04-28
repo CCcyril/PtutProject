@@ -6,8 +6,10 @@ use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Entity\Content;
 use CGG\ConferenceBundle\Entity\Footer;
 use CGG\ConferenceBundle\Entity\HeadBand;
+use CGG\ConferenceBundle\Entity\Menu;
 use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
+use Proxies\__CG__\CGG\ConferenceBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,5 +91,28 @@ class AdminController extends Controller
 
         $this->get('page_repository')->save($page);
 
+    }
+
+    public function addMenuItemAction($idConference){
+        /*TODO : lié le menu... à une conférence plutôt qu'à une page pour éviter ce qui suit*/
+        $conferenceRepository = $this->get('conference_repository');
+        $conference = $conferenceRepository->find($idConference);
+        $page = $conference->getHomePage();
+        $menu = $page->getPageMenu();
+        $newPage = new Page();
+        $newPage->setTitle('test');
+        $newPage->setIsHome('0');
+
+        $menuItem = new MenuItem($newPage);
+        $menuItem->setTitle($newPage->getTitle());
+        $menuItem->setDepth(5);
+
+        $menu->addMenuItem($menuItem);
+        $newPage->setPageMenu($menu);
+
+        $conference->addPageId($newPage);
+        $conferenceRepository->save($conference);
+
+        return $this->render('CGGConferenceBundle:Conference:home.html.twig');
     }
 }

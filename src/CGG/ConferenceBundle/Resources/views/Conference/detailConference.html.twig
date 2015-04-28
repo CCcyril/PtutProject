@@ -9,7 +9,9 @@
 {% endblock %}
 
 {% block menuItemTitle %}
-    <a href="/">{{ parent() }}</a>
+    <a href="{{ path('cgg_conference_detailConference',{'idConference':conference.id, 'idPage':menuItem.page.id}) }}">
+        {{ parent() }}
+    </a>
 {% endblock %}
 
 {% block contentText %}

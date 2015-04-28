@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="CGG\ConferenceBundle\Entity\MenuItem">
-    <id name="id" type="integer" column="menuItem_id">
+  <entity name="CGG\ConferenceBundle\Entity\MenuItem" table="cgg_menuitem">
+    <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
     </id>
     <field name="title" type="string" column="menuItem_title" length="255"/>
     <field name="depth" type="integer" column="menuItem_depth"/>
-      <many-to-one target-entity="Menu" field="menuItem_menu" inversed-by="Menuitem" >
-          <join-column name="menu_id" referenced-column-name="menu_id" />
+      <one-to-one field="page" target-entity="Page">
+          <join-column name="menuitem_page_id" referenced-column-name="id"/>
+      </one-to-one>
+      <many-to-one target-entity="Menu" field="menuItem_menu" inversed-by="menuItem" >
+          <join-column name="menu_id" referenced-column-name="id" />
       </many-to-one>
+
   </entity>
 </doctrine-mapping>

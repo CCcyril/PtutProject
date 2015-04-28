@@ -9,7 +9,13 @@
 {% endblock %}
 
 {% block menuItemTitle %}
-    <a contenteditable="true" href="/" id="menuItemTitle{{ loop.index }}">{{ parent() }}</a>
+    <a href="{{ path('cgg_conference_detailConference',{'idConference':conference.id, 'idPage':menuItem.page.id}) }}" id="menuItemTitle{{ loop.index }}">{{ parent() }}</a>
+{% endblock %}
+
+
+
+{% block addMenuItem %}
+    <li><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}"><span class="glyphicon glyphicon-plus"></span></a></li>
 {% endblock %}
 
 {% block contentText %}
@@ -24,13 +30,16 @@
 
 {% block body %}
     <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
+    <div id="test" class="hidden">bndjbnsdfnmnbnsmdfnbjnfjdsnmbnsdfljfb</div>
 {% endblock %}
 {#TODO : intégrer le js dans admin.js (problème avec le routing => fosjsrouting)#}
 {% block javascript %}
     {{ parent() }}
-    {#{% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
-        <script type='text/javascript' src="{{ asset_url }}"></script>
-    {% endjavascripts %}#}
+    {#{% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}#}
+        {#<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+        {#<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>#}
+        {#<script type='text/javascript' src="{{ asset_url }}"></script>#}
+    {#{% endjavascripts %}#}
     <script>
         $(document).ready(function(){
             $("#saveChangesAdminConference").click(function (){
@@ -55,6 +64,16 @@
 
                     }
                 });
+            });
+            var mouseX;
+            var mouseY;
+            $(document).mousemove( function(e) {
+                mouseX = e.pageX;
+                mouseY = e.pageY;
+            });
+            $("#menuItemTitle2").mouseover(function(){
+                $('#test').css({'top':mouseY,'left':mouseX,'position':'absolute'}).fadeIn('slow');
+                $('#test').removeClass('hidden');
             });
         });
     </script>

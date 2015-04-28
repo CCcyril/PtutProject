@@ -23,23 +23,23 @@ class LoadConference implements FixtureInterface {
     {
         for($i = 0; $i <3; $i++){
 
+            $page = new Page();
             $menu = new Menu();
-            $menuItem = new MenuItem();
-            $menuItem2 = new MenuItem();
+            $menuItem = new MenuItem($page);
+            //$menuItem2 = new MenuItem($page);
             $headBand = new HeadBand();
             $footer = new Footer();
-            $page = new Page();
             $conference = new Conference();
             $content1 = new Content();
             $content2 = new Content();
 
             $menuItem->setDepth($i);
             $menuItem->setTitle('menuItem'.$i);
-            $menuItem2->setDepth(($i+1));
-            $menuItem2->setTitle('menuItem'.($i+1));
+            //$menuItem2->setDepth(($i+1));
+            //$menuItem2->setTitle('menuItem'.($i+1));
             $menu->setTitle('Menu'.$i);
             $menu->addMenuItem($menuItem);
-            $menu->addMenuItem($menuItem2);
+            //$menu->addMenuItem($menuItem2);
             $headBand->setTitle('Title'.$i);
             $headBand->setText('Text'.$i);
             $headBand->setImage('Image'.$i);

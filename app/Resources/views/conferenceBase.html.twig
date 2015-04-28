@@ -35,17 +35,33 @@
                     <ul class="nav navbar-nav">
                         {% for menuItem in menuItems %}
                             {% if menuItem.depth == 1 %}
-                                <li class="first">
+                                <li class="first
+                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                        active
+                                    {% endif %}
+                                ">
                             {% elseif menuItem.depth == menuItems|length %}
-                                <li class="last">
+                                <li class="last
+                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                        active
+                                    {% endif %}
+                                ">
                             {% else %}
-                                <li>
+                                <li
+                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                        class="active"
+                                    {% endif %}
+                                >
                             {% endif %}
+
                             {% block menuItemTitle %}
                                 {{ menuItem.title }}
                             {% endblock %}
+
                             </li>
                         {% endfor %}
+                        {% block addMenuItem %}
+                        {% endblock %}
                     </ul>
 
                 </div>

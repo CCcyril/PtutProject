@@ -14,7 +14,6 @@ security:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
-    # TODO : Pour l'instant connection qu'avec le username (à mettre unique dans la base), ajouter la connection avec l'email.
         database_users:
             entity:
                 class: CGGConferenceBundle:User

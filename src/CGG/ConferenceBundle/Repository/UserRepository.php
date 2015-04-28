@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository implements UserProviderInterface
 {
-    /*TODO : Sortir le UserRepository de Entity, refaire la méthode save et le service*/
+    /*TODO : refaire la méthode save et le service*/
     public function loadUserByUsername($username)
     {
         $user = $this->createQueryBuilder('u')

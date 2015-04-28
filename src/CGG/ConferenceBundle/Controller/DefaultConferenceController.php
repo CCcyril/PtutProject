@@ -48,7 +48,7 @@ class DefaultConferenceController extends Controller {
 
     public function createDefaultHomePage(Menu $menu, HeadBand $headband, Footer $footer){
         $homePage = new Page();
-        $menuItem = new MenuItem();
+        $menuItem = new MenuItem($homePage);
         $content = new Content();
 
         $homePage->setIsHome('1');
@@ -79,7 +79,7 @@ class DefaultConferenceController extends Controller {
 
     public function createDefaultPresentationPage(Menu $menu, Headband $headband, Footer $footer){
         $presentationPage = new Page();
-        $menuItem = new MenuItem();
+        $menuItem = new MenuItem($presentationPage);
         $content = new Content();
 
         $presentationPage->setIsHome('0');
@@ -110,7 +110,7 @@ class DefaultConferenceController extends Controller {
 
     public function createDefaultInformationPage(Menu $menu, Headband $headband, Footer $footer){
         $informationPage = new Page();
-        $menuItem = new MenuItem();
+        $menuItem = new MenuItem($informationPage);
         $content = new Content();
 
         $informationPage->setIsHome('0');
@@ -141,7 +141,7 @@ class DefaultConferenceController extends Controller {
 
     public function createDefaultContactPage(Menu $menu, Headband $headband, Footer $footer){
         $contactPage = new Page();
-        $menuItem = new MenuItem();
+        $menuItem = new MenuItem($contactPage);
         $content = new Content();
 
         $contactPage->setIsHome('0');
