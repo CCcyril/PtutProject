@@ -14,23 +14,20 @@ class ConferenceRepository extends EntityRepository
         $this->entityManager = $entityManager;
     }
 
-    public function save(Conference $conference){
-        $this->entityManager->persist($conference);
-        $this->entityManager->flush();
-    }
-
-    public function findAllValid(){
-       return $this->entityManager->getRepository('CGGConferenceBundle:Conference')->findBy(
-           array('status' => 'V')
-       );
-    }
-    public function findAllProgress(){
-        return $this->entityManager->getRepository('CGGConferenceBundle:Conference')->findBy(
-            array('status' => 'P')
-        );
+    public function findAllConferenceByStatus($status){
+        $query = $this->entityManager->getRepository('CGGConferenceBundle:Conference')->createQueryBuilder('c')
+            ->where('c.status = :status')
+            ->setParameter('status', $status)
+            ->getQuery();
+        return $query->getResult();
     }
 
     public function find($idConference){
         return $this->entityManager->find("CGGConferenceBundle:Conference", $idConference);
+    }
+
+    public function save(Conference $conference){
+        $this->entityManager->persist($conference);
+        $this->entityManager->flush();
     }
 }

@@ -3,7 +3,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="CGG\ConferenceBundle\Entity\User" table="cgg_user" repository-class="CGG\ConferenceBundle\Repository\UserRepository">
+    <entity name="CGG\ConferenceBundle\Entity\User" table="cgg_user" repository-class="CGG\ConferenceBundle\Repository\UserRepository" >
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
@@ -12,7 +12,6 @@
         <field name="password" type="string" length="255" unique="true"/>
         <field name="email" type="string" length="255" unique="true"/>
         <field name="isActive" type="boolean"/>
-        <!--TODO : ajouter join table, join column... pour tenter de fixer l'erreur does not contain the required 'inversedBy-->
         <many-to-many target-entity="Role" field="roles" />
     </entity>
 </doctrine-mapping>

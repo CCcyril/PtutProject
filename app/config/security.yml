@@ -27,6 +27,9 @@ security:
             pattern:  ^/
             provider:   database_users
             anonymous: ~
+            switch_user: ~
+            remember_me:
+              key: "Order 1138"
             form_login:
                 login_path:   cgg_conference_login
                 check_path:   cgg_conference_login_check

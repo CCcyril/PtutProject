@@ -23,13 +23,13 @@ class LoadConference implements FixtureInterface {
     {
         for($i = 0; $i <3; $i++){
 
+            $conference = new Conference();
             $page = new Page();
             $menu = new Menu();
             $menuItem = new MenuItem($page);
             //$menuItem2 = new MenuItem($page);
             $headBand = new HeadBand();
             $footer = new Footer();
-            $conference = new Conference();
             $content1 = new Content();
             $content2 = new Content();
 
@@ -49,12 +49,8 @@ class LoadConference implements FixtureInterface {
 
             $page->setTitle('Home');
             $page->setIsHome('1');
-            $page->setPageFooter($footer);
-            $page->setPageMenu($menu);
-            $page->setPageHeadBand($headBand);
             $page->addContent($content1);
             $page->addContent($content2);
-            $page->setPageMenu($menu);
 
             $conference->setName("Conférence".$i);
             $conference->setDescription('Descritpion'.$i);
@@ -62,6 +58,9 @@ class LoadConference implements FixtureInterface {
             $conference->setEndDate("09/09/2020");
             $conference->addPageId($page);
             $conference->setStatus("V");
+            $conference->setFooter($footer);
+            $conference->setMenu($menu);
+            $conference->setHeadBand($headBand);
 
             $manager->persist($conference);
 

@@ -13,6 +13,13 @@
         {% endstylesheets %}
     </head>
     <body>
+    {% if app.session.flashBag.has('success') %}
+        <div class="alert alert-success">
+            {% for msg in app.session.flashBag.get('success') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
         <div class="jumbotron header-home">
             <h1>CGG Conférence</h1>
             {% image '@CGGConferenceBundle/Resources/public/images/Conference.png'  output="images/Conference.png" %}

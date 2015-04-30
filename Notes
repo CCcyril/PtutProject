@@ -5,10 +5,6 @@ detailConference :
 list :
 -Plus explicite conferenceList (route, action, vue "à changer")
 
-conference_repository :
--findAllValid() -> findAllValidConference()
--findAllProgress() => findAllPending()?
-
 listAction():
 -a voir valid
 
@@ -18,18 +14,23 @@ newConferenceList => conferenceListPending
 
 lié menu, footer, headband à la conf plutôt qu'une page.
 
+
 -------------------------------------------------------------------------------------------------------------------------
 Fait :
 
 -Remettre la BDD en ordre : doctrine:schema:validate est tout rouge :)
 -Créer page par défaut des confs lors de la création d'une conf (ou faire le formulaire de création sous forme d'étape)
 
+conference_repository :
+-findAllValid() -> findAllValidConference() => findAllConferenceByStatus($status)
+-findAllProgress() => findAllPending()
+
 --------------------------------------------------------------------------------------------------------------------------
 Fichiers ajoutés/supprimé
 
 -ajout adminController
 -ajout adminConference.twig
--ajout admin.js
+-ajout admin.js / js dans admin.twig pour le moment
 -ajout de Role.php
 -ajout de role.orm.xml
 -ajout de ce fichier lololol
@@ -103,3 +104,20 @@ MenuItem.php:
         =>oblige à avoir une page associé au bouton
         =>permet d'avoir facilement la route {idConference}/{idPage} dans le template : menuItem.page.id
 
+conference.orm:
+ajout menu, headband, footer
+
+conferenceRepository:
+-ptits changements
+
+security:
+-switch_user
+-remember_me
+
+----------------------------------------------------------------------------------------------------------------------------------
+A faire:
+
+-validation/contraintes base
+-design site
+-competition images
+-page admin

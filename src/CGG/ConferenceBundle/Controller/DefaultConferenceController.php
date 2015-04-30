@@ -33,11 +33,14 @@ class DefaultConferenceController extends Controller {
 
         $footer->setText('CGG Comférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a>');
 
-        $homePage = $this->createDefaultHomePage($menu, $headBand, $footer);
-        $presentationPage = $this->createDefaultPresentationPage($menu, $headBand, $footer);
-        $informationPage = $this->createDefaultInformationPage($menu, $headBand, $footer);
-        $contactPage = $this->createDefaultContactPage($menu, $headBand, $footer);
+        $homePage = $this->createDefaultHomePage($menu);
+        $presentationPage = $this->createDefaultPresentationPage($menu);
+        $informationPage = $this->createDefaultInformationPage($menu);
+        $contactPage = $this->createDefaultContactPage($menu);
 
+        $conference->setHeadband($headBand);
+        $conference->setMenu($menu);
+        $conference->setFooter($footer);
         $conference->addPageId($homePage);
         $conference->addPageId($presentationPage);
         $conference->addPageId($informationPage);
@@ -46,7 +49,7 @@ class DefaultConferenceController extends Controller {
         return $conference;
     }
 
-    public function createDefaultHomePage(Menu $menu, HeadBand $headband, Footer $footer){
+    public function createDefaultHomePage(Menu $menu){
         $homePage = new Page();
         $menuItem = new MenuItem($homePage);
         $content = new Content();
@@ -69,15 +72,12 @@ class DefaultConferenceController extends Controller {
                             autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
                             illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
 
-        $homePage->setPageHeadBand($headband);
-        $homePage->setPageMenu($menu);
         $homePage->addContent($content);
-        $homePage->setPageFooter($footer);
 
         return $homePage;
     }
 
-    public function createDefaultPresentationPage(Menu $menu, Headband $headband, Footer $footer){
+    public function createDefaultPresentationPage(Menu $menu){
         $presentationPage = new Page();
         $menuItem = new MenuItem($presentationPage);
         $content = new Content();
@@ -100,15 +100,12 @@ class DefaultConferenceController extends Controller {
                             autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
                             illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
 
-        $presentationPage->setPageHeadBand($headband);
-        $presentationPage->setPageMenu($menu);
         $presentationPage->addContent($content);
-        $presentationPage->setPageFooter($footer);
 
         return $presentationPage;
     }
 
-    public function createDefaultInformationPage(Menu $menu, Headband $headband, Footer $footer){
+    public function createDefaultInformationPage(Menu $menu){
         $informationPage = new Page();
         $menuItem = new MenuItem($informationPage);
         $content = new Content();
@@ -131,15 +128,12 @@ class DefaultConferenceController extends Controller {
                             autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
                             illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
 
-        $informationPage->setPageHeadBand($headband);
-        $informationPage->setPageMenu($menu);
         $informationPage->addContent($content);
-        $informationPage->setPageFooter($footer);
 
         return $informationPage;
     }
 
-    public function createDefaultContactPage(Menu $menu, Headband $headband, Footer $footer){
+    public function createDefaultContactPage(Menu $menu){
         $contactPage = new Page();
         $menuItem = new MenuItem($contactPage);
         $content = new Content();
@@ -162,10 +156,7 @@ class DefaultConferenceController extends Controller {
                             autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
                             illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
 
-        $contactPage->setPageHeadBand($headband);
-        $contactPage->setPageMenu($menu);
         $contactPage->addContent($content);
-        $contactPage->setPageFooter($footer);
 
         return $contactPage;
     }

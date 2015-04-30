@@ -8,21 +8,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserType extends AbstractType
 {
-
+    /*TODO : Mettre ", null, array(option) pour utiliser les contraintes des orm*/
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('lname')
-            ->add('fname')
-            ->add('email')
             ->add('username')
-            ->add('password')
-            ->add('address')
-            ->add('country')
-            ->add('zipcode')
-            ->add('status')
-            ->add('phone')
-            ->add('inscriptionDate')
+            ->add('plainPassword', 'repeated', ['type' => 'password'])
+            ->add('email', 'email')
             ->add('send', 'submit')
         ;
     }

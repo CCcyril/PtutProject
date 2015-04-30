@@ -19,6 +19,7 @@ class User implements UserInterface, \Serializable
     private $id;
     private $salt;
     private $username;
+    private $plainPassword;
     private $password;
     private $email;
     private $isActive;
@@ -38,9 +39,15 @@ class User implements UserInterface, \Serializable
 
     public function getSalt()
     {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
-        return null;
+        return $this->salt;
+    }
+
+    public function getPlainPassword(){
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword){
+        $this->plainPassword = $plainPassword;
     }
 
     public function getPassword()
@@ -50,6 +57,7 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
+        $this->plainPassword = null;
     }
 
     public function serialize()
@@ -58,8 +66,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            // see section on salt below
-            // $this->salt,
+            $this->salt,
         ));
     }
 
@@ -69,8 +76,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            // see section on salt below
-            // $this->salt
+            $this->salt,
             ) = unserialize($serialized);
     }
 
@@ -89,8 +95,6 @@ class User implements UserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
-
-        return $this;
     }
 
     public function setEmail($email)

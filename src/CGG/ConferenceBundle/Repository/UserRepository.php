@@ -2,6 +2,8 @@
 
 namespace CGG\ConferenceBundle\Repository;
 
+use CGG\ConferenceBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -10,17 +12,10 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository implements UserProviderInterface
 {
-    /*TODO : refaire la méthode save et le service*/
+
     public function loadUserByUsername($username)
     {
-        $user = $this->createQueryBuilder('u')
-            ->select('u, r')
-            ->leftJoin('u.roles', 'r')
-            ->where('u.username = :username OR u.email = :email')
-            ->setParameter('username', $username)
-            ->setParameter('email', $username)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $user = $this->findUserByUsernameOrEmail($username);
 
         if (null === $user) {
             $message = sprintf(
@@ -52,5 +47,24 @@ class UserRepository extends EntityRepository implements UserProviderInterface
     {
         return $this->getEntityName() === $class
         || is_subclass_of($class, $this->getEntityName());
+    }
+
+    public function findUserByUsernameOrEmail($username){
+        $user = $this->createQueryBuilder('u')
+            ->select('u, r')
+            ->leftJoin('u.roles', 'r')
+            ->where('u.username = :username OR u.email = :email')
+            ->setParameter('username', $username)
+            ->setParameter('email', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $user;
+    }
+
+    public function save(User $user){
+        $this->_em->persist($user);
+        $this->_em->flush();
+
     }
 }

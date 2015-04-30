@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
-    public function adminAction($idConference) {
+    public function adminAction($idConference, $idPage) {
 
         $conference = $this->get('conference_repository')->find($idConference);
 
@@ -27,13 +27,9 @@ class AdminController extends Controller
             $conference->addPageId($page);
         }
 
-        $page = $conference->getHomePage();
+        $headBand = $conference->getHeadBand();
 
-        $idPage = $page->getId();
-
-        $headBand = $page->getPageHeadBand();
-
-        $menu = $page->getPageMenu();
+        $menu = $conference->getMenu();
 
         $idMenu = $menu->getId();
 
@@ -41,7 +37,7 @@ class AdminController extends Controller
 
         $contents = $this->get('content_repository')->findByPageId($idPage);
 
-        $footer = $page->getPageFooter();
+        $footer = $conference->getFooter();
 
         if ($conference !== NULL) {
             return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
@@ -56,19 +52,20 @@ class AdminController extends Controller
         }
     }
 
-    public function saveChangesAdminConferenceAction(Request $request, $idPage){
+    public function saveChangesAdminConferenceAction(Request $request, $idConference, $idPage){
         /*TODO : ajouter if xhtmlrequest + verif*/
         /*TODO : Une fonction ajax nommée pour chaque parties, un bouton par partie. Nommé les fonctions pour toutes les appeler si le bouton pour sauver tous les changements est cliqué*/
+        $conference = $this->get('conference_repository')->find($idConference);
         $page = $this->get('page_repository')->find($idPage);
 
         /*TODO : Gérer les images*/
         $headbandTitle = $request->request->get('headbandTitle');
         $headbandText = $request->request->get('headbandText');
-        $headband = $page->getPageHeadBand();
+        $headband = $conference->getHeadBand();
         $headband->setTitle($headbandTitle);
         $headband->setText($headbandText);
 
-        $menu = $page->getPageMenu();
+        $menu = $conference->getMenu();
         $menuItems = $this->get('menuItem_repository')->findByMenuId($menu->getId());
         $numberIdMenuItem = 1;
         foreach($menuItems as $menuItem){
@@ -85,22 +82,22 @@ class AdminController extends Controller
             $numberIdContent += 1;
         }
 
-        $footer = $page->getPageFooter();
+        $footer = $conference->getFooter();
         $footerText = $request->request->get('footerText');
         $footer->setText($footerText);
 
         $this->get('page_repository')->save($page);
+        $this->get('conference_repository')->save($conference);
 
     }
 
     public function addMenuItemAction($idConference){
-        /*TODO : lié le menu... à une conférence plutôt qu'à une page pour éviter ce qui suit*/
         $conferenceRepository = $this->get('conference_repository');
         $conference = $conferenceRepository->find($idConference);
-        $page = $conference->getHomePage();
-        $menu = $page->getPageMenu();
+        $menu = $conference->getMenu();
         $newPage = new Page();
         $newPage->setTitle('test');
+        /*TODO : count select depth => maxdepth+1*/
         $newPage->setIsHome('0');
 
         $menuItem = new MenuItem($newPage);
@@ -113,6 +110,6 @@ class AdminController extends Controller
         $conference->addPageId($newPage);
         $conferenceRepository->save($conference);
 
-        return $this->render('CGGConferenceBundle:Conference:home.html.twig');
+        return $this->redirect($this->generateUrl('cgg_conference_adminConference', ['idPage'=>$newPage->getId(), 'idConference'=>$idConference]));
     }
 }

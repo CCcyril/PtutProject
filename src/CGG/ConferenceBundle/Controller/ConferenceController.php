@@ -19,7 +19,7 @@ class ConferenceController extends Controller
     }
 
     public function listAction() {
-        $conferenceList = $this->get('conference_repository')->findAllValid();
+        $conferenceList = $this->get('conference_repository')->findAllConferenceByStatus('V');
         /*TODO : refaire entité conference, ... ex : addPageId*/
         foreach($conferenceList as $conference){
             $pages = $this->get('page_repository')->findByConferenceId($conference->getId());
@@ -31,7 +31,7 @@ class ConferenceController extends Controller
     }
 
     public function listNewConferencesAction(){
-        $conferenceList = $this->get('conference_repository')->findAllProgress();
+        $conferenceList = $this->get('conference_repository')->findAllConferenceByStatus('P');
         return $this->render('CGGConferenceBundle:Conference:list.html.twig', array("conferenceList"=>$conferenceList,"valid"=>false ));
     }
 
@@ -50,6 +50,7 @@ class ConferenceController extends Controller
     }
 
     public function createConferenceAction(Request $request){
+        /*TODO : Validation*/
         $conference = new Conference();
         $form = $this->createForm(New ConferenceType(), $conference);
 
@@ -83,11 +84,10 @@ class ConferenceController extends Controller
 
         $conference = $this->get('conference_repository')->find($idConference);
         /*TODO Check que la page appartient bien à la conférence sinon possible d'afficher les pages d'autres conférences.*/
-        $page = $this->get('page_repository')->find($idPage);
 
-        $headBand = $page->getPageHeadBand();
+        $headBand = $conference->getHeadBand();
 
-        $menu = $page->getPageMenu();
+        $menu = $conference->getMenu();
 
         $idMenu = $menu->getId();
 
@@ -95,7 +95,7 @@ class ConferenceController extends Controller
 
         $contents = $this->get('content_repository')->findByPageId($idPage);
 
-        $footer = $page->getPageFooter();
+        $footer = $conference->getFooter();
 
         if ($conference !== NULL) {
             return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(

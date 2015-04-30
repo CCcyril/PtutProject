@@ -6,7 +6,7 @@
  * Time: 23:14
  */
 
-namespace CGG\ConfrenceBundle\DataFixtures\ORM;
+namespace CGG\ConferenceBundle\DataFixtures\ORM;
 
 use CGG\ConferenceBundle\Entity\Role;
 use CGG\ConferenceBundle\Entity\User;
@@ -31,7 +31,7 @@ class LoadUser implements FixtureInterface, ContainerAwareInterface {
         $user = new User();
         $user2 = new User();
         $user3 = new User();
-        $roleSuperAdmin = new Role('superAdmin', 'ROLE_SUPERADMIN');
+        $roleSuperAdmin = new Role('superAdmin', 'ROLE_SUPER_ADMIN');
         $entityManager->persist($roleSuperAdmin);
         $roleAdmin = new Role('admin', 'ROLE_ADMIN');
         $entityManager->persist($roleAdmin);

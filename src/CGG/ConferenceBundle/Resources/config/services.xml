@@ -4,7 +4,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-
     <services>
 
         <service id="conference_repository" class="CGG\ConferenceBundle\Repository\ConferenceRepository">
@@ -32,6 +31,21 @@
         </service>
 
         <service id="cgg_default_conference" class="CGG\ConferenceBundle\Controller\DefaultConferenceController"/>
+
+        <service id="user_repository"
+                class="CGG\ConferenceBundle\Repository\UserRepository"
+                factory-service="doctrine.orm.default_entity_manager"
+                factory-method="getRepository">
+            <argument type="string">CGG\ConferenceBundle\Entity\User</argument>
+        </service>
+
+        <service id="role_repository"
+                class="CGG\ConferenceBundle\Repository\RoleRepository"
+                factory-service="doctrine.orm.default_entity_manager"
+                factory-method="getRepository"
+                >
+            <argument>CGG\ConferenceBundle\entity\Role</argument>
+        </service>
 
     </services>
 

@@ -12,6 +12,7 @@ use CGG\ConferenceBundle\Entity\HeadBand;
 class Page
 {
 
+    /*TODO : trucs inutiles à virer*/
     private $id;
     private $title;
     private $isHome;

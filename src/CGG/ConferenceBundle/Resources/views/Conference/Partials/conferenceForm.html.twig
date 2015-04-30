@@ -1,5 +1,5 @@
 <h2>Demande de création d'une conférence</h2>
-{{ form_start(form) }}
+{{ form_start(form, {'attr' : {novalidate: 'novalidate'}}) }}
 {{ form_errors(form) }}
 <div class="form-group">
     {{ form_label(form.name, 'Nom de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
