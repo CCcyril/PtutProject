@@ -14,20 +14,29 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     </head>
     <body>
+    {% if app.session.flashBag.has('success') %}
+        <div class="alert alert-success">
+            {% for msg in app.session.flashBag.get('success') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
         <div class="jumbotron header-home">
+            {% block headband %}
             <div class="container-edit-content">
                 <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
                 {% block headbandTitle %}
-                    {{ headband.title | raw }}
+                    {{ headband.title}}
                 {% endblock %}
             </div>
             <div class="container-edit-content">
                 <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
                 {% block headbandText %}
-                    {{ headband.text | raw }}
+                    {{ headband.text }}
                 {% endblock %}
             </div>
-        </div>
+            {% endblock %}
+        </div>      
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -98,6 +107,9 @@
                 '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js'
                 output='js/script.js' %}
                 <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            {% javascripts '@CGGConferenceBundle/Resources/public/js/colorpicker/*.js' output='js/script.js' %}
+            <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
     </body>

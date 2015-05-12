@@ -40,12 +40,15 @@
 
     <route id="cgg_conference_detailConference" path="/conference/{idConference}/{idPage}">
         <default key="_controller">CGGConferenceBundle:Conference:detail</default>
+        <requirement key="idConference">\d+</requirement>
+        <requirement key="idPage">\d+</requirement>
     </route>
 
     <route id="cgg_conference_adminConference" path="/conference/admin/{idConference}/{idPage}">
         <default key="_controller">CGGConferenceBundle:Admin:admin</default>
         <requirement key="idConference">\d+</requirement>
         <requirement key="idPage">\d+</requirement>
+        <option key="expose">true</option>
     </route>
 
     <route id="cgg_conference_admin_saveChangesConference" path="/conference/admin/{idConference}/{idPage}/sauvegarder-les-changements">
@@ -71,6 +74,28 @@
 
     <route id="cgg_image_competition_add_image" path="/competition-image/ajouter-image/{idConference}">
         <default key="_controller">CGGConferenceBundle:ImageCompetition:addImage</default>
+    </route>
+
+
+    <route id="cgg_conference_list_user" path="/admin/gestion-utilisateurs">
+        <default key="_controller">CGGConferenceBundle:User:listUser</default>
+    </route>
+
+    <route id="cgg_conference_admin_saveChangesRolesUsers" path="/admin/gestion-utilisateurs/sauvegarder-les-roles">
+        <default key="_controller">CGGConferenceBundle:User:saveChangesRolesUsers</default>
+    </route>
+
+    <route id="cgg_conference_user_removeRole" path="/admin/gestion-utilisateurs/supprimer-roles">
+        <default key="_controller">CGGConferenceBundle:User:removeRole</default>
+    </route>
+
+    <route id="cgg_conference_delete_conference" path="/admin/conference/supprimer-conference/{idConference}">
+        <requirement key="idConference">\d+</requirement>
+        <default key="_controller">CGGConferenceBundle:Conference:deleteConference</default>
+    </route>
+
+    <route id="cgg_conference_admin_saveChangeHeadband" path="/conference/admin/sauvegarder-les-changements-header">
+        <default key="_controller">CGGConferenceBundle:Admin:saveChangeHeadband</default>
     </route>
 
 </routes>

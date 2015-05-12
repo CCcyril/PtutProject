@@ -19,7 +19,6 @@ class Role implements RoleInterface{
     protected $role;
     protected $users;
 
-    /*TODO : check gestion des rôles : actuellement new Role(nomDuRole) user->setRole(Role role)*/
     public function __construct($name, $role){
         $this->setName($name);
         $this->setRole($role);

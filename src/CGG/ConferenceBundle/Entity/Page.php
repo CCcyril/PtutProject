@@ -11,15 +11,10 @@ use CGG\ConferenceBundle\Entity\HeadBand;
 
 class Page
 {
-
-    /*TODO : trucs inutiles à virer*/
     private $id;
     private $title;
     private $isHome;
     private $page_conference_id;
-    private $page_menu;
-    private $page_headBand;
-    private $page_footer;
     private $contents;
 
     function __construct()
@@ -44,11 +39,11 @@ class Page
         return $this->title;
     }
 
-    public function getIsHome(){
+    public function isHome(){
         return $this->isHome;
     }
 
-    public function setIsHome($isHome){
+    public function setHome($isHome){
         $this->isHome = $isHome;
     }
 
@@ -62,42 +57,6 @@ class Page
     public function getPageConferenceId()
     {
         return $this->page_conference_id;
-    }
-
-    public function setPageMenu(Menu $pageMenu = null)
-    {
-        $this->page_menu = $pageMenu;
-
-        return $this;
-    }
-
-    public function getPageMenu()
-    {
-        return $this->page_menu;
-    }
-
-    public function setPageHeadBand(HeadBand $pageHeadBand = null)
-    {
-        $this->page_headBand = $pageHeadBand;
-
-        return $this;
-    }
-
-    public function getPageHeadBand()
-    {
-        return $this->page_headBand;
-    }
-
-    public function setPageFooter(Footer $pageFooter = null)
-    {
-        $this->page_footer = $pageFooter;
-
-        return $this;
-    }
-
-    public function getPageFooter()
-    {
-        return $this->page_footer;
     }
 
     public function addContent(Content $content)

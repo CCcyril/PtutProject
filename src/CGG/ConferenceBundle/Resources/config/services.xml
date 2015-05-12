@@ -55,6 +55,19 @@
             <tag name="twig.extension"></tag>
         </service>
 
+        <service id="check_if_page_belong_conference" class="CGG\ConferenceBundle\Tools\CheckIfPageBelongConference">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="page_repository"/>
+            <!--<call method="checkIfPageBelongConference"/>-->
+        </service>
+
+        <service id="mail_admin_conference_created" class="CGG\ConferenceBundle\Tools\MailAdminConferenceCreated">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
+            <call method="mailAdminConferenceCreated"/>
+        </service>
     </services>
 
 </container>

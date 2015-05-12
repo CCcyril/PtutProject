@@ -7,6 +7,9 @@
     <field name="title" type="string" column="menuItem_title" length="255"/>
     <field name="depth" type="integer" column="menuItem_depth"/>
       <one-to-one field="page" target-entity="Page">
+          <cascade>
+              <cascade-remove/>
+          </cascade>
           <join-column name="menuitem_page_id" referenced-column-name="id"/>
       </one-to-one>
       <many-to-one target-entity="Menu" field="menuItem_menu" inversed-by="menuItem" >

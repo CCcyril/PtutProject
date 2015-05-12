@@ -14,9 +14,10 @@ class MenuItemRepository extends EntityRepository
         $this->entityManager = $entityManager;
     }
 
-    public function findByMenuId($idMenu){
+    public function findByMenuIdOrderByDepth($idMenu){
         $query = $this->entityManager->getRepository('CGGConferenceBundle:MenuItem')->createQueryBuilder('mi')
             ->where('mi.menuItem_menu = ' . $idMenu)
+            ->addOrderBy('mi.depth')
             ->getQuery();
         return $query->getResult();
     }
@@ -24,5 +25,16 @@ class MenuItemRepository extends EntityRepository
     public function save(MenuItem $menuItem){
         $this->entityManager->persist($menuItem);
         $this->entityManager->flush();
+    }
+
+    public function countMenuItemDepth($menuId){
+        $depth = $this->entityManager->getRepository('CGGConferenceBundle:MenuItem')->createQueryBuilder('mi')
+            ->select('COUNT(mi.depth) as nbDepth')
+            ->where('mi.menuItem_menu = :menuId')
+            ->setParameter('menuId', $menuId)
+            ->getQuery()
+            ->getSingleResult();
+
+        return $depth['nbDepth'];
     }
 }
