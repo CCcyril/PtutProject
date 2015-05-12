@@ -1,7 +1,5 @@
 {% extends("::base.html.twig") %}
 
 {% block body %}
-    <div>
-        Demande de création d'une conférence enregistrée, un mail a été envoyé à l'admin qui peut confirmer ou refuser. Bisous partout.
-    </div>
+    {{ include("CGGConferenceBundle:Conference/Partials:imageCompetitionForm.html.twig") }}
 {% endblock %}

@@ -9,6 +9,29 @@
 namespace CGG\ConferenceBundle\Repository;
 
 
-class ImageCompetitionRepository {
+use CGG\ConferenceBundle\Entity\ImageCompetition;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+
+class ImageCompetitionRepository extends EntityRepository
+{
+    protected $entityManager;
+
+    public function __construct(EntityManager $entityManager){
+        $this->entityManager = $entityManager;
+    }
+    public function findAllByIdConference($idConference){
+        $query = $this->entityManager->getRepository('CGGConferenceBundle:ImageCompetition')->createQueryBuilder('c')
+            ->where('c.conference_id = ' . $idConference)
+            ->getQuery();
+        return $query->getResult();
+    }
+    public function findByIdImage($idImage){
+        return $this->entityManager->find('CGGConferenceBundle:ImageCompetition', $idImage);
+    }
+    public function save(ImageCompetition $imageCompetition){
+        $this->entityManager->persist($imageCompetition);
+        $this->entityManager->flush();
+    }
 
 }

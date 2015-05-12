@@ -11,6 +11,10 @@
         {% stylesheets '@CGGConferenceBundle/Resources/public/css/*.css' filter="cssrewrite" output='css/stylesheets.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        {% javascripts '@CGGConferenceBundle/Resources/public/js/jquery.js' output='js/script.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </head>
     <body>
     {% if app.session.flashBag.has('success') %}
@@ -39,9 +43,10 @@
             {% block body %}{% endblock %}
         </div>
         <footer>
-            <p>CGG Comférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a></p>
+            <p>CGG Conférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a></p>
         </footer>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+
         {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}

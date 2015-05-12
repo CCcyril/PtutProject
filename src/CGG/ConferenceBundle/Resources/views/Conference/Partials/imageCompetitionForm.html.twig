@@ -1,33 +1,25 @@
-<h2>Demande de création d'une conférence</h2>
-{{ form_start(form, {'attr' : {novalidate: 'novalidate'}}) }}
-{{ form_errors(form) }}
-<div class="form-group">
-    {{ form_label(form.name, 'Nom de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
-    {{ form_errors(form.name) }}
-    {{ form_widget(form.name, { 'attr' : { 'class' : 'form-control'}}) }}
-</div>
-<div class="form-group">
-    {{ form_label(form.description, 'Description :', { 'attr' : { 'class' : 'control_label'}}) }}
-    {{ form_errors(form.description) }}
-    {{ form_widget(form.description, { 'attr' : { 'class' : 'form-control'}}) }}
-</div>
-<div class="form-group">
-    {{ form_label(form.startDate, 'Date de début de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
-    {{ form_errors(form.startDate) }}
-    {{ form_widget(form.startDate, { 'attr' : { 'class' : 'form-control'}}) }}
-</div>
-<div class="form-group">
-    {{ form_label(form.endDate, 'Date de fin de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
-    {{ form_errors(form.endDate) }}
-    {{ form_widget(form.endDate, { 'attr' : { 'class' : 'form-control'}}) }}
-</div>
-<div class="form-group">
-    {{ form_label(form.description, 'Description de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
-    {{ form_errors(form.description) }}
-    {{ form_widget(form.description, { 'attr' : { 'class' : 'form-control'}}) }}
-</div>
-<div class="form-group t_center">
-    {{  form_widget(form.send, {'attr':{'class' :'btn btn-primary'}}) }}
-    {{  form_rest(form) }}
-</div>
-{{ form_end(form) }}
+<h2>Ajout d'image à une compétition</h2>
+<form action="#" method="post" {{ form_enctype(form) }}>
+    {{ form_start(form, {'attr' : {novalidate: 'novalidate'}}) }}
+    {{ form_errors(form) }}
+    <div class="form-group">
+        {{ form_label(form.title, 'Titre de votre image :', { 'attr' : { 'class' : 'control_label'}}) }}
+        {{ form_errors(form.title) }}
+        {{ form_widget(form.title, { 'attr' : { 'class' : 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.description, 'Description :', { 'attr' : { 'class' : 'control_label'}}) }}
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description, { 'attr' : { 'class' : 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.file, 'image :', { 'attr' : { 'class' : 'control_label'}}) }}
+        {{ form_errors(form.file) }}
+        {{ form_widget(form.file, { 'attr' : { 'class' : 'form-control'}}) }}
+    </div>
+    <div class="form-group t_center">
+        {{  form_widget(form.send, {'attr':{'class' :'btn btn-primary'}}) }}
+        {{  form_rest(form) }}
+    </div>
+    {{ form_end(form) }}
+</form>

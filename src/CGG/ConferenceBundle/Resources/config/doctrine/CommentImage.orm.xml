@@ -3,17 +3,14 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="CGG\ConferenceBundle\Entity\ImageCompetition" table="cgg_imagecompetition" >
+    <entity name="CGG\ConferenceBundle\Entity\CommentImage" table="cgg_commentimage" >
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
-        <field name="description" type="string" length="255" />
-        <field name="path" type="string" length="255" />
-        <field name="title" type="string" length="25"/>
-        <field name="rating" type="integer"/>
+        <field name="comment" type="string" length="255" />
 
-        <many-to-one target-entity="Conference" field="conference_id">
-            <join-column name="conference_id" referenced-column-name="id" />
+        <many-to-one target-entity="ImageCompetition" field="image_id">
+            <join-column name="image_id" referenced-column-name="id" />
         </many-to-one>
     </entity>
 </doctrine-mapping>

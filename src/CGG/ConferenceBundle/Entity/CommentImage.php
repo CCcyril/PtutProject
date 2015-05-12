@@ -10,5 +10,27 @@ namespace CGG\ConferenceBundle\Entity;
 
 
 class CommentImage {
+    private $id;
+    private $comment;
+    private $image_id;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
 }

@@ -9,6 +9,23 @@
 namespace CGG\ConferenceBundle\Form;
 
 
-class ImageCompetitionType {
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 
+class ImageCompetitionType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('description', 'textarea')
+            ->add('file', 'file')
+            ->add('title', 'text')
+            ->add('send', 'submit')
+        ;
+    }
+
+    public function getName()
+    {
+        // TODO: Implement getName() method.
+    }
 }

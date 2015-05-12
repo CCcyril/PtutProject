@@ -13,8 +13,8 @@
                 <p>
                     Description
                 </p>
-                <a href="{{ path("cgg_conference_validConference",{"idConference":conference.id}) }}" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Valider</a>
-                <a href="{{ path("cgg_conference_declineConference",{"idConference":conference.id}) }}" class="btn btn-primary"><span class="glyphicon glyphicon-remove"></span> Décliner</a>
+                <a href="{{ path("cgg_conference_validConference",{"idConference":conference.id}) }}" class="btn btn-primary"><i class="fa fa-check"></i> Valider</a>
+                <a href="{{ path("cgg_conference_declineConference",{"idConference":conference.id}) }}" class="btn btn-primary"><i class="fa fa-times"></i> Décliner</a>
             </div>
         </div>
     {% endfor %}

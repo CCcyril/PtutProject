@@ -3,33 +3,17 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="CGG\ConferenceBundle\Entity\Conference" table="cgg_conference" >
+    <entity name="CGG\ConferenceBundle\Entity\ImageCompetition" table="cgg_imagecompetition" >
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
-        <field name="name" type="string" length="255" />
-        <field name="description" type="string" length="25" />
-        <field name="creationDate" type="string" length="255" />
-        <field name="startDate" type="string" length="255"/>
-        <field name="endDate" type="string" length="255"/>
-        <field name="status" type="string" length="255"/>
+        <field name="description" type="string" length="255" />
+        <field name="path" type="string" length="255" />
+        <field name="title" type="string" length="25"/>
+        <field name="rating" type="integer"/>
 
-        <one-to-one field="headband" target-entity="HeadBand">
-            <cascade><cascade-persist/></cascade>
-            <join-column name="headband_id" referenced-column-name="id"/>
-        </one-to-one>
-        <one-to-one field="menu" target-entity="Menu">
-            <cascade><cascade-persist/></cascade>
-            <join-column name="menu_id" referenced-column-name="id"/>
-        </one-to-one>
-        <one-to-one field="footer" target-entity="Footer">
-            <cascade><cascade-persist/></cascade>
-            <join-column name="footer_id" referenced-column-name="id"/>
-        </one-to-one>
-        <one-to-many target-entity="Page" mapped-by="page_conference_id" field="pages" >
-            <cascade>
-                <cascade-persist/>
-            </cascade>
-        </one-to-many>
+        <many-to-one target-entity="Conference" field="conference_id">
+            <join-column name="conference_id" referenced-column-name="id" />
+        </many-to-one>
     </entity>
 </doctrine-mapping>

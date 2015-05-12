@@ -24,6 +24,9 @@
                             Administration
                         </a>
                     {% endif %}
+                    <a href="{{ path('cgg_image_competition',{'idConference': conference.id}) }}" class="btn btn-primary">
+                        Accéder à la compétition d'image
+                    </a>
                 </div>
             </div>
         {% endfor %}
