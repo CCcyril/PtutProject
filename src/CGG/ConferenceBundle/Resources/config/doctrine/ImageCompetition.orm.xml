@@ -11,6 +11,7 @@
         <field name="path" type="string" length="255" />
         <field name="title" type="string" length="25"/>
         <field name="rating" type="integer"/>
+        <field name="nbComment" type="integer"/>
 
         <many-to-one target-entity="Conference" field="conference_id">
             <join-column name="conference_id" referenced-column-name="id" />

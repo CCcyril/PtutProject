@@ -21,7 +21,8 @@
                                 <span class="valueComment valueCommentModal"></span>
                                 <i class="fa fa-comments"></i>
                                 <form>
-                                    <div class="comments"></div>
+                                    <div class="comments">
+                                    </div>
                                     <input type="text" id="comment" class="form-control" placeholder="Ecrire un commentaire..."/>
                                     <button class="btn btn-primary" id="btncomment">Envoyer</button>
                                 </form>
@@ -51,12 +52,12 @@
             {% if( app.user ) %}
                 <button class="rating" data-id="{{ image.id }}"><span class="valueRating">{{ image.rating }}</span>
                 <i class="fa fa-heart"></i></button> |
-                <span class="valueComment">0</span>
+                <span class="valueComment">{{ image.nbComment }}</span>
                 <i class="fa fa-comments"></i>
             {% else %}
                 <span class="valueRating">{{ image.rating }}</span>
                 <i class="fa fa-heart"></i></button> |
-                <span class="valueComment">0</span>
+                <span class="valueComment">{{ image.nbComment }}</span>
                 <i class="fa fa-comments"></i>
             {% endif %}
         </p>
@@ -79,6 +80,7 @@
             data: data,
             dataType: 'html',
             success: function(html){
+
             }
         });
     });
@@ -102,20 +104,38 @@
                 $(".valueRatingModal").empty();
                 $(".valueRatingModal").append(json['rating']);
                 $(".ratingModal").attr("data-id", idImage);
-                /*TODO: Commentaire pas en dure*/
                 $(".valueComment").empty();
-                $(".valueComment").append('0');
+                $(".valueComment").append(json['nbComment']);
+                $(".comments").empty();
+                for(i=0 ; i<json['listComments'].length ; i++) {
+                    $(".comments").append("<p>"+json['listComments'][i]+"</p>");
+                }
             }
         });
     });
     $("#btncomment").on("click", function(){
         var comment = $("#comment").val();
         var idImage = $(".ratingModal").attr("data-id");
-        var nbcomment = parseInt($(".valueCommentModal").text());
+        var nombrecomment = parseInt($(".valueCommentModal").text());
+        nombrecomment = nombrecomment + 1;
         $(".comments").append("<p>"+comment+"</p>");
         $(".valueComment").empty();
-        $(".valueComment").append(nbcomment + 1);
+        $(".valueComment").append(nombrecomment);
         $("#comment").val("");
+        var url = "{{ path('cgg_image_competition_add_comment') }}";
+        data = [];
+        data.push({name: 'idImage', value: idImage});
+        data.push({name: 'comment', value: comment});
+        data.push({name: 'nbComment', value: nombrecomment});
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function(json){
+
+            }
+        });
         /* évite de refermer la box*/
         return false;
     });

@@ -75,7 +75,16 @@
     <route id="cgg_image_competition_add_image" path="/competition-image/ajouter-image/{idConference}">
         <default key="_controller">CGGConferenceBundle:ImageCompetition:addImage</default>
     </route>
+    <route id="cgg_image_competition_list_image" path="/gestion-des-images">
+        <default key="_controller">CGGConferenceBundle:ImageCompetition:listImagesCompetition</default>
+    </route>
+    <route id="cgg_image_competition_add_comment" path="/ajout-d-un-commentaire">
+        <default key="_controller">CGGConferenceBundle:ImageCompetition:addCommentaire</default>
+    </route>
 
+    <route id="cgg_image_competition_remove_image" path="/suppression-image">
+        <default key="_controller">CGGConferenceBundle:ImageCompetition:deleteImage</default>
+    </route>
 
     <route id="cgg_conference_list_user" path="/admin/gestion-utilisateurs">
         <default key="_controller">CGGConferenceBundle:User:listUser</default>

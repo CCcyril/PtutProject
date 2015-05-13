@@ -7,5 +7,4 @@ $(document).ready(function () {
     $(".container-edit-content").mouseleave(function(){
         $(this).find('input').hide();
     });
-
-})
+});
