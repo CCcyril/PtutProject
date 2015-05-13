@@ -112,6 +112,12 @@ $(document).ready(function(){
         $("#addPages").removeClass('hidden');
     });
 
+    /* Referme les nouvelles pages à la fermeture de la modale*/
+
+    $('#myModal').on('hidden.bs.modal', function(){
+        $("#addPages").addClass('hidden');
+    });
+
     $("#addInput").on('click', function(){
         var lastDiv = $("#addPages form div:last");
         lastDiv.after("<div class='form-group'>" + lastDiv.html() + "</div>");
@@ -126,10 +132,6 @@ $(document).ready(function(){
             $("#removeInput").addClass('disabled');
         }
         $("#addPages form div:last").remove();
-    });
-
-    $("#btnUpdateBackground").on('click', function(){
-        $("#updateBackground").removeClass('hidden');
     });
 
     $('.demo-auto').colorpicker();

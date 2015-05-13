@@ -23,22 +23,31 @@
     {% endif %}
         <div class="jumbotron header-home">
             <div class="container">
-                {% block headband %}
-                <div class="container-edit-content">
-                    <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
-                    {% block headbandTitle %}
-                        {{ headband.title}}
-                    {% endblock %}
+                <div class="row">
+                    <div class="col-md-4">
+                        {% image '@CGGConferenceBundle/Resources/public/images/ReimsImage2014.png'  output="images/ReimsImage2014.png" %}
+                        <img src="{{ asset_url }}"  alt="ReimsImage2014" class="img-responsive">
+                        {% endimage %}
+                    </div>
+                    <div class="col-md-8">
+                        {% block headband %}
+                        <div class="container-edit-content">
+                            <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
+                            {% block headbandTitle %}
+                                {{ headband.title}}
+                            {% endblock %}
+                        </div>
+                        <div class="container-edit-content">
+                            <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
+                            {% block headbandText %}
+                                {{ headband.text }}
+                            {% endblock %}
+                        </div>
+                        {% endblock %}
+                    </div>
                 </div>
-                <div class="container-edit-content">
-                    <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
-                    {% block headbandText %}
-                        {{ headband.text }}
-                    {% endblock %}
-                </div>
-                {% endblock %}
             </div>
-        </div>      
+        </div>
         <nav class="navbar navbar-inverse backgroundcolor">
             <div class="container">
                 <div class="navbar-header">

@@ -48,6 +48,9 @@ footer {
     color: #fff;
     width: 100%;
 }
+footer p{
+    font-size: 15px;
+}
 
 /* Fin footer */
 /* Signin */
@@ -91,3 +94,14 @@ footer {
     color: #fff;
     border: none;
 }
+/* Fin Menu */
+/* Admin */
+.reglage{
+    position: absolute;
+    top: 10px;
+    right: 0px;
+}
+.btn-add-pages{
+    margin: 20px 0px;
+}
+/* Fin Admin */
