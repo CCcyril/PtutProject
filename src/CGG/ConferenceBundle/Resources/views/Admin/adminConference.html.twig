@@ -14,7 +14,7 @@
     {% endblock %}
 {% endblock %}
 
-{% block menuItemTitle %}
+{#{% block menuItemTitle %}
     <button id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}" data-menuItemId="{{ menuItem.id }}" class="btn btn-primary">
         {{ parent() }}
     </button>
@@ -22,8 +22,35 @@
 
 {% block addMenuItem %}
     <li><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}"><i class="fa fa-plus-square"></i></a></li>
+{% endblock %}#}
+{% block menu %}
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            {% for menuItem in menuItemsTable %}
+                {% if menuItem.children is empty %}
+                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.menuItem.page.id }}"
+                        data-menuItemId="{{ menuItem.menuItem.id }}" class="btn">
+                        {{ menuItem.menuItem.title }}
+                    </li>
+                {% else %}
+                    <li>
+                        {{ menuItem.menuItem.title }}
+                    <ul>
+                        {% for menuItemChild in menuItem.children  %}
+                            <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.menuItem.page.id }}"
+                                data-menuItemId="{{ menuItem.menuItem.id }}" class="btn">
+                                {{ menuItemChild.title }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% block addMenuItem %}
+            {% endblock %}
+        </ul>
+    </div>
 {% endblock %}
-
 {% block contentText %}
     <div contenteditable="true" id="content{{ loop.index }}">
         {{ parent() }}
