@@ -51,6 +51,10 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="comments_image_competition_repository" class="CGG\ConferenceBundle\Repository\CommentImageRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
         <service id="twig.extension.text" class="Twig_Extensions_Extension_Text">
             <tag name="twig.extension"></tag>
         </service>

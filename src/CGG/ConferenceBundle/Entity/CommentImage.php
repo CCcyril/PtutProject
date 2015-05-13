@@ -33,4 +33,12 @@ class CommentImage {
     {
         $this->comment = $comment;
     }
+    public function getImageId()
+    {
+        return $this->image_id;
+    }
+    public function setImageId($image_id)
+    {
+        $this->image_id = $image_id;
+    }
 }

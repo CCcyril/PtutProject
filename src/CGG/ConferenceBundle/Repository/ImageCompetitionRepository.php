@@ -33,5 +33,13 @@ class ImageCompetitionRepository extends EntityRepository
         $this->entityManager->persist($imageCompetition);
         $this->entityManager->flush();
     }
+    public function findAll(){
+        $query = $this->entityManager->getRepository('CGGConferenceBundle:ImageCompetition')->createQueryBuilder('c')->getQuery();
+        return $query->getResult();
+    }
+    public function delete($imageCompetition){
+        $this->entityManager->remove($imageCompetition);
+        $this->entityManager->flush();
+    }
 
 }
