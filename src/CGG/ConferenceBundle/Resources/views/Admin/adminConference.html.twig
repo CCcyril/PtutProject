@@ -33,9 +33,9 @@
                         {{ menuItem.menuItem.title }}
                     </li>
                 {% else %}
-                    <li>
+                    <li class="btn">
                         {{ menuItem.menuItem.title }}
-                    <ul>
+                    <ul class="backgroundcolor">
                         {% for menuItemChild in menuItem.children  %}
                             <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.menuItem.page.id }}"
                                 data-menuItemId="{{ menuItem.menuItem.id }}" class="btn">

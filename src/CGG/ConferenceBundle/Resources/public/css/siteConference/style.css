@@ -93,6 +93,22 @@ footer p{
     background: transparent;
     color: #fff;
     border: none;
+    position: relative;
+}
+.navbar-inverse .btn ul{
+    position: absolute;
+    z-index: 9;
+    margin: 0;
+    top: 50px;
+    left: 0px;
+    padding: 0;
+    display: none;
+}
+.navbar-inverse .btn:hover ul{
+    display: block;
+}
+.navbar-inverse .btn ul li{
+    display: block;
 }
 /* Fin Menu */
 /* Admin */
