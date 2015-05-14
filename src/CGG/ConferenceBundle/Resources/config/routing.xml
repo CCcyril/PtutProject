@@ -118,4 +118,8 @@
         <option key="expose">true</option>
     </route>
 
+    <route id="cgg_conference_admin_save_setting" path="/conference/admin/enregistrement-reglage">
+        <default key="_controller">CGGConferenceBundle:Admin:saveSetting</default>
+        <option key="expose">true</option>
+    </route>
 </routes>

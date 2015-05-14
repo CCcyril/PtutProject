@@ -21,14 +21,16 @@ class Conference
     private $status;
     private $mainColor;
     private $secondaryColor;
+    private $emailContact;
 
     function __construct()
     {
         $this->creationDate = \date('r');
         $this->pages = new ArrayCollection();
         $this->setStatus('P');
-        $this->setSecondaryColor("#E84349");
-        $this->setMainColor("#2B1138");
+        $this->mainColor = "#2B1138";
+        $this->secondaryColor = "#E84349";
+        $this->emailContact = null;
     }
 
     public function getId()
@@ -166,6 +168,14 @@ class Conference
     public function setSecondaryColor($secondaryColor)
     {
         $this->secondaryColor = $secondaryColor;
+    }
+    public function getEmailContact()
+    {
+        return $this->emailContact;
+    }
+    public function setEmailContact($emailContact)
+    {
+        $this->emailContact = $emailContact;
     }
 
 }
