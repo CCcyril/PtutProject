@@ -134,5 +134,27 @@ $(document).ready(function(){
         $("#addPages form div:last").remove();
     });
 
-    $('.demo-auto').colorpicker();
+    $("#saveSetting").on('click', function(){
+        var idConference = $("#conference_id").attr("data-id");
+        var mainColor = $("#mainColor").val();
+        var secondaryColor = $("#secondaryColor").val();
+        var emailContact = $("#emailContact").val();
+        var url = Routing.generate('cgg_conference_admin_save_setting');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'idConference': idConference,
+                'mainColor': mainColor,
+                'secondaryColor': secondaryColor,
+                'emailContact': emailContact
+            },
+            dataType: "html",
+            success: function(){
+                $('#myModal').modal('hide');
+                window.location.reload(true);
+            }
+        });
+    });
+
 });

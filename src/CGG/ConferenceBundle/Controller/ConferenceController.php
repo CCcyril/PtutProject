@@ -56,15 +56,16 @@ class ConferenceController extends Controller
             $form->submit($request);
             if($form->isValid()){
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
+                $tokenStorage = $this->get('security.token_storage');
+                $user = $tokenStorage->getToken()->getUser();
 
+                $conference->setEmailContact($user->getEmail());
                 $this->get('conference_repository')->save($conference);
 
                 $aclProvider = $this->get('security.acl.provider');
                 $objectIdentity = ObjectIdentity::fromDomainObject($conference);
-                $acl = $aclProvider ->createAcl($objectIdentity);
 
-                $tokenStorage = $this->get('security.token_storage');
-                $user = $tokenStorage->getToken()->getUser();
+                $acl = $aclProvider ->createAcl($objectIdentity);
                 $securityIdentity = UserSecurityIdentity::fromAccount($user);
 
                 $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);

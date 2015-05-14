@@ -6,16 +6,18 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Réglage de votre site</h4>
             </div>
-            <div class="modal-body">
-                <div id="updateBackground">
-                    <h3>Couleur prinicpal de votre site</h3>
-                    <div id="mainColor" class="">
-                        <input class="form-control" type="text" id="mainColor" value="#2B1138"/>
-                    </div>
-                    <h3>Couleur secondaire de votre site</h3>
-                    <div id="secondaryColor" class="">
-                        <input class="form-control" type="text" id="secondaryColor" value="#E84349"/>
-                    </div>
+            <div class="modal-body" id="conference_id" data-id="{{ conference.id }}">
+                <h3>Couleur prinicpal de votre site</h3>
+                <div>
+                    <input class="form-control" type="text" id="mainColor" value="{{ conference.mainColor }}"/>
+                </div>
+                <h3>Couleur secondaire de votre site</h3>
+                <div>
+                    <input class="form-control" type="text" id="secondaryColor" value="{{ conference.secondaryColor }}"/>
+                </div>
+                <h3>Adresse email pour le formulaire de contact</h3>
+                <div>
+                    <input class="form-control" type="text" id="emailContact" value="{{ conference.emailContact }}"/>
                 </div>
                 <div class="btn-group btn-group-justified btn-add-pages">
                     <div class="btn-group"><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}" class="btn btn-primary">Ajouter une page</a></div>
@@ -40,7 +42,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">Enregister</button>
+                <button type="button" class="btn btn-primary" id="saveSetting">Enregister</button>
             </div>
         </div>
     </div>

@@ -12,6 +12,22 @@
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        {% block style %}
+            <style>
+                .backgroundcolor{
+                    background-color: {{ conference.mainColor }};
+                }
+                .color{
+                    color: {{ conference.mainColor }};
+                }
+                .active{
+                    background: {{ conference.secondaryColor }};
+                }
+                .navbar-inverse li:hover{
+                    background: {{ conference.secondaryColor }};
+                }
+            </style>
+        {% endblock style %}
     </head>
     <body>
     {% if app.session.flashBag.has('success') %}

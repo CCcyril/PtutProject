@@ -192,5 +192,24 @@ class AdminController extends Controller
 
         return $newPage;
     }
+
+    public function saveSettingAction(){
+        /* Recupère les datas de l'ajax */
+        $request = $this->container->get('request');
+        $idConference = $request->request->get('idConference');
+        $mainColor = $request->request->get('mainColor');
+        $secondaryColor = $request->request->get('secondaryColor');
+        $emailContact = $request->request->get('emailContact');
+
+        $conference = $this->get('conference_repository')->find($idConference);
+
+        $conference->setMainColor($mainColor);
+        $conference->setSecondaryColor($secondaryColor);
+        $conference->setEmailContact($emailContact);
+
+        $this->get('conference_repository')->save($conference);
+        $response = new Response();
+        return $response;
+    }
 }
 
