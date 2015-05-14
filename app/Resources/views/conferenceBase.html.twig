@@ -38,15 +38,26 @@
         </div>
     {% endif %}
         <div class="jumbotron header-home">
-            {% block headband %}
-                {% block headbandTitle %}
-                    {{ headband.title | raw}}
-                {% endblock %}
-                {% block headbandText %}
-                    {{ headband.text | raw }}
-                {% endblock %}
-            {% endblock %}
-        </div>      
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        {% image '@CGGConferenceBundle/Resources/public/images/ReimsImage2014.png'  output="images/ReimsImage2014.png" %}
+                        <img src="{{ asset_url }}"  alt="ReimsImage2014.png" class="img-responsive">
+                        {% endimage %}
+                    </div>
+                    <div class="col-md-8">
+                    {% block headband %}
+                        {% block headbandTitle %}
+                            {{ headband.title | raw}}
+                        {% endblock %}
+                        {% block headbandText %}
+                            {{ headband.text | raw }}
+                        {% endblock %}
+                    {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
         <nav class="navbar navbar-inverse backgroundcolor">
             <div class="container">
                 <div class="navbar-header">
