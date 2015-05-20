@@ -6,6 +6,7 @@ use CGG\ConferenceBundle\Entity\User;
 use CGG\ConferenceBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -51,7 +52,6 @@ class UserController extends Controller{
         /*TODO : trouver un moyen de ne pas avoir à marquer le nom du firewall en dur*/
         $firewall = 'security_admin';
         $sessionKeyRedirectUrlAfterLogin = '_security.'.$firewall.'.target_path';
-        var_dump($sessionKeyRedirectUrlAfterLogin);
         if($this->get('session')->has($sessionKeyRedirectUrlAfterLogin)){
             $url = $this->get('session')->get($sessionKeyRedirectUrlAfterLogin);
             $this->get('session')->remove($sessionKeyRedirectUrlAfterLogin);
@@ -60,5 +60,39 @@ class UserController extends Controller{
         }
 
         return $url;
+    }
+    /*TODO : liste user + changement role sur certaines conf (acl)*/
+
+    public function listUserAction(){
+        $users = $this->get('user_repository')->listUser();
+        $roles = $this->get('role_repository')->listRoles();
+        return $this->render('CGGConferenceBundle:User:listUser.html.twig', ['users'=>$users, 'roles'=>$roles]);
+
+    }
+
+    public function saveChangesRolesUsersAction(Request $request){
+
+        $userRepository = $this->get('user_repository');
+        $roleName = $request->request->get('roleName');
+        $username = $request->request->get('username');
+        $role = $this->get('role_repository')->findRoleByName($roleName);
+        $user = $userRepository->findUserByUsernameOrEmail($username);
+
+        $user->addRole($role);
+        $userRepository->save($user);
+
+        return $this->render('CGGConferenceBundle:Conference:home.html.twig');
+    }
+
+    public function removeRoleAction(Request $request){
+
+        $userRepository = $this->get('user_repository');
+        $user = $userRepository->findUserByUsernameOrEmail($request->request->get('username'));
+        $role = $this->get('role_repository')->findRoleByName($request->request->get('roleName'));
+        $user->removeRole($role);
+        $userRepository->save($user);
+
+        return new Response("OK");
+
     }
 }
