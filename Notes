@@ -1,123 +1,18 @@
-Remarques :
-detailConference :
--Plus explicite viewConference (route, action, vue "à changer")
-
-list :
--Plus explicite conferenceList (route, action, vue "à changer")
-
-listAction():
--a voir valid
-
--Regarder les relations parce que ça part dans tous les sens
-
-newConferenceList => conferenceListPending
-
-lié menu, footer, headband à la conf plutôt qu'une page.
-
-
--------------------------------------------------------------------------------------------------------------------------
-Fait :
-
--Remettre la BDD en ordre : doctrine:schema:validate est tout rouge :)
--Créer page par défaut des confs lors de la création d'une conf (ou faire le formulaire de création sous forme d'étape)
-
-conference_repository :
--findAllValid() -> findAllValidConference() => findAllConferenceByStatus($status)
--findAllProgress() => findAllPending()
-
---------------------------------------------------------------------------------------------------------------------------
-Fichiers ajoutés/supprimé
-
--ajout adminController
--ajout adminConference.twig
--ajout admin.js / js dans admin.twig pour le moment
--ajout de Role.php
--ajout de role.orm.xml
--ajout de ce fichier lololol
--suppression de conferenceUser.orm.xml
--ajout DefaultConferenceController
-
---------------------------------------------------------------------------------------------------------------------------
-Modifications :
-
-Page_repository:
--ajout de find pour detailConferenceAction()
-
-routing.xml:
--ajout idPage dans la route detail_conference (l'id de la conference permettait de voir la homepage mais problème si plusieurs page btw)
--ajout de la route admin_conference (/conference/admin/{idConference}/{idPage})
-
-listAction():
--ajout de la liste des pages aux conférences pour passer les id des pages dans la route des boutons accéder au site.
-
-registerAction():
--ajout de l'encodage des mdp
-
-User.php:
--ajout salt, username avec getter, setter
--ajout serializable, unserializable
--ajout de roles(array collection)
--ajout getRole(role user en dur pour le moment)
--ajout du constructeur
-
-user.orm.xml:
--ajout salt, username en base.
--Recréation car bug pour aller chercher les user en base à cause de repository-class. Fonctionne maintenant correctement.
--ajout d'une many-to-many avec role
-
-detailAction():
--appel de la vue detailConference plutot que base
-
-detailConference.twig:
--surround des différents block de la vue
-
-conferenceList.html.twig:
--Modif du path pour ajouter l'id de la page à la route
-
-routing.xml:
--liste-nouvelleS-conferences
-
-security.yml:
--Adaptation pour aller chercher les users en base avec les role associé. Connection faite avec le user name ou l'email
-
-
-conferenceBase.twig:
--Surround toutes les variables par des block car variables utilisées dans detailConference et adminConference mais class, id...
- différents dans ces deux vues.
-
-createConferenceAction():
--ajout des acl (à mettre autre part je pense)
--ajout de l'appel defaultConfController pour créer les pages par défaut de la conférence avant de la passer en base
-
-ConferenceType:
--ajout de la description
-
-conferenceBase:
--ajout du lien pour chaque bouton
-
-menuItem.orm:
--ajout d'une oneToOne pour la colonne menuitem_page_id
-
-MenuItem.php:
--ajout de page
--constructeur avec Page $page :
-        =>oblige à avoir une page associé au bouton
-        =>permet d'avoir facilement la route {idConference}/{idPage} dans le template : menuItem.page.id
-
-conference.orm:
-ajout menu, headband, footer
-
-conferenceRepository:
--ptits changements
-
-security:
--switch_user
--remember_me
-
-----------------------------------------------------------------------------------------------------------------------------------
 A faire:
 
 -validation/contraintes base
 -design site
 -competition images
--page admin
+-page admin à améliorer
+
+
+Page admin :
+-Bouton aller à
+-Bouton éditer
+-Bouton ajouter un sous menu
+-Bouton ajouter un bouton à améliorer (bouton avec sous-menu ...)
+-installer Ckeditor
+-Voir pour que le html en base sois interprété
+-Ajouter des zones de contenus / images
+-Ajouter background header
+-Couleur de la conférence

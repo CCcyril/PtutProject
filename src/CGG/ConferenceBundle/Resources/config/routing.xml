@@ -52,6 +52,7 @@
 
     <route id="cgg_conference_admin_saveChangesConference" path="/conference/admin/{idConference}/{idPage}/sauvegarder-les-changements">
         <default key="_controller">CGGConferenceBundle:Admin:saveChangesAdminConference</default>
+        <option key="expose">true</option>
     </route>
 
     <route id="cgg_conference_admin_addMenuItem" path="/conference/admin/{idConference}/addmenuitem ">
