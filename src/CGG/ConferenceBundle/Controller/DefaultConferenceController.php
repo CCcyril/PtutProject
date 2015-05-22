@@ -33,10 +33,10 @@ class DefaultConferenceController extends Controller {
 
         $footer->setText('CGG Comférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a>');
 
-        $homePage = $this->createDefaultHomePage($menu);
-        $presentationPage = $this->createDefaultPresentationPage($menu);
-        $informationPage = $this->createDefaultInformationPage($menu);
-        $contactPage = $this->createDefaultContactPage($menu);
+        $homePage = $this->createDefaultHomePageAction($menu);
+        $presentationPage = $this->createDefaultPresentationPageAction($menu);
+        $informationPage = $this->createDefaultInformationPageAction($menu);
+        $contactPage = $this->createDefaultContactPageAcion($menu);
 
         $conference->setHeadband($headBand);
         $conference->setMenu($menu);
@@ -49,12 +49,12 @@ class DefaultConferenceController extends Controller {
         return $conference;
     }
 
-    public function createDefaultHomePage(Menu $menu){
+    public function createDefaultHomePageAction(Menu $menu){
         $homePage = new Page();
         $menuItem = new MenuItem($homePage);
         $content = new Content();
 
-        $homePage->setIsHome('1');
+        $homePage->setHome('1');
         $homePage->setTitle('Accueil');
 
         $menuItem->setTitle($homePage->getTitle());
@@ -77,12 +77,12 @@ class DefaultConferenceController extends Controller {
         return $homePage;
     }
 
-    public function createDefaultPresentationPage(Menu $menu){
+    public function createDefaultPresentationPageAction(Menu $menu){
         $presentationPage = new Page();
         $menuItem = new MenuItem($presentationPage);
         $content = new Content();
 
-        $presentationPage->setIsHome('0');
+        $presentationPage->setHome('0');
         $presentationPage->setTitle('Présentation');
 
         $menuItem->setTitle($presentationPage->getTitle());
@@ -105,12 +105,12 @@ class DefaultConferenceController extends Controller {
         return $presentationPage;
     }
 
-    public function createDefaultInformationPage(Menu $menu){
+    public function createDefaultInformationPageAction(Menu $menu){
         $informationPage = new Page();
         $menuItem = new MenuItem($informationPage);
         $content = new Content();
 
-        $informationPage->setIsHome('0');
+        $informationPage->setHome('0');
         $informationPage->setTitle('Informations');
 
         $menuItem->setTitle($informationPage->getTitle());
@@ -133,12 +133,12 @@ class DefaultConferenceController extends Controller {
         return $informationPage;
     }
 
-    public function createDefaultContactPage(Menu $menu){
+    public function createDefaultContactPageAcion(Menu $menu){
         $contactPage = new Page();
         $menuItem = new MenuItem($contactPage);
         $content = new Content();
 
-        $contactPage->setIsHome('0');
+        $contactPage->setHome('0');
         $contactPage->setTitle('Contact');
 
         $menuItem->setTitle($contactPage->getTitle());

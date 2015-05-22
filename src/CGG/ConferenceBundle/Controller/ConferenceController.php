@@ -3,7 +3,7 @@
 namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\Conference;
-use CGG\ConferenceBundle\Form\ConferenceType;
+use CGG\ConferenceBundle\Form\Type\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -3,12 +3,11 @@
 namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\User;
-use CGG\ConferenceBundle\Form\UserType;
+use CGG\ConferenceBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class UserController extends Controller{
 
@@ -28,10 +27,10 @@ class UserController extends Controller{
                 $user->addRole($role);
                 $this->get('user_repository')->save($user);
                 /*TODO : A faire après la validation par mail?*/
-                $this->authenticateUser($user);
+                $this->authenticateUserAction($user);
                 $this->addFlash('success', 'WAHHHHHHHHHHHHHHHHHHHHHHHHOOOOOOUUUUUUUUU');
 
-                $url = $this->redirectUser();
+                $url = $this->redirectUserAction();
                 return $this->redirect($url);
             }
         }
@@ -42,13 +41,13 @@ class UserController extends Controller{
         return $this->render('CGGConferenceBundle:User:login.html.twig', array());
     }
 
-    public function authenticateUser(User $user){
+    public function authenticateUserAction(User $user){
         $providerKey = 'database_users';
         $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
         $this->get('security.context')->setToken($token);
     }
 
-    public function redirectUser(){
+    public function redirectUserAction(){
         /*TODO : trouver un moyen de ne pas avoir à marquer le nom du firewall en dur*/
         $firewall = 'security_admin';
         $sessionKeyRedirectUrlAfterLogin = '_security.'.$firewall.'.target_path';

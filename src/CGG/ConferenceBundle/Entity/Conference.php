@@ -107,7 +107,7 @@ class Conference
 
     public function getHomePage() {
         foreach ($this->pages as $page) {
-            if ($page->getIsHome() === '1') {
+            if ($page->isHome() === '1') {
                 return $page;
             }
         }
