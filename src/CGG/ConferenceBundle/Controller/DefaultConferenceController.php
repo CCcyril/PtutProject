@@ -36,7 +36,7 @@ class DefaultConferenceController extends Controller {
         $homePage = $this->createDefaultHomePageAction($menu);
         $presentationPage = $this->createDefaultPresentationPageAction($menu);
         $informationPage = $this->createDefaultInformationPageAction($menu);
-        $contactPage = $this->createDefaultContactPageAcion($menu);
+        $contactPage = $this->createDefaultContactPageAction($menu);
 
         $conference->setHeadband($headBand);
         $conference->setMenu($menu);
@@ -133,7 +133,7 @@ class DefaultConferenceController extends Controller {
         return $informationPage;
     }
 
-    public function createDefaultContactPageAcion(Menu $menu){
+    public function createDefaultContactPageAction(Menu $menu){
         $contactPage = new Page();
         $menuItem = new MenuItem($contactPage);
         $content = new Content();
