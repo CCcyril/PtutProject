@@ -2,9 +2,5 @@ cgg_conference:
     resource: "@CGGConferenceBundle/Resources/config/routing.xml"
     prefix:   /
 
-app:
-    resource: @AppBundle/Controller/
-    type:     annotation
-
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

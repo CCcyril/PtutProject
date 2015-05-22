@@ -109,4 +109,6 @@ class ConferenceController extends Controller
             return $this->render('CGGConferenceBundle:Conference:conferenceNotFound.html.twig', array());
         }
     }
+
 }
+
