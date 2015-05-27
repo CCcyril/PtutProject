@@ -1,5 +1,4 @@
 security:
-    # TODO : check : bcrypt plutôt que sha512 : symfony bonnes pratiques => empêche le rainbow table attack
     encoders:
         CGG\ConferenceBundle\Entity\User: bcrypt
 

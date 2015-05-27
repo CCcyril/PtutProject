@@ -66,7 +66,6 @@ class LoadUser implements FixtureInterface, ContainerAwareInterface {
         $jury->setPassword($encoded);
         $jury->addRole($roleJury);
         $entityManager->persist($jury);
-        /*TODO : check pourquoi ce user bug lors de la connexion (pas de role) (pas d'id dans la table role : jury 3 3 user 3 4*/
 
         $user2->setUsername('user2');
         $user2->setEmail('user2@user2.fr');

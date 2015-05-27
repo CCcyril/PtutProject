@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class UserController extends Controller{
 
     public function registerAction(Request $request){
-        /*TODO : Validation*/
         $role = $this->get('role_repository')->findRoleByName('user');
         $user = new User();
         $form = $this->createForm(New UserType(), $user);
@@ -26,7 +25,6 @@ class UserController extends Controller{
                 }
                 $user->addRole($role);
                 $this->get('user_repository')->save($user);
-                /*TODO : A faire après la validation par mail?*/
                 $this->authenticateUserAction($user);
                 $this->addFlash('success', 'WAHHHHHHHHHHHHHHHHHHHHHHHHOOOOOOUUUUUUUUU');
 

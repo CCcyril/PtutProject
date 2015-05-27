@@ -20,7 +20,6 @@ class ConferenceController extends Controller
 
     public function listAction() {
         $conferenceList = $this->get('conference_repository')->findAllConferenceByStatus('V');
-        /*TODO : refaire entité conference, ... ex : addPageId*/
         foreach($conferenceList as $conference){
             $pages = $this->get('page_repository')->findByConferenceId($conference->getId());
             foreach($pages as $page){
@@ -50,14 +49,12 @@ class ConferenceController extends Controller
     }
 
     public function createConferenceAction(Request $request){
-        /*TODO : Validation*/
         $conference = new Conference();
         $form = $this->createForm(New ConferenceType(), $conference);
 
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){
-                /*TODO : multi-step FORM ?*/
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
 
                 $this->get('conference_repository')->save($conference);
@@ -73,6 +70,8 @@ class ConferenceController extends Controller
                 $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
                 $aclProvider->updateAcl($acl);
 
+                $this->get('mail_admin_conference_created');
+
                 return $this->render('CGGConferenceBundle:Conference:conferenceCreated.html.twig');
             }
         }
@@ -81,33 +80,39 @@ class ConferenceController extends Controller
     }
 
     public function detailAction($idConference, $idPage){
-
         $conference = $this->get('conference_repository')->find($idConference);
-        /*TODO Check que la page appartient bien à la conférence sinon possible d'afficher les pages d'autres conférences.*/
-
-        $headBand = $conference->getHeadBand();
-
-        $menu = $conference->getMenu();
-
-        $idMenu = $menu->getId();
-
-        $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
-
-        $contents = $this->get('content_repository')->findByPageId($idPage);
-
-        $footer = $conference->getFooter();
 
         if ($conference !== NULL) {
-            return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
-                'conference' => $conference,
-                'headband' => $headBand,
-                'menuItems' => $menuItems,
-                'contents' => $contents,
-                'footer' => $footer
-            ));
-        } else {
+            if($this->get('check_if_page_belong_conference')->checkIfPageBelongConference($idConference, $idPage)){
+
+                $headBand = $conference->getHeadBand();
+
+                $menu = $conference->getMenu();
+
+                $idMenu = $menu->getId();
+
+                $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
+
+                $contents = $this->get('content_repository')->findByPageId($idPage);
+
+                $footer = $conference->getFooter();
+
+
+                return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
+                    'conference' => $conference,
+                    'headband' => $headBand,
+                    'menuItems' => $menuItems,
+                    'contents' => $contents,
+                    'footer' => $footer
+                ));
+            }else{
+                return $this->render('CGGConferenceBundle:Conference:conferenceNotFound.html.twig', array());
+            }
+        }
+        else {
             return $this->render('CGGConferenceBundle:Conference:conferenceNotFound.html.twig', array());
         }
+
     }
 
 }

@@ -53,43 +53,41 @@ class AdminController extends Controller
     }
 
     public function saveChangesAdminConferenceAction(Request $request, $idConference, $idPage){
-        /*TODO : ajouter if xhtmlrequest + verif*/
-        /*TODO : Une fonction ajax nommée pour chaque parties, un bouton par partie. Nommé les fonctions pour toutes les appeler si le bouton pour sauver tous les changements est cliqué*/
-        $conference = $this->get('conference_repository')->find($idConference);
-        $page = $this->get('page_repository')->find($idPage);
+        if($request->isXmlHttpRequest()){
+            $conference = $this->get('conference_repository')->find($idConference);
+            $page = $this->get('page_repository')->find($idPage);
 
-        /*TODO : Gérer les images*/
-        $headbandTitle = $request->request->get('headbandTitle');
-        $headbandText = $request->request->get('headbandText');
-        $headband = $conference->getHeadBand();
-        $headband->setTitle($headbandTitle);
-        $headband->setText($headbandText);
 
-        $menu = $conference->getMenu();
-        $menuItems = $this->get('menuItem_repository')->findByMenuId($menu->getId());
-        $numberIdMenuItem = 1;
-        foreach($menuItems as $menuItem){
-            $menuItemTitle = $request->request->get('menuItemTitle'.$numberIdMenuItem);
-            $menuItem->setTitle($menuItemTitle);
-            $numberIdMenuItem += 1;
+            $headbandTitle = $request->request->get('headbandTitle');
+            $headbandText = $request->request->get('headbandText');
+            $headband = $conference->getHeadBand();
+            $headband->setTitle($headbandTitle);
+            $headband->setText($headbandText);
+
+            $menu = $conference->getMenu();
+            $menuItems = $this->get('menuItem_repository')->findByMenuId($menu->getId());
+            $numberIdMenuItem = 1;
+            foreach($menuItems as $menuItem){
+                $menuItemTitle = $request->request->get('menuItemTitle'.$numberIdMenuItem);
+                $menuItem->setTitle($menuItemTitle);
+                $numberIdMenuItem += 1;
+            }
+
+            $contents = $this->get('content_repository')->findByPageId($idPage);
+            $numberIdContent = 1;
+            foreach($contents as $content){
+                $contentText = $request->request->get('content'.$numberIdContent);
+                $content->setText($contentText);
+                $numberIdContent += 1;
+            }
+
+            $footer = $conference->getFooter();
+            $footerText = $request->request->get('footerText');
+            $footer->setText($footerText);
+
+            $this->get('page_repository')->save($page);
+            $this->get('conference_repository')->save($conference);
         }
-
-        $contents = $this->get('content_repository')->findByPageId($idPage);
-        $numberIdContent = 1;
-        foreach($contents as $content){
-            $contentText = $request->request->get('content'.$numberIdContent);
-            $content->setText($contentText);
-            $numberIdContent += 1;
-        }
-
-        $footer = $conference->getFooter();
-        $footerText = $request->request->get('footerText');
-        $footer->setText($footerText);
-
-        $this->get('page_repository')->save($page);
-        $this->get('conference_repository')->save($conference);
-
-
     }
 
     public function addMenuItemAction($idConference){
@@ -98,7 +96,7 @@ class AdminController extends Controller
         $menu = $conference->getMenu();
         $newPage = new Page();
         $newPage->setTitle('test');
-        /*TODO : count select depth => maxdepth+1*/
+
         $newPage->setIsHome('0');
 
         $menuItem = new MenuItem($newPage);
