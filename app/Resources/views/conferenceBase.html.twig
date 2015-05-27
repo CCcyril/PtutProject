@@ -11,14 +11,19 @@
         {% stylesheets '@CGGConferenceBundle/Resources/public/css/siteConference/style.css' filter="cssrewrite" output='css/stylesheets.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
+        {% stylesheets '@CGGConferenceBundle/Resources/public/css/colorpicker/bootstrap-colorpicker.min.css' filter="cssrewrite" output='css/stylesheets.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
     </head>
     <body>
         <div class="jumbotron header-home">
-            {% block headbandTitle %}
-                {{ headband.title}}
-            {% endblock %}
-            {% block headbandText %}
-                {{ headband.text }}
+            {% block headband %}
+                {% block headbandTitle %}
+                    {{ headband.title}}
+                {% endblock %}
+                {% block headbandText %}
+                    {{ headband.text }}
+                {% endblock %}
             {% endblock %}
         </div>
         <nav class="navbar navbar-inverse">
@@ -85,6 +90,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
             {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
                 <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            {% javascripts '@CGGConferenceBundle/Resources/public/js/colorpicker/*.js' output='js/script.js' %}
+            <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
     </body>
