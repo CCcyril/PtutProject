@@ -2,51 +2,46 @@
 
 namespace CGG\ConferenceBundle\Controller;
 
-use CGG\ConferenceBundle\Entity\Conference;
-use CGG\ConferenceBundle\Entity\Content;
-use CGG\ConferenceBundle\Entity\Footer;
-use CGG\ConferenceBundle\Entity\HeadBand;
-use CGG\ConferenceBundle\Entity\Menu;
 use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
-use Proxies\__CG__\CGG\ConferenceBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
     public function adminAction($idConference, $idPage) {
 
         $conference = $this->get('conference_repository')->find($idConference);
-
-        $pages = $this->get('page_repository')->findByConferenceId($idConference);
-
-        foreach ($pages as $page) {
-            $conference->addPageId($page);
-        }
-
-        $headBand = $conference->getHeadBand();
-
-        $menu = $conference->getMenu();
-
-        $idMenu = $menu->getId();
-
-        $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
-
-        $contents = $this->get('content_repository')->findByPageId($idPage);
-
-        $footer = $conference->getFooter();
-
         if ($conference !== NULL) {
-            return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
-                'conference' => $conference,
-                'headband' => $headBand,
-                'menuItems' => $menuItems,
-                'contents' => $contents,
-                'footer' => $footer
-            ));
+            $pages = $this->get('page_repository')->findByConferenceId($idConference);
+            if($this->get('check_if_page_belong_conference')->checkIfPageBelongConference()){
+                foreach ($pages as $page) {
+                    $conference->addPageId($page);
+                }
+
+                $headBand = $conference->getHeadBand();
+
+                $menu = $conference->getMenu();
+
+                $idMenu = $menu->getId();
+
+                $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
+
+                $contents = $this->get('content_repository')->findByPageId($idPage);
+
+                $footer = $conference->getFooter();
+
+                return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
+                    'conference' => $conference,
+                    'headband' => $headBand,
+                    'menuItems' => $menuItems,
+                    'contents' => $contents,
+                    'footer' => $footer
+                ));
+            }else{
+                return $this->render('CGGConferenceBundle:Conference:pageNotFound.html.twig');
+            }
+
         } else {
             return $this->render('CGGConferenceBundle:Conference:conferenceNotFound.html.twig', array());
         }

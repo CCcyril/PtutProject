@@ -46,7 +46,6 @@ class UserController extends Controller{
     }
 
     public function redirectUserAction(){
-        /*TODO : trouver un moyen de ne pas avoir à marquer le nom du firewall en dur*/
         $firewall = 'security_admin';
         $sessionKeyRedirectUrlAfterLogin = '_security.'.$firewall.'.target_path';
         if($this->get('session')->has($sessionKeyRedirectUrlAfterLogin)){

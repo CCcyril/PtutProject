@@ -20,13 +20,14 @@ class CheckIfPageBelongConference {
         $idConference = $this->request->getCurrentRequest()->attributes->get('idConference');
         $idPage = $this->request->getCurrentRequest()->attributes->get('idPage');
         $pagesInConference = $this->pageRepository->findByConferenceId($idConference);
-
+        $pageBelongConference = false;
         foreach($pagesInConference as $page){
             if($page->getId() == $idPage){
-                return true;
+                $pageBelongConference = true;
             }
         }
 
+        return $pageBelongConference;
     }
 
 

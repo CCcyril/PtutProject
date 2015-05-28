@@ -83,7 +83,7 @@ class ConferenceController extends Controller
         $conference = $this->get('conference_repository')->find($idConference);
 
         if ($conference !== NULL) {
-            if($this->get('check_if_page_belong_conference')->checkIfPageBelongConference($idConference, $idPage)){
+            if($this->get('check_if_page_belong_conference')->checkIfPageBelongConference()){
 
                 $headBand = $conference->getHeadBand();
 
@@ -106,7 +106,7 @@ class ConferenceController extends Controller
                     'footer' => $footer
                 ));
             }else{
-                return $this->render('CGGConferenceBundle:Conference:conferenceNotFound.html.twig', array());
+                return $this->render('CGGConferenceBundle:Conference:pageNotFound.html.twig', array());
             }
         }
         else {
