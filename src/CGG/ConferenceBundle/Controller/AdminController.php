@@ -6,6 +6,7 @@ use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
@@ -92,7 +93,7 @@ class AdminController extends Controller
         $newPage = new Page();
         $newPage->setTitle('test');
 
-        $newPage->setIsHome('0');
+        $newPage->setHome('0');
 
         $menuItem = new MenuItem($newPage);
         $menuItem->setTitle($newPage->getTitle());
@@ -106,4 +107,21 @@ class AdminController extends Controller
 
         return $this->redirect($this->generateUrl('cgg_conference_adminConference', ['idPage'=>$newPage->getId(), 'idConference'=>$idConference]));
     }
+
+    public function saveChangeHeadbandAction(Request $request){
+        $idConference = $request->request->get('idConference');
+        $idPage = $request->request->get('idPage');
+        $headbandTitle = $request->request->get('headbandTitle');
+        $headbandText = $request->request->get('headbandText');
+
+        $conference = $this->get('conference_repository')->find($idConference);
+        $headband = $conference->getHeadband();
+        $headband->setTitle($headbandTitle);
+        $headband->setText($headbandText);
+
+        $this->get('headband_repository')->save($headband);
+        $this->addFlash('success', 'Changements effectués avec succccceeeeeyyyyyy');
+        return new Response('ok');
+    }
 }
+

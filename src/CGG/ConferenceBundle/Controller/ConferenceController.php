@@ -115,5 +115,15 @@ class ConferenceController extends Controller
 
     }
 
+    public function deleteConferenceAction($idConference){
+        $conferenceRepo = $this->get('conference_repository');
+        $conference = $conferenceRepo->find($idConference);
+        $conferenceRepo->removeConference($conference);
+
+        $this->addFlash('success', 'Conférence supprimée avec succès mgl!');
+
+        return $this->listAction();
+    }
+
 }
 

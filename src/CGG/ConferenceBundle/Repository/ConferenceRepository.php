@@ -30,4 +30,9 @@ class ConferenceRepository extends EntityRepository
         $this->entityManager->persist($conference);
         $this->entityManager->flush();
     }
+
+    public function removeConference(Conference $conference){
+        $this->entityManager->remove($conference);
+        $this->entityManager->flush();
+    }
 }

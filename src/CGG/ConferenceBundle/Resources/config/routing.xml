@@ -71,4 +71,13 @@
         <default key="_controller">CGGConferenceBundle:User:removeRole</default>
     </route>
 
+    <route id="cgg_conference_delete_conference" path="/admin/conference/supprimer-conference/{idConference}">
+        <requirement key="idConference">\d+</requirement>
+        <default key="_controller">CGGConferenceBundle:Conference:deleteConference</default>
+    </route>
+
+    <route id="cgg_conference_admin_saveChangeHeadband" path="/conference/admin/sauvegarder-les-changements-header">
+        <default key="_controller">CGGConferenceBundle:Admin:saveChangeHeadband</default>
+    </route>
+
 </routes>

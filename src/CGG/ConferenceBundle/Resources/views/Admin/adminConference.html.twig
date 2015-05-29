@@ -6,6 +6,7 @@
     </button>
     {% block headbandTitle %}
         <h1 contenteditable="true" id="headbandTitle">{{ parent() }}</h1>
+        <button id="saveChangeHeadband" class="btn btn-success">Sauvegarder Header</button>
     {% endblock %}
 
     {% block headbandText %}
@@ -51,7 +52,7 @@
         </a>
     </div>
 {% endblock %}
-{#TODO : intégrer le js dans admin.js (problème avec le routing => fosjsrouting)#}
+
 {% block javascript %}
     {{ parent() }}
     <script>
@@ -81,6 +82,28 @@
             });
 
             $('.demo-auto').colorpicker();
+
+            $("#saveChangeHeadband").on('click', function(){
+                var url="{{ path('cgg_conference_admin_saveChangeHeadband')}}";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        'idConference': $("#idConference").val(),
+                        'idPage': $("#idPage").val(),
+                        'headbandTitle': $("#headbandTitle").text(),
+                        'headbandText': $("#headbandText").text()
+                    },
+                    dataType: "html",
+                    success:function() {
+                        window.location.reload();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
         });
     </script>
 {% endblock %}

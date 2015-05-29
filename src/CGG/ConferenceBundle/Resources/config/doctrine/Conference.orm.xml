@@ -15,20 +15,30 @@
         <field name="status" type="string" length="255"/>
 
         <one-to-one field="headband" target-entity="HeadBand">
-            <cascade><cascade-persist/></cascade>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
             <join-column name="headband_id" referenced-column-name="id"/>
         </one-to-one>
         <one-to-one field="menu" target-entity="Menu">
-            <cascade><cascade-persist/></cascade>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
             <join-column name="menu_id" referenced-column-name="id"/>
         </one-to-one>
         <one-to-one field="footer" target-entity="Footer">
-            <cascade><cascade-persist/></cascade>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
             <join-column name="footer_id" referenced-column-name="id"/>
         </one-to-one>
         <one-to-many target-entity="Page" mapped-by="page_conference_id" field="pages" >
             <cascade>
                 <cascade-persist/>
+                <cascade-remove/>
             </cascade>
         </one-to-many>
     </entity>
