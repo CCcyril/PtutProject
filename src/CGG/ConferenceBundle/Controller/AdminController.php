@@ -134,15 +134,36 @@ class AdminController extends Controller
     public function saveChangeContentAction(Request $request){
         $idConference = $request->request->get('idConference');
         $idPage = $request->request->get('idPage');
-        $headbandTitle = $request->request->get('headbandTitle');
-        $headbandText = $request->request->get('headbandText');
+        $entity = $request->request->get('entity');
+        $content = $request->request->get('content');
+        $idContent = $request->request->get('idContent');
 
         $conference = $this->get('conference_repository')->find($idConference);
-        $headband = $conference->getHeadband();
-        $headband->setTitle($headbandTitle);
-        $headband->setText($headbandText);
 
-        $this->get('headband_repository')->save($headband);
+        switch ($entity) {
+            case 'headBandTitle':
+                $modifiedContent = $conference->getHeadband();
+                $modifiedContent->setTitle($content);
+                $repo = 'headband_repository';
+                break;
+            case 'headBandText':
+                $modifiedContent = $conference->getHeadband();
+                $modifiedContent->setText($content);
+                $repo = 'headband_repository';
+                break;
+            case 'contentText':
+                $modifiedContent = $this->get('content_repository')->find($idContent);
+                $modifiedContent->setText($content);
+                $repo = 'content_repository';
+                break;
+            case 'footerText':
+                $modifiedContent = $conference->getFooter();
+                $modifiedContent->setText($content);
+                $repo = 'footer_repository';
+                break;
+        }
+
+        $this->get($repo)->save($modifiedContent);
         $this->addFlash('success', 'Changements effectués avec succccceeeeeyyyyyy');
         return new Response('ok');
     }

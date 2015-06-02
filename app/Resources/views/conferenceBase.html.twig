@@ -24,10 +24,10 @@
         <div class="jumbotron header-home">
             {% block headband %}
                 {% block headbandTitle %}
-                    {{ headband.title}}
+                    {{ headband.title | raw}}
                 {% endblock %}
                 {% block headbandText %}
-                    {{ headband.text }}
+                    {{ headband.text | raw }}
                 {% endblock %}
             {% endblock %}
         </div>      
@@ -80,14 +80,14 @@
         <div class="container">
             {% for content in contents %}
                     {% block contentText %}
-                        {{ content.text }}
+                        {{ content.text | raw }}
                     {% endblock %}
             {% endfor %}
         </div>
         {% block body %}
         {% endblock %}
             {% block footerText %}
-                {{ footer.text }}
+                {{ footer.text | raw }}
             {% endblock %}
         {% block javascript %}
             {% javascripts

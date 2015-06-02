@@ -66,6 +66,10 @@ $(document).ready(function(){
 
         $('#entity').val($(this).attr('id'));
 
+        if (typeof $(this).parent().find('div:first').attr('id') !== 'undefined' && $(this).parent().find('div:first').attr('id').substring(0, 7) === 'content') {
+            $('#idContent').val($(this).parent().find('div:first').attr('id').replace('content', ''));
+        }
+
         $('#editModal').modal('show');
     });
 
@@ -79,13 +83,32 @@ $(document).ready(function(){
         var idConference = $("#idConference").val();
         var idPage = $("#idPage").val();
         var entity = $('#entity').val();
+        var idContent = $('#idContent').val();
 
-        alert(entity);
+        var url= Routing.generate('cgg_conference_admin_saveChangeContent');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'idConference': idConference,
+                'idPage': idPage,
+                'content': content,
+                'entity': entity,
+                'idContent': idContent
+            },
+            dataType: "html",
+            success:function() {
+                window.location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError + xhr.status);
+            }
+        });
+    });
 
-        /* TODO : ouvrir la modale => mettre le type d'entity dans l'input caché */
-        /* TODO : valider la modale => appeler en AJAX la foncion saveHeadBand en la mutualisant pour prendre tous les types d'entité */
-        /* TODO : En param on aura idPage, idConference, entity, content => switch sur entity puis update en base avec le content et les id */
-        /* TODO : mdr ale a + */
-    })
+    $('#editModal').on('bs.modal.hidden', function () {
+        $('iframe').find('body').html('<p></p>');
+        $('#idContent').val(0);
+    });
 
 });

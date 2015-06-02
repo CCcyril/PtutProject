@@ -96,6 +96,7 @@
 
     <route id="cgg_conference_admin_saveChangeContent" path="/conference/admin/sauvegarder-les-changements">
         <default key="_controller">CGGConferenceBundle:Admin:saveChangeContent</default>
+        <option key="expose">true</option>
     </route>
 
 </routes>
