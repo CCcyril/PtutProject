@@ -128,8 +128,14 @@ footer {
 /* Edition de conférence */
 
 .btn-edit-content {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
     position: absolute;
-    display: none;
+    background: white;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .container-edit-content {

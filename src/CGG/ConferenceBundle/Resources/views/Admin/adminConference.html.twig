@@ -5,12 +5,18 @@
         WTF
     </button>
     {% block headbandTitle %}
-        <h1 contenteditable="true" id="headbandTitle">{{ parent() }}</h1>
-        <button id="saveChangeHeadband" class="btn btn-success">Sauvegarder Header</button>
+        <div class="container-edit-content">
+            <i id="headBandTitle" class="btn-edit-content fa fa-pencil fa-2x"></i>
+            <h1 id="headbandTitle">{{ parent() }}</h1>
+            <button id="saveChangeHeadband" class="btn btn-success">Sauvegarder Header</button>
+        </div>
     {% endblock %}
 
     {% block headbandText %}
-        <span contenteditable="true" id="headbandText">{{ parent() }}</span>
+        <div class="container-edit-content">
+            <i id="headBandText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+            <span id="headbandText">{{ parent() }}</span>
+        </div>
     {% endblock %}
 {% endblock %}
 
@@ -25,13 +31,19 @@
 {% endblock %}
 
 {% block contentText %}
-    <div contenteditable="true" id="content{{ loop.index }}">
-        {{ parent() }}
+    <div class="container-edit-content">
+        <i id="contentText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+        <div id="content{{ loop.index }}">
+            {{ parent() }}
+        </div>
     </div>
 {% endblock %}
 
 {% block footerText %}
-    <p contenteditable="true" id="footerText">{{ parent() }}</p>
+    <footer class="container-edit-content">
+        <i id="footerText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+        <p id="footerText">{{ parent() }}</p>
+    </footer
 {% endblock %}
 
 {% block body %}
@@ -40,6 +52,7 @@
     <input type="hidden" id="idPage" value="{{ app.request.get('idPage') }}">
     <!-- fin inputs cachés -->
     {% include 'CGGConferenceBundle:Admin/Partials:headerModal.html.twig' %}
+    {% include 'CGGConferenceBundle:Admin/Partials:editModal.html.twig' %}
     <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
     <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
         <a href="" id="pagePath" class="btn btn-success">
@@ -56,13 +69,14 @@
 
 {% block javascript %}
     {{ parent() }}
-    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
+    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' '@CGGConferenceBundle/Resources/public/js/ckeditor/ckeditor.js' %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
     <script type='text/javascript' src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script>
         $(document).ready(function(){
+
             $("#btnAddPages").on('click', function(){
                 $("#addPages").removeClass('hidden');
             });
@@ -90,15 +104,14 @@
             $('.demo-auto').colorpicker();
 
             $("#saveChangeHeadband").on('click', function(){
-                var url="{{ path('cgg_conference_admin_saveChangeHeadband')}}";
+                var url="{{ path('cgg_conference_admin_saveChangeContent')}}";
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: {
                         'idConference': $("#idConference").val(),
                         'idPage': $("#idPage").val(),
-                        'headbandTitle': $("#headbandTitle").text(),
-                        'headbandText': $("#headbandText").text()
+                        'content': $("#headbandTitle").text(),
                     },
                     dataType: "html",
                     success:function() {

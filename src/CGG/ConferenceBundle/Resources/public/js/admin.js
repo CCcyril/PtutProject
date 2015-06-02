@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+    $('.btn-edit-content').hide();
+
     $("#saveChangesAdminConference").click(function () {
         var data = [];
         var url = Routing.generate('cgg_conference_admin_saveChangesConference', {'idConference':$("#idConference").val(), 'idPage':$("#idPage").val()});
@@ -52,10 +55,37 @@ $(document).ready(function(){
     }
 
     $(".container-edit-content").mouseover(function(){
-        $(this).find('input').show();
+        $(this).find('.btn-edit-content').show();
     });
 
     $(".container-edit-content").mouseleave(function(){
-        $(this).find('input').hide();
+        $(this).find('.btn-edit-content').hide();
     });
+
+    $('.btn-edit-content').on('click', function () {
+
+        $('#entity').val($(this).attr('id'));
+
+        $('#editModal').modal('show');
+    });
+
+    $('#editModalValidate').on('click', function (e) {
+        e.preventDefault();
+
+        for ( instance in CKEDITOR.instances )
+            CKEDITOR.instances[instance].updateElement();
+
+        var content = $('#cgg_conferencebundle_content_content').val();
+        var idConference = $("#idConference").val();
+        var idPage = $("#idPage").val();
+        var entity = $('#entity').val();
+
+        alert(entity);
+
+        /* TODO : ouvrir la modale => mettre le type d'entity dans l'input caché */
+        /* TODO : valider la modale => appeler en AJAX la foncion saveHeadBand en la mutualisant pour prendre tous les types d'entité */
+        /* TODO : En param on aura idPage, idConference, entity, content => switch sur entity puis update en base avec le content et les id */
+        /* TODO : mdr ale a + */
+    })
+
 });

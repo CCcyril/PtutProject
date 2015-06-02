@@ -23,18 +23,12 @@
     {% endif %}
         <div class="jumbotron header-home">
             {% block headband %}
-            <div class="container-edit-content">
-                <input type="button" data-type="headBandTitle" class="btn btn-success btn-edit-content" value="%">
                 {% block headbandTitle %}
                     {{ headband.title}}
                 {% endblock %}
-            </div>
-            <div class="container-edit-content">
-                <input type="button" data-type="headBandText" class="btn btn-success btn-edit-content" value="%">
                 {% block headbandText %}
                     {{ headband.text }}
                 {% endblock %}
-            </div>
             {% endblock %}
         </div>      
         <nav class="navbar navbar-inverse">
@@ -85,25 +79,20 @@
         </nav>
         <div class="container">
             {% for content in contents %}
-                <div class="container-edit-content">
-                    <input type="button" data-type="contentText" class="btn btn-success btn-edit-content" value="%">
                     {% block contentText %}
                         {{ content.text }}
                     {% endblock %}
-                </div>
             {% endfor %}
         </div>
         {% block body %}
         {% endblock %}
-        <footer class="container-edit-content">
-            <input type="button" data-type="footerText" class="btn btn-success btn-edit-content" value="%">
             {% block footerText %}
                 {{ footer.text }}
             {% endblock %}
-        </footer>
         {% block javascript %}
             {% javascripts
                 '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'
+                '@CGGConferenceBundle/Resources/public/js/jquery.js'
                 '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js'
                 output='js/script.js' %}
                 <script src="{{ asset_url }}"></script>

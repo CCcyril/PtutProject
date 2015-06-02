@@ -94,8 +94,8 @@
         <default key="_controller">CGGConferenceBundle:Conference:deleteConference</default>
     </route>
 
-    <route id="cgg_conference_admin_saveChangeHeadband" path="/conference/admin/sauvegarder-les-changements-header">
-        <default key="_controller">CGGConferenceBundle:Admin:saveChangeHeadband</default>
+    <route id="cgg_conference_admin_saveChangeContent" path="/conference/admin/sauvegarder-les-changements">
+        <default key="_controller">CGGConferenceBundle:Admin:saveChangeContent</default>
     </route>
 
 </routes>

@@ -9,6 +9,7 @@ use CGG\ConferenceBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use CGG\ConferenceBundle\Form\Type\ContentType;
 
 class AdminController extends Controller
 {
@@ -21,6 +22,8 @@ class AdminController extends Controller
                 foreach ($pages as $page) {
                     $conference->addPageId($page);
                 }
+
+                $form = $this->createForm(New ContentType());
 
                 $headBand = $conference->getHeadBand();
 
@@ -39,7 +42,8 @@ class AdminController extends Controller
                     'headband' => $headBand,
                     'menuItems' => $menuItems,
                     'contents' => $contents,
-                    'footer' => $footer
+                    'footer' => $footer,
+                    'form' => $form->createView()
                 ));
 
             }else{
@@ -127,7 +131,7 @@ class AdminController extends Controller
         return $this->redirect($this->generateUrl('cgg_conference_adminConference', ['idPage'=>$newPage->getId(), 'idConference'=>$idConference]));
     }
 
-    public function saveChangeHeadbandAction(Request $request){
+    public function saveChangeContentAction(Request $request){
         $idConference = $request->request->get('idConference');
         $idPage = $request->request->get('idPage');
         $headbandTitle = $request->request->get('headbandTitle');
