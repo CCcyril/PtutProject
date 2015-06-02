@@ -80,6 +80,22 @@ fieldset[disabled] .btn-primary.active {
     border-color: #49033e;
     clear: both;
 }
+.navbar-inverse li span{
+    padding: 15px 20px;
+    color: #9d9d9d;
+    display: block;
+    cursor: pointer;
+}
+.menu_level_1{
+    display: none;
+    position: absolute;
+    padding-left: 20px;
+    width: 270px;
+    list-style-type: none;
+}
+.navbar-inverse li span:hover{
+    color: #fff;
+ }
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover{
     background-color: #49033e;
 }
@@ -180,10 +196,41 @@ footer {
     padding: 10px;
     border-bottom: 1px solid #fff;
 }
+.delete{
+    border: 1px solid transparent;
+}
+.delete h3{
+    margin-top: 0px;
+}
+.delete .remove{
+    display: none;
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+}
+.delete:hover{
+    border: 1px solid #730a63;
+}
+.delete:hover .remove{
+    display: block;
+}
 @media(max-width: 767px){
     .modal-dialog {
         width: 98%;
         margin: 10px 1%;
+    }
+    .menu_level_1{
+        position: relative;
+        width: 100%;
+        margin-top: -15px;
+    }
+    .menu_level_1 li a{
+        color: #9d9d9d;
+        margin: 15px;
+        display: block;
+    }
+    .menu_level_1 li a:hover{
+        color: #fff;
     }
 }
 /* Fin compétition d'image */

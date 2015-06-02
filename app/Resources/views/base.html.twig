@@ -51,6 +51,18 @@
         output='js/script.js' %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
+        <script>
+            var openMenu = false;
+            $('.navbar-nav li span').click(function(){
+                if(openMenu === false){
+                    $(this).parent().children(".menu_level_1").slideDown(300);
+                    openMenu = true;
+                }else{
+                    $(this).parent().children(".menu_level_1").slideUp(300);
+                    openMenu = false;
+                }
+            });
+        </script>
         {% block js %}
         {% endblock %}
     </body>
