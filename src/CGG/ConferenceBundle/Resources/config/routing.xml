@@ -94,6 +94,10 @@
         <default key="_controller">CGGConferenceBundle:Conference:deleteConference</default>
     </route>
 
+    <route id="cgg_conference_admin_add_sub_item" path="/conference/admin/ajouter-un-sous-menu">
+        <default key="_controller">CGGConferenceBundle:Admin:addSubItem</default>
+        <option key="expose">true</option>
+    
     <route id="cgg_conference_admin_saveChangeContent" path="/conference/admin/sauvegarder-les-changements">
         <default key="_controller">CGGConferenceBundle:Admin:saveChangeContent</default>
         <option key="expose">true</option>
