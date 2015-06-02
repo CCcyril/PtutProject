@@ -16,6 +16,7 @@ $(document).ready(function(){
         data.push({name: 'headbandTitle', value: $('#headbandTitle').text()});
         data.push({name: 'headbandText', value: $('#headbandText').text()});
         data.push({name: 'footerText', value: $('#footerText').text()});
+
         $.ajax({
             type: "POST",
             url: url,
