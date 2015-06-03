@@ -4,13 +4,6 @@
     {% include 'CGGConferenceBundle:User/Partials:forgotYourPassword.html.twig' %}
     <form action="{{ path("cgg_conference_login_check") }}" method="POST" class="signin">
         <h2>Connexion</h2>
-        {% if errors is not empty %}
-            <div class="alert alert-danger">
-                {% for error in errors %}
-                    {{ error }}<br>
-                {% endfor %}
-            </div>
-        {% endif %}
         <div class="form-group">
             <label for="login">Email</label>
             <input type="text" name="_username" class="form-control"/>
