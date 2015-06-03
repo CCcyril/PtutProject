@@ -77,6 +77,8 @@ $(document).ready(function(){
             $('#idContent').val($(this).parent().find('div:first').attr('id').replace('content', ''));
         }
 
+        CKEDITOR.instances['cgg_conferencebundle_content_content'].setData($(this).parent().html().replace('<i id="' + $(this).attr('id') + '" class="btn-edit-content fa fa-pencil fa-2x"></i>', ''));
+
         $('#editModal').modal('show');
     });
 
@@ -165,4 +167,17 @@ $(document).ready(function(){
     });
 
     $('.demo-auto').colorpicker();
+
+    $.fn.modal.Constructor.prototype.enforceFocus = function () {
+        var $modalElement = this.$element;
+        $(document).on('focusin.modal', function (e) {
+            var $parent = $(e.target.parentNode);
+            if ($modalElement[0] !== e.target && !$modalElement.has(e.target).length
+                    // add whatever conditions you need here:
+                &&
+                !$parent.hasClass('cke_dialog_ui_input_select') && !$parent.hasClass('cke_dialog_ui_input_text')) {
+                $modalElement.focus()
+            }
+        })
+    };
 });

@@ -7,14 +7,14 @@
     {% block headbandTitle %}
         <div class="container-edit-content">
             <i id="headBandTitle" class="btn-edit-content fa fa-pencil fa-2x"></i>
-            <h1 id="headbandTitle">{{ parent() }}</h1>
+            <span id="headbandTitle2">{{ parent() }}</span>
         </div>
     {% endblock %}
 
     {% block headbandText %}
         <div class="container-edit-content">
             <i id="headBandText" class="btn-edit-content fa fa-pencil fa-2x"></i>
-            <span id="headbandText">{{ parent() }}</span>
+            <span id="headbandText2">{{ parent() }}</span>
         </div>
     {% endblock %}
 {% endblock %}
@@ -41,7 +41,7 @@
 {% block footerText %}
     <footer class="container-edit-content">
         <i id="footerText" class="btn-edit-content fa fa-pencil fa-2x"></i>
-        <p id="footerText">{{ parent() }}</p>
+        <span id="footerText2">{{ parent() }}</span>
     </footer
 {% endblock %}
 

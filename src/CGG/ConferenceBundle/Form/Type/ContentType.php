@@ -25,6 +25,22 @@ class ContentType extends AbstractType
                     array(
                         'name'  => 'basicstyles',
                         'items' => array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'),
+                    ),array(
+                        'name'  => 'styles',
+                        'items' => array('Styles', 'Format', 'Font', 'FontSize'),
+                    ),array(
+                        'name'  => 'colors',
+                        'items' => array('TextColor', 'BGColor'),
+                    ),array(
+                        'name'  => 'paragraph',
+                        'groups' => array('list', 'indent', 'blocks', 'align', 'bidi'),
+                        'items' => array('NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'),
+                    ),array(
+                        'name'  => 'links',
+                        'items' => array('Link', 'Unlink', 'Anchor'),
+                    ),array(
+                        'name'  => 'insert',
+                        'items' => array('Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'),
                     ),
                 ),
                 'uiColor' => '#cecece',
