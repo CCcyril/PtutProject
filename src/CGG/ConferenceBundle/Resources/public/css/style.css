@@ -148,6 +148,15 @@ footer {
     margin: auto;
     padding: 10px 0 30px 0;
 }
+.forgotyourpassword{
+    border: none;
+    background: transparent;
+    padding: 0;
+    color: #730a63;
+}
+.forgotyourpassword:hover{
+    color: #49033e;
+}
 /* Fin signin */
 
 /* Compétition d'image */
@@ -167,7 +176,7 @@ footer {
 .modal-body div h3{
     margin-top: 5px;
 }
-.modal-dialog {
+.modal-image-dialog {
     width: 80%;
 }
 .buttonComment button{

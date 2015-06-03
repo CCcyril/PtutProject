@@ -7,19 +7,23 @@
                 <h4 class="modal-title" id="myModalLabel">Réglage de votre site</h4>
             </div>
             <div class="modal-body" id="conference_id" data-id="{{ conference.id }}">
-                <h3>Couleur prinicpal de votre site</h3>
-                <div>
+                <div class="col-md-12">
+                    <h3>Couleur prinicpal de votre site</h3>
                     <input class="form-control" type="text" id="mainColor" value="{{ conference.mainColor }}"/>
                 </div>
-                <h3>Couleur secondaire de votre site</h3>
-                <div>
+                <div class="col-md-12">
+                    <h3>Couleur secondaire de votre site</h3>
                     <input class="form-control" type="text" id="secondaryColor" value="{{ conference.secondaryColor }}"/>
                 </div>
-                <h3>Adresse email pour le formulaire de contact</h3>
-                <div>
+                <div class="col-md-12">
+                    <h3>Adresse email pour le formulaire de contact</h3>
                     <input class="form-control" type="text" id="emailContact" value="{{ conference.emailContact }}"/>
                 </div>
-                <div class="btn-group btn-group-justified btn-add-pages">
+                <div class="col-md-12">
+                    <h3>Logo de votre site</h3>
+                    <input class="form-control" type="file"/>
+                </div>
+                <div class="btn-group col-md-12 btn-group-justified btn-add-pages">
                     <div class="btn-group"><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}" class="btn btn-primary">Ajouter une page</a></div>
                     <div class="btn-group"><button id="btnAddPages" class="btn btn-primary">Ajouter plusieurs pages</button></div>
                 </div>
@@ -39,10 +43,6 @@
                         <button id="removeInput" class="btn btn-default"><span>-</span></button>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" id="saveSetting">Enregister</button>
             </div>
         </div>
     </div>

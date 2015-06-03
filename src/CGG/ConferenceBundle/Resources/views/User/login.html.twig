@@ -1,6 +1,7 @@
 {% extends("::base.html.twig") %}
 
 {% block body %}
+    {% include 'CGGConferenceBundle:User/Partials:forgotYourPassword.html.twig' %}
     <form action="{{ path("cgg_conference_login_check") }}" method="POST" class="signin">
         <h2>Connexion</h2>
         <div class="form-group">
@@ -13,7 +14,10 @@
         </div>
         <hr/>
         <div class="form-group">
-            Remember me <input type="checkbox" name="_remember_me" />
+            Se souvenir de moi<input type="checkbox" name="_remember_me" />
+        </div>
+        <div class="form-group">
+            <button type="button" data-toggle="modal" data-target="#forgotYourPasswordModal" class="forgotyourpassword">Mot de passe oublié</button>
         </div>
         <div class="form-group">
             <a href="{{ path("cgg_conference_register") }}">Pas encore inscrit? Inscrivez-vous maintenant</a>

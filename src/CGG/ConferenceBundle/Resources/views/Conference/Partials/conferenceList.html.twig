@@ -15,21 +15,21 @@
                         Description, homePage : {{ conference.homePage.id }}
                     </p>
                     <a href="{{ path('cgg_conference_detailConference', {'idConference': conference.id, 'idPage': conference.homePage.id}) }}" target="_blank" class="btn btn-primary">
-                        Accéder au site
+                        <i class="fa fa-arrow-circle-o-right"></i> Accéder au site
                     </a>
                     <a href="#" class="btn btn-primary">Demander à participer</a>
                     {% if is_granted('EDIT', conference) %}
                         <a href="{{ path('cgg_conference_adminConference', {'idConference': conference.id, 'idPage': conference.homePage.id}) }}" class="btn btn-primary">
-                            Administration
+                            <i class="fa fa-cogs"></i> Administration
                         </a>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('cgg_conference_delete_conference', {'idConference': conference.id}) }}" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-trash"></span>Supprimer
+                            <i class="fa fa-times"></i> Supprimer
                         </a>
                     {% endif %}
                     <a href="{{ path('cgg_image_competition',{'idConference': conference.id}) }}" class="btn btn-primary">
-                        Accéder à la compétition d'image
+                        <i class="fa fa-picture-o"></i> Accéder à la compétition d'image
                     </a>
                 </div>
             </div>

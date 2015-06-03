@@ -72,6 +72,9 @@
             <argument type="service" id="templating"/>
             <call method="mailAdminConferenceCreated"/>
         </service>
+
+        <service id="generate_password" class="CGG\ConferenceBundle\Tools\GeneratePassword">
+        </service>
     </services>
 
 </container>

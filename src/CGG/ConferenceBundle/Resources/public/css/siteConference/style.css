@@ -39,6 +39,20 @@ h2{
 .jumbotron h1{
     margin-left: 20px;
 }
+.container-header{
+    margin: 20px 0;
+}
+#back-top{
+    position: fixed;
+    right: 20px;
+    bottom: 80px;
+    z-index: 9999;
+    cursor: pointer;
+    display: none;
+}
+#back-top i{
+    font-size: 45px;
+}
 /* Footer */
 footer {
     padding: 20px 0px;

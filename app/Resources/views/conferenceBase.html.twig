@@ -39,7 +39,7 @@
     {% endif %}
         <div class="jumbotron header-home">
             <div class="container">
-                <div class="row">
+                <div class="row container-header">
                     <div class="col-md-4">
                         {% image '@CGGConferenceBundle/Resources/public/images/ReimsImage2014.png'  output="images/ReimsImage2014.png" %}
                         <img src="{{ asset_url }}"  alt="ReimsImage2014.png" class="img-responsive">
@@ -70,62 +70,22 @@
                 </div>
                 {% block menu %}
                 {% endblock %}
-                {#<div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        {% for menuItem in menuItemsTable %}
-                            &#123;&#35;{% if menuItem.depth == 1 %}
-                                <li class="first
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        active
-                                    {% endif %}
-                                ">
-                            {% elseif menuItem.depth == menuItems|length %}
-                                <li class="last
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        active
-                                    {% endif %}
-                                ">
-                            {% else %}
-                                <li
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        class="active"
-                                    {% endif %}
-                                >
-                            {% endif %}&#35;&#125;
-                            {% if menuItem.children is empty %}
-                                <li>{{ menuItem.menuItem.title }}</li>
-                            {% else %}
-                                <li>{{ menuItem.menuItem.title }}
-                                <ul>
-                                    {% for menuItemChild in menuItem.children  %}
-                                        <li>{{ menuItemChild.title }}</li>
-                                    {% endfor %}
-                                </ul>
-                                </li>
-                            {% endif %}
-                            &#123;&#35;{% block menuItemTitle %}
-                                {{ menuItem.title }}
-                            {% endblock %}&#35;&#125;
-                        {% endfor %}
-                        {% block addMenuItem %}
-                        {% endblock %}
-                    </ul>
-
-                </div>#}
             </div>
         </nav>
+
+        <div id="back-top"><i class="fa fa-arrow-circle-up color"></i></div>
         <div class="container">
             {% for content in contents %}
-                    {% block contentText %}
-                        {{ content.text | raw }}
-                    {% endblock %}
+                {% block contentText %}
+                    {{ content.text | raw }}
+                {% endblock %}
             {% endfor %}
         </div>
         {% block body %}
         {% endblock %}
-            {% block footerText %}
-                {{ footer.text | raw }}
-            {% endblock %}
+        {% block footerText %}
+            {{ footer.text | raw }}
+        {% endblock %}
         {% block javascript %}
             {% javascripts
                 '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'
@@ -137,6 +97,25 @@
             {% javascripts '@CGGConferenceBundle/Resources/public/js/colorpicker/*.js' output='js/script.js' %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
+            <script>
+                $(document).ready(function(){
+                    var heightfooter = $("footer").height();
+                    heightfooter = heightfooter +60;
+                    $("body").css("margin-bottom",heightfooter+"px");
+                    /* Scroll top */
+                    $('#back-top').click(function () {
+                        $('body,html').animate({scrollTop:0}, 800);
+                        return false;
+                    });
+                    $(window).scroll(function(){
+                        if($(document).scrollTop() > 400){
+                            $("#back-top").fadeIn(500);
+                        }else{
+                            $("#back-top").fadeOut(400);
+                        }
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

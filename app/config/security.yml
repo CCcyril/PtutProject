@@ -35,6 +35,7 @@ security:
         - { path: ^/liste-nouvelle-conferences, roles: ROLE_ADMIN}
         - { path: ^/admin, roles: ROLE_ADMIN}
         - { path: ^/gestion-des-images, roles: ROLE_ADMIN}
+        - { path: ^/competition-image/ajouter-image, roles: ROLE_USER}
 
     acl:
        connection: default

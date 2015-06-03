@@ -11,6 +11,12 @@
     <route id="cgg_conference_register" path="/register">
         <default key="_controller">CGGConferenceBundle:User:register</default>
     </route>
+    <route id="cgg_conference_forgot_your_password" path="/mot-de-passe-oublie">
+        <default key="_controller">CGGConferenceBundle:User:forgotYourPassword</default>
+    </route>
+    <route id="cgg_conference_profil" path="/gestion-de-compte">
+        <default key="_controller">CGGConferenceBundle:User:profil</default>
+    </route>
 
     <route id="cgg_conference_login" path="/login">
         <default key="_controller">CGGConferenceBundle:User:login</default>
