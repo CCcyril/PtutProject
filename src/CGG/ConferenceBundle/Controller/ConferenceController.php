@@ -92,7 +92,20 @@ class ConferenceController extends Controller
 
                 $idMenu = $menu->getId();
 
-                $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
+                $menuItems = $this->get('menuitem_repository')->findByMenuIdOrderByDepth($idMenu);
+                $menuItemsTable = array();
+                foreach($menuItems as $menuItem){
+                    if($menuItem->getParent() == NULL){
+                        $menuItemsTable[$menuItem->getId()] = array();
+                        $menuItemsTable[$menuItem->getId()]['menuItem'] = $menuItem;
+                        $menuItemsTable[$menuItem->getId()]['children'] = array();
+                    }
+                }
+                foreach($menuItems as $menuItem){
+                    if($menuItem->getParent() !== NULL) {
+                        $menuItemsTable[$menuItem->getParent()]['children'][] = $menuItem;
+                    }
+                }
 
                 $contents = $this->get('content_repository')->findByPageId($idPage);
 
@@ -102,7 +115,7 @@ class ConferenceController extends Controller
                 return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
                     'conference' => $conference,
                     'headband' => $headBand,
-                    'menuItems' => $menuItems,
+                    'menuItemsTable' => $menuItemsTable,
                     'contents' => $contents,
                     'footer' => $footer
                 ));

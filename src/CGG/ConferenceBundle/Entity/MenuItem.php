@@ -55,7 +55,7 @@ class MenuItem
         $this->menuItem_menu = $menu;
     }
 
-    public function isParent(){
+    public function getParent(){
         return $this->idMenuItemParent;
     }
 

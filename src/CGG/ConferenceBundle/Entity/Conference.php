@@ -19,12 +19,16 @@ class Conference
     private $menu;
     private $footer;
     private $status;
+    private $mainColor;
+    private $secondaryColor;
 
     function __construct()
     {
         $this->creationDate = \date('r');
         $this->pages = new ArrayCollection();
         $this->setStatus('P');
+        $this->setSecondaryColor("#E84349");
+        $this->setMainColor("#2B1138");
     }
 
     public function getId()
@@ -147,4 +151,21 @@ class Conference
     public function setFooter(Footer $footer){
         $this->footer = $footer;
     }
+    public function getMainColor()
+    {
+        return $this->mainColor;
+    }
+    public function setMainColor($mainColor)
+    {
+        $this->mainColor = $mainColor;
+    }
+    public function getSecondaryColor()
+    {
+        return $this->secondaryColor;
+    }
+    public function setSecondaryColor($secondaryColor)
+    {
+        $this->secondaryColor = $secondaryColor;
+    }
+
 }
