@@ -108,8 +108,7 @@ class UserController extends Controller{
             $user->setPassword($encoder->encodePassword($plainPassword, $user->getSalt()));
             $user->eraseCredentials();
             $this->get('user_repository')->save($user);
-            $data = array('password' => $password);
-            /* TODO: envoyer email */
+            $this->get('mail_forgot_your_password')->mailAdminForgotYourPassword($password);
         }
         $response = new Response();
         $response->setContent(json_encode($data));
