@@ -1,11 +1,14 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
     $('.btn-edit-content').hide();
     $('.btn-delete-content').hide();
 
     $("#saveChangesAdminConference").click(function () {
         var data = [];
-        var url = Routing.generate('cgg_conference_admin_saveChangesConference', {'idConference':$("#idConference").val(), 'idPage':$("#idPage").val()});
+        var url = Routing.generate('cgg_conference_admin_saveChangesConference', {
+            'idConference': $("#idConference").val(),
+            'idPage': $("#idPage").val()
+        });
         var nbMenuItemTitle = $(".navbar-nav button").length;
         var nbContent = $(".container div").length;
         for (var i = 1; i <= nbMenuItemTitle; i++) {
@@ -23,8 +26,8 @@ $(document).ready(function(){
             url: url,
             data: data,
             dataType: 'html',
-            success: function(){
-              window.location.reload(true);
+            success: function () {
+                window.location.reload(true);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
@@ -33,71 +36,54 @@ $(document).ready(function(){
         });
     });
 
-    $('.navbar-nav li:not(:last-child)').on('click', function(event){
-        var itemId = event.target.id;
-        var offsets = $('#'+itemId).offset();
-        var top = offsets.top;
-        var left = offsets.left;
-        var pageId = $('#'+itemId).attr('data-pageId');
-        var url = Routing.generate('cgg_conference_adminConference', {'idConference':$("#idConference").val(), 'idPage':$("#"+itemId).attr('data-pageId')});
-        var menuItemId = $('#'+itemId).attr('data-menuItemId');
-        $('#menuItemOptions').css({'top':(top+50),'left':(left-100),'position':'absolute'}).fadeIn('slow');
-        $('#menuItemOptions').removeClass('hidden');
-        $("#pagePath").attr('href', url);
-        $("#editMenuItem").on('click', editMenuItem(itemId));
-        $("#addSubItem").attr('data-menuItemId', menuItemId);
-    })
-
-    function editMenuItem (idMenuItem){
-        $("#"+idMenuItem).attr('contenteditable', 'true');
-    };
-
-    $(".navbar-nav, #menuItemOptions").mouseleave(function(){
-       timer = setTimeout(hideMenuItemOptions, 300);
-    }).mouseenter(function(){
-       clearTimeout(timer);
+    $('#navbar li:not(:last-child)').on('click', function () {
+        var itemId = $(this).attr('id');
+        var idMenuItem = $('#' + itemId).attr('data-menuItemId');
+        $("#addSubItem").attr('data-menuItemId', idMenuItem);
+        $("#btnRemovePage").attr('data-menuItemId', idMenuItem);
     });
 
-    function hideMenuItemOptions(){
-        $("#menuItemOptions").hide();
-    }
-
-    $(".container-edit-content").mouseover(function(){
+    $(".container-edit-content").mouseover(function () {
         $(this).find('.btn-edit-content').show();
         $(this).find('.btn-delete-content').show();
     });
 
-    $(".container-edit-content").mouseleave(function(){
+    $(".container-edit-content").mouseleave(function () {
         $(this).find('.btn-edit-content').hide();
         $(this).find('.btn-delete-content').hide();
     });
 
-    $('.btn-edit-content').on('click', function () {
+    $("#addSubItem").on('click', function () {
+        var url = Routing.generate('cgg_conference_admin_add_sub_item');
+        Routing.generate('cgg_conference_admin_add_sub_item');
+        $('.btn-edit-content').on('click', function () {
 
-        $('#entity').val($(this).attr('id'));
+            $('#entity').val($(this).attr('id'));
 
-        if (typeof $(this).parent().find('div:first').attr('id') !== 'undefined' && $(this).parent().find('div:first').attr('id').substring(0, 7) === 'content') {
-            $('#idContent').val($(this).parent().find('div:first').attr('id').replace('content', ''));
-        }
+            if (typeof $(this).parent().find('div:first').attr('id') !== 'undefined' && $(this).parent().find('div:first').attr('id').substring(0, 7) === 'content') {
+                $('#idContent').val($(this).parent().find('div:first').attr('id').replace('content', ''));
+            }
 
-        CKEDITOR.instances['cgg_conferencebundle_content_content'].setData($(this).parent().html().replace('<i id="' + $(this).attr('id') + '" class="btn-edit-content fa fa-pencil fa-2x"></i>', ''));
+            CKEDITOR.instances['cgg_conferencebundle_content_content'].setData($(this).parent().html().replace('<i id="' + $(this).attr('id') + '" class="btn-edit-content fa fa-pencil fa-2x"></i>', ''));
 
-        $('#editModal').modal('show');
+            $('#editModal').modal('show');
+        });
     });
 
     $('#editModalValidate').on('click', function (e) {
         e.preventDefault();
 
-        for ( instance in CKEDITOR.instances )
+        for (instance in CKEDITOR.instances)
             CKEDITOR.instances[instance].updateElement();
 
         var content = $('#cgg_conferencebundle_content_content').val();
         var idConference = $("#idConference").val();
+        var idParent = $("#addSubItem").attr('data-menuItemId');
         var idPage = $("#idPage").val();
         var entity = $('#entity').val();
         var idContent = $('#idContent').val();
 
-        var url= Routing.generate('cgg_conference_admin_saveChangeContent');
+        var url = Routing.generate('cgg_conference_admin_saveChangeContent');
         $.ajax({
             type: "POST",
             url: url,
@@ -109,7 +95,7 @@ $(document).ready(function(){
                 'idContent': idContent
             },
             dataType: "html",
-            success:function() {
+            success: function () {
                 window.location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -124,13 +110,12 @@ $(document).ready(function(){
     });
 
 
-    $("#addSubItem").on('click', function(event){
+    $("#addSubItem").on('click', function (event) {
         var url = Routing.generate('cgg_conference_admin_add_sub_item');
         Routing.generate('cgg_conference_admin_add_sub_item');
         var idConference = $("#idConference").val();
         var itemId = event.target.id;
-        var idParent = $("#"+itemId).attr('data-menuItemId');
-        alert(url + ", " + idConference + ", " + idParent);
+        var idParent = $("#" + itemId).attr('data-menuItemId');
         $.ajax({
             type: "POST",
             url: url,
@@ -139,7 +124,7 @@ $(document).ready(function(){
                 'idParent': idParent
             },
             dataType: "html",
-            success: function(){
+            success: function () {
                 window.location.reload(true);
             }
         });
@@ -147,19 +132,11 @@ $(document).ready(function(){
 
     /* Referme les nouvelles pages à la fermeture de la modale*/
 
-    $('#myModal').on('hidden.bs.modal', function(){
+    $('#myModal').on('hidden.bs.modal', function () {
         $("#addPages").addClass('hidden');
     });
 
-    $("#removeInput").on('click', function(){
-        var countInput = $("#addPages form div").length;
-        if(countInput === 3){
-            $("#removeInput").addClass('disabled');
-        }
-        $("#addPages form div:last").remove();
-    });
-
-    $("#saveSetting").on('click', function(){
+    $("#saveSetting").on('click', function () {
         var idConference = $("#conference_id").attr("data-id");
         var mainColor = $("#mainColor").val();
         var secondaryColor = $("#secondaryColor").val();
@@ -175,7 +152,7 @@ $(document).ready(function(){
                 'emailContact': emailContact
             },
             dataType: "html",
-            success: function(){
+            success: function () {
                 $('#myModal').modal('hide');
                 window.location.reload(true);
             }
@@ -190,8 +167,7 @@ $(document).ready(function(){
             var $parent = $(e.target.parentNode);
             if ($modalElement[0] !== e.target && !$modalElement.has(e.target).length
                     // add whatever conditions you need here:
-                &&
-                !$parent.hasClass('cke_dialog_ui_input_select') && !$parent.hasClass('cke_dialog_ui_input_text')) {
+                && !$parent.hasClass('cke_dialog_ui_input_select') && !$parent.hasClass('cke_dialog_ui_input_text')) {
                 $modalElement.focus()
             }
         })
@@ -199,7 +175,7 @@ $(document).ready(function(){
 
     $('#addContentButton').on('click', function () {
         var idPage = $("#idPage").val();
-        var url= Routing.generate('cgg_conference_admin_addContent');
+        var url = Routing.generate('cgg_conference_admin_addContent');
         $.ajax({
             type: "POST",
             url: url,
@@ -207,7 +183,7 @@ $(document).ready(function(){
                 'idPage': idPage
             },
             dataType: "html",
-            success:function() {
+            success: function () {
                 window.location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -215,11 +191,11 @@ $(document).ready(function(){
             }
         });
 
-    })
+    });
 
     $('.btn-delete-content').on('click', function () {
         var idContent = $(this).attr('id').replace('deleteContent', '');
-        var url= Routing.generate('cgg_conference_admin_deleteContent');
+        var url = Routing.generate('cgg_conference_admin_deleteContent');
         $.ajax({
             type: "POST",
             url: url,
@@ -227,7 +203,7 @@ $(document).ready(function(){
                 'idContent': idContent
             },
             dataType: "html",
-            success:function() {
+            success: function () {
                 window.location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -235,6 +211,25 @@ $(document).ready(function(){
             }
         });
 
-    })
+    });
+
+
+    $("#btnRemovePage").on('click', function () {
+        var url = Routing.generate('cgg_conference_admin_remove_page');
+        var idPage = $("#idPage").val();
+        var idMenuItem = $("#btnRemovePage").attr('data-menuItemId');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'idPage': idPage,
+                'idMenuItem': idMenuItem
+            },
+            dataType: "html",
+            success: function () {
+                window.location.reload(true);
+            }
+        });
+    });
 
 });
