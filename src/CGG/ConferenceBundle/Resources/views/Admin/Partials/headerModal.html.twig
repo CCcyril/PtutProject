@@ -4,24 +4,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Réglage de votre site</h4>
             </div>
-            <div class="modal-body">
-                <div class="btn-group btn-group-justified">
-                    <div class="btn-group"><button id="btnUpdateBackground" class="btn btn-primary">Modifier le fond</button></div>
+            <div class="modal-body" id="conference_id" data-id="{{ conference.id }}">
+                <div class="col-md-12">
+                    <h3>Couleur prinicpal de votre site</h3>
+                    <input class="form-control" type="text" id="mainColor" value="{{ conference.mainColor }}"/>
+                </div>
+                <div class="col-md-12">
+                    <h3>Couleur secondaire de votre site</h3>
+                    <input class="form-control" type="text" id="secondaryColor" value="{{ conference.secondaryColor }}"/>
+                </div>
+                <div class="col-md-12">
+                    <h3>Adresse email pour le formulaire de contact</h3>
+                    <input class="form-control" type="text" id="emailContact" value="{{ conference.emailContact }}"/>
+                </div>
+                <div class="col-md-12">
+                    <h3>Logo de votre site</h3>
+                    <input class="form-control" type="file"/>
+                </div>
+                <div class="btn-group col-md-12 btn-group-justified btn-add-pages">
                     <div class="btn-group"><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}" class="btn btn-primary">Ajouter une page</a></div>
                     <div class="btn-group"><button id="btnAddPages" class="btn btn-primary">Ajouter plusieurs pages</button></div>
                 </div>
-                <div id="updateBackground" class="hidden">
-                    <div id="updateBackgroundColor" class="input-group colorpicker-component demo demo-auto colorpicker-element ">
-                        <input class="form-control" type="text" value="#00AABB"/>
-                        <span class="input-group-addon"><i style="background-color: rgb(0, 170, 187);"></i></span>
-                    </div>
-                    <div id="updateBackgroundImage">
-                        <input class="file-caption" type="file"/>
-                    </div>
-                </div>
-
                 <div id="addPages" class="hidden">
                     <form action="">
                         <div class="form-group">
@@ -38,10 +43,6 @@
                         <button id="removeInput" class="btn btn-default"><span>-</span></button>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

@@ -56,15 +56,16 @@ class ConferenceController extends Controller
             $form->submit($request);
             if($form->isValid()){
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
+                $tokenStorage = $this->get('security.token_storage');
+                $user = $tokenStorage->getToken()->getUser();
 
+                $conference->setEmailContact($user->getEmail());
                 $this->get('conference_repository')->save($conference);
 
                 $aclProvider = $this->get('security.acl.provider');
                 $objectIdentity = ObjectIdentity::fromDomainObject($conference);
-                $acl = $aclProvider ->createAcl($objectIdentity);
 
-                $tokenStorage = $this->get('security.token_storage');
-                $user = $tokenStorage->getToken()->getUser();
+                $acl = $aclProvider ->createAcl($objectIdentity);
                 $securityIdentity = UserSecurityIdentity::fromAccount($user);
 
                 $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
@@ -92,6 +93,20 @@ class ConferenceController extends Controller
 
                 $idMenu = $menu->getId();
 
+                $menuItems = $this->get('menuitem_repository')->findByMenuIdOrderByDepth($idMenu);
+                $menuItemsTable = array();
+                foreach($menuItems as $menuItem){
+                    if($menuItem->getParent() == NULL){
+                        $menuItemsTable[$menuItem->getId()] = array();
+                        $menuItemsTable[$menuItem->getId()]['menuItem'] = $menuItem;
+                        $menuItemsTable[$menuItem->getId()]['children'] = array();
+                    }
+                }
+                foreach($menuItems as $menuItem){
+                    if($menuItem->getParent() !== NULL) {
+                        $menuItemsTable[$menuItem->getParent()]['children'][] = $menuItem;
+                    }
+                }
                 $menuItems = $this->get('menuItem_repository')->findByMenuIdOrderByDepth($idMenu);
 
                 $contents = $this->get('content_repository')->findByPageId($idPage);
@@ -102,7 +117,7 @@ class ConferenceController extends Controller
                 return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
                     'conference' => $conference,
                     'headband' => $headBand,
-                    'menuItems' => $menuItems,
+                    'menuItemsTable' => $menuItemsTable,
                     'contents' => $contents,
                     'footer' => $footer
                 ));

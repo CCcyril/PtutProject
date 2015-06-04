@@ -19,12 +19,18 @@ class Conference
     private $menu;
     private $footer;
     private $status;
+    private $mainColor;
+    private $secondaryColor;
+    private $emailContact;
 
     function __construct()
     {
         $this->creationDate = \date('r');
         $this->pages = new ArrayCollection();
         $this->setStatus('P');
+        $this->mainColor = "#2B1138";
+        $this->secondaryColor = "#E84349";
+        $this->emailContact = null;
     }
 
     public function getId()
@@ -147,4 +153,29 @@ class Conference
     public function setFooter(Footer $footer){
         $this->footer = $footer;
     }
+    public function getMainColor()
+    {
+        return $this->mainColor;
+    }
+    public function setMainColor($mainColor)
+    {
+        $this->mainColor = $mainColor;
+    }
+    public function getSecondaryColor()
+    {
+        return $this->secondaryColor;
+    }
+    public function setSecondaryColor($secondaryColor)
+    {
+        $this->secondaryColor = $secondaryColor;
+    }
+    public function getEmailContact()
+    {
+        return $this->emailContact;
+    }
+    public function setEmailContact($emailContact)
+    {
+        $this->emailContact = $emailContact;
+    }
+
 }

@@ -12,6 +12,22 @@
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        {% block style %}
+            <style>
+                .backgroundcolor{
+                    background-color: {{ conference.mainColor }};
+                }
+                .color{
+                    color: {{ conference.mainColor }};
+                }
+                .active{
+                    background: {{ conference.secondaryColor }};
+                }
+                .navbar-inverse li:hover{
+                    background: {{ conference.secondaryColor }};
+                }
+            </style>
+        {% endblock style %}
     </head>
     <body>
     {% if app.session.flashBag.has('success') %}
@@ -22,75 +38,56 @@
         </div>
     {% endif %}
         <div class="jumbotron header-home">
-            {% block headband %}
-                {% block headbandTitle %}
-                    {{ headband.title | raw}}
-                {% endblock %}
-                {% block headbandText %}
-                    {{ headband.text | raw }}
-                {% endblock %}
-            {% endblock %}
-        </div>      
+            <div class="container">
+                <div class="row container-header">
+                    <div class="col-md-4">
+                        {% image '@CGGConferenceBundle/Resources/public/images/ReimsImage2014.png'  output="images/ReimsImage2014.png" %}
+                        <img src="{{ asset_url }}"  alt="ReimsImage2014.png" class="img-responsive">
+                        {% endimage %}
+                    </div>
+                    <div class="col-md-8">
+                    {% block headband %}
+                        {% block headbandTitle %}
+                            {{ headband.title | raw}}
+                        {% endblock %}
+                        {% block headbandText %}
+                            {{ headband.text | raw }}
+                        {% endblock %}
+                    {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
         <nav class="navbar navbar-inverse backgroundcolor">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
-                        {% for menuItem in menuItems %}
+                        {% for menuItem in menuItemsTable %}
                             <span class="icon-bar"></span>
                         {% endfor %}
                     </button>
                 </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        {% for menuItem in menuItems %}
-                            {% if menuItem.depth == 1 %}
-                                <li class="first
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        active
-                                    {% endif %}
-                                ">
-                            {% elseif menuItem.depth == menuItems|length %}
-                                <li class="last
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        active
-                                    {% endif %}
-                                ">
-                            {% else %}
-                                <li
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        class="active"
-                                    {% endif %}
-                                >
-                            {% endif %}
-
-                            {% block menuItemTitle %}
-                                {{ menuItem.title }}
-                            {% endblock %}
-
-                            </li>
-                        {% endfor %}
-                        {% block addMenuItem %}
-                        {% endblock %}
-                    </ul>
-
-                </div>
+                {% block menu %}
+                {% endblock %}
             </div>
         </nav>
+
+        <div id="back-top"><i class="fa fa-arrow-circle-up color"></i></div>
         <div class="container">
             {% for content in contents %}
-                    {% block contentText %}
-                        {{ content.text | raw }}
-                    {% endblock %}
+                {% block contentText %}
+                    {{ content.text | raw }}
+                {% endblock %}
             {% endfor %}
             {% block addContent %}
             {% endblock %}
         </div>
         {% block body %}
         {% endblock %}
-            {% block footerText %}
-                {{ footer.text | raw }}
-            {% endblock %}
+        {% block footerText %}
+            {{ footer.text | raw }}
+        {% endblock %}
         {% block javascript %}
             {% javascripts
                 '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'
@@ -102,6 +99,25 @@
             {% javascripts '@CGGConferenceBundle/Resources/public/js/colorpicker/*.js' output='js/script.js' %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
+            <script>
+                $(document).ready(function(){
+                    var heightfooter = $("footer").height();
+                    heightfooter = heightfooter +60;
+                    $("body").css("margin-bottom",heightfooter+"px");
+                    /* Scroll top */
+                    $('#back-top').click(function () {
+                        $('body,html').animate({scrollTop:0}, 800);
+                        return false;
+                    });
+                    $(window).scroll(function(){
+                        if($(document).scrollTop() > 400){
+                            $("#back-top").fadeIn(500);
+                        }else{
+                            $("#back-top").fadeOut(400);
+                        }
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

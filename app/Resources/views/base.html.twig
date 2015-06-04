@@ -31,6 +31,7 @@
             {% endimage %}
             <div class="log">
                 {% if app.user %}
+                    <a href="{{ path("cgg_conference_profil") }}"><i class="fa fa-cogs"></i> Gestion du compte</a>
                     <a href="{{ path("cgg_conference_logout") }}"> Déconnexion</a>
                 {% else %}
                     <a href="{{ path("cgg_conference_login") }}"> Connexion</a>

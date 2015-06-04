@@ -39,6 +39,20 @@ h2{
 .jumbotron h1{
     margin-left: 20px;
 }
+.container-header{
+    margin: 20px 0;
+}
+#back-top{
+    position: fixed;
+    right: 20px;
+    bottom: 80px;
+    z-index: 9999;
+    cursor: pointer;
+    display: none;
+}
+#back-top i{
+    font-size: 45px;
+}
 /* Footer */
 footer {
     padding: 20px 0px;
@@ -47,6 +61,9 @@ footer {
     bottom: 0;
     color: #fff;
     width: 100%;
+}
+footer p{
+    font-size: 15px;
 }
 
 /* Fin footer */
@@ -111,4 +128,32 @@ footer {
     background: transparent;
     color: #fff;
     border: none;
+    position: relative;
 }
+
+.navbar-inverse .btn ul{
+    position: absolute;
+    z-index: 9;
+    margin: 0;
+    top: 50px;
+    left: 0px;
+    padding: 0;
+    display: none;
+}
+.navbar-inverse .btn:hover ul{
+    display: block;
+}
+.navbar-inverse .btn ul li{
+    display: block;
+}
+/* Fin Menu */
+/* Admin */
+.reglage{
+    position: absolute;
+    top: 10px;
+    right: 0px;
+}
+.btn-add-pages{
+    margin: 20px 0px;
+}
+/* Fin Admin */

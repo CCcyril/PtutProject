@@ -13,6 +13,9 @@
         <field name="startDate" type="string" length="255"/>
         <field name="endDate" type="string" length="255"/>
         <field name="status" type="string" length="255"/>
+        <field name="mainColor" type="string" length="255"/>
+        <field name="secondaryColor" type="string" length="255"/>
+        <field name="emailContact" type="string" length="255"/>
 
         <one-to-one field="headband" target-entity="HeadBand">
             <cascade>

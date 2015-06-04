@@ -91,4 +91,30 @@ class UserController extends Controller{
         return new Response("OK");
 
     }
+
+    public function forgotYourPasswordAction(){
+        $request = $this->container->get('request');
+        $email = $request->request->get('email');
+
+        $user = $this->get('user_repository')->findUserByUsernameOrEmail($email);
+        if($user == null){
+            $data = array('emailValid' => false);
+        }else{
+            $data = array('emailValid' => true);
+            $password = $this->get('generate_password')->genererMDP();
+            $user->setPlainPassword($password);
+            $plainPassword = $user->getPlainPassword();
+            $encoder = $this->get('security.encoder_factory')->getEncoder($user);
+            $user->setPassword($encoder->encodePassword($plainPassword, $user->getSalt()));
+            $user->eraseCredentials();
+            $this->get('user_repository')->save($user);
+            $this->get('mail_forgot_your_password')->mailAdminForgotYourPassword($password);
+        }
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        return $response;
+    }
+    public function profilAction(){
+        return $this->render('CGGConferenceBundle:User:register.html.twig');
+    }
 }
