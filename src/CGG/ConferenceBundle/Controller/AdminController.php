@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use CGG\ConferenceBundle\Form\Type\ContentType;
+use CGG\ConferenceBundle\Form\Type\ImageHeaderType;
 
 class AdminController extends Controller
 {
@@ -24,6 +25,7 @@ class AdminController extends Controller
                 }
 
                 $form = $this->createForm(New ContentType());
+                $formImage = $this->createForm(New ImageHeaderType());
 
                 $headBand = $conference->getHeadBand();
                 $menu = $conference->getMenu();
@@ -54,7 +56,8 @@ class AdminController extends Controller
                     'headband' => $headBand,
                     'contents' => $contents,
                     'footer' => $footer,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'formImage' => $formImage->createView()
                 ));
 
             }else{
@@ -255,6 +258,18 @@ class AdminController extends Controller
         $content = $this->get('content_repository')->find($idContent);
 
         $this->get('content_repository')->delete($content);
+
+        return new Response('ok');
+    }
+
+    public function uploadImageHeaderAction(Request $request){
+        $idConference = $request->request->get('idConference');
+        $conference = $this->get('conference_repository')->find($idConference);
+
+        var_dump($this->file);exit;
+
+        $conference->setImagePath($this->file);
+        $conference->upload();
 
         return new Response('ok');
     }

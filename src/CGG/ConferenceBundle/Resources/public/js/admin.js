@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     $('.btn-edit-content').hide();
     $('.btn-delete-content').hide();
+    $('.btn-edit-content-image').hide();
 
     $("#saveChangesAdminConference").click(function () {
         var data = [];
@@ -65,11 +66,13 @@ $(document).ready(function(){
     $(".container-edit-content").mouseover(function(){
         $(this).find('.btn-edit-content').show();
         $(this).find('.btn-delete-content').show();
+        $(this).find('.btn-edit-content-image').show();
     });
 
     $(".container-edit-content").mouseleave(function(){
         $(this).find('.btn-edit-content').hide();
         $(this).find('.btn-delete-content').hide();
+        $(this).find('.btn-edit-content-image').hide();
     });
 
     $('.btn-edit-content').on('click', function () {
@@ -83,6 +86,10 @@ $(document).ready(function(){
         CKEDITOR.instances['cgg_conferencebundle_content_content'].setData($(this).parent().html().replace('<i id="' + $(this).attr('id') + '" class="btn-edit-content fa fa-pencil fa-2x"></i>', ''));
 
         $('#editModal').modal('show');
+    });
+
+    $('.btn-edit-content-image').on('click', function () {
+        $('#imageModal').modal('show');
     });
 
     $('#editModalValidate').on('click', function (e) {
@@ -117,6 +124,8 @@ $(document).ready(function(){
             }
         });
     });
+
+
 
     $('#editModal').on('bs.modal.hidden', function () {
         $('iframe').find('body').html('<p></p>');
@@ -249,4 +258,41 @@ $(document).ready(function(){
 
     })
 
+    /* TOUT CE QUI EST NÉCESSAIRE À L'UPLOAD D'IMAGE */
+
+    var files;
+
+    $('input[type=file]').on('change', prepareUpload);
+
+    function prepareUpload(event)
+    {
+        files = event.target.files;
+    }
+
+    $('#imageModalValidate').on('click', function (e) {
+        e.preventDefault();
+
+        var data = new FormData();
+        $.each(files, function(key, value)
+        {
+            data.append(key, value);
+        });
+
+        var url= Routing.generate('cgg_conference_admin_uploadImageHeader');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'data': data,
+                'idConference': $('#inputIdConferenceForImage').val()
+            },
+            dataType: "html",
+            success:function() {
+                window.location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError + xhr.status);
+            }
+        });
+    });
 });

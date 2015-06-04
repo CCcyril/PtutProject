@@ -77,7 +77,7 @@ footer p{
 
 /* Edition de conférence */
 
-.btn-edit-content, .btn-delete-content {
+.btn-edit-content, .btn-delete-content, .btn-edit-content-image {
     margin: 5px;
     padding: 5px;
     border: 1px solid black;

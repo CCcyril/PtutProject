@@ -1,4 +1,12 @@
 {% extends "::conferenceBase.html.twig" %}
+
+{% block imageHeader %}
+    <div class="container-edit-content">
+        <i id="imageHeader" class="btn-edit-content-image fa fa-pencil fa-2x"></i>
+        {{ parent() }}
+    </div>
+{% endblock %}
+
 {% block headband %}
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-lg reglage" data-toggle="modal" data-target="#myModal">
@@ -71,7 +79,7 @@
 {% endblock %}
 
 {% block footerText %}
-    <footer class="container-edit-content">
+    <footer class="container-edit-content backgroundcolor">
         <i id="footerText" class="btn-edit-content fa fa-pencil fa-2x"></i>
         <span id="footerText2">{{ parent() }}</span>
     </footer>
@@ -84,6 +92,7 @@
     <!-- fin inputs cachés -->
     {% include 'CGGConferenceBundle:Admin/Partials:headerModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:editModal.html.twig' %}
+    {% include 'CGGConferenceBundle:Admin/Partials:imageModal.html.twig' %}
     <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
         <a href="" id="pagePath" class="btn btn-success">
             <i class="fa fa-arrow-circle-o-right"></i>

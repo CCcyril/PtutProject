@@ -41,9 +41,9 @@
             <div class="container">
                 <div class="row container-header">
                     <div class="col-md-4">
-                        {% image '@CGGConferenceBundle/Resources/public/images/ReimsImage2014.png'  output="images/ReimsImage2014.png" %}
-                        <img src="{{ asset_url }}"  alt="ReimsImage2014.png" class="img-responsive">
-                        {% endimage %}
+                        {% block imageHeader %}
+                            <img id="imageHeader" src="{{ conference.getWebPath() }}" class="img-responsive"/>
+                        {% endblock %}
                     </div>
                     <div class="col-md-8">
                     {% block headband %}
