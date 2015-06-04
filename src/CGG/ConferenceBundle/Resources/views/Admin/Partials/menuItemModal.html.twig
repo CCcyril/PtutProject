@@ -1,0 +1,35 @@
+<!-- Modal -->
+<div class="modal fade" id="menuItemModal" tabindex="-1" role="dialog" aria-labelledby="manageMenuItem" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Réglage de votre site</h4>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group btn-group-justified btn-add-pages">
+                    <div class="btn-group">
+                        <a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}"
+                           class="btn btn-primary">
+                            Editer le bouton
+                        </a>
+                    </div>
+                    <div class="btn-group">
+                        <button id="addSubItem" class="btn" data-menuItemId="">
+                            <i class="fa fa-plus-circle"></i>Ajouter un sous-menu.
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button id="btnRemovePage" class="btn btn-primary" data-menuItemId="">
+                            Supprimer la page.
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary">Enregister</button>
+            </div>
+        </div>
+    </div>
+</div>

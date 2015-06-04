@@ -28,34 +28,12 @@ $(document).ready(function(){
         });
     });
 
-    $('.navbar-nav li:not(:last-child)').on('click', function(event){
-        var itemId = event.target.id;
-        var offsets = $('#'+itemId).offset();
-        var top = offsets.top;
-        var left = offsets.left;
-        var pageId = $('#'+itemId).attr('data-pageId');
-        var url = Routing.generate('cgg_conference_adminConference', {'idConference':$("#idConference").val(), 'idPage':$("#"+itemId).attr('data-pageId')});
-        var menuItemId = $('#'+itemId).attr('data-menuItemId');
-        $('#menuItemOptions').css({'top':(top+50),'left':(left-100),'position':'absolute'}).fadeIn('slow');
-        $('#menuItemOptions').removeClass('hidden');
-        $("#pagePath").attr('href', url);
-        $("#editMenuItem").on('click', editMenuItem(itemId));
-        $("#addSubItem").attr('data-menuItemId', menuItemId);
-    })
-
-    function editMenuItem (idMenuItem){
-        $("#"+idMenuItem).attr('contenteditable', 'true');
-    };
-
-    $(".navbar-nav, #menuItemOptions").mouseleave(function(){
-       timer = setTimeout(hideMenuItemOptions, 300);
-    }).mouseenter(function(){
-       clearTimeout(timer);
+    $('#navbar li:not(:last-child)').on('click', function(){
+        var itemId = $(this).attr('id');
+        var idMenuItem = $('#'+itemId).attr('data-menuItemId');
+        $("#addSubItem").attr('data-menuItemId', idMenuItem);
+        $("#btnRemovePage").attr('data-menuItemId', idMenuItem);
     });
-
-    function hideMenuItemOptions(){
-        $("#menuItemOptions").hide();
-    }
 
     $(".container-edit-content").mouseover(function(){
         $(this).find('input').show();
@@ -65,13 +43,11 @@ $(document).ready(function(){
         $(this).find('input').hide();
     });
 
-    $("#addSubItem").on('click', function(event){
+    $("#addSubItem").on('click', function(){
         var url = Routing.generate('cgg_conference_admin_add_sub_item');
         Routing.generate('cgg_conference_admin_add_sub_item');
         var idConference = $("#idConference").val();
-        var itemId = event.target.id;
-        var idParent = $("#"+itemId).attr('data-menuItemId');
-        alert(url + ", " + idConference + ", " + idParent);
+        var idParent = $("#addSubItem").attr('data-menuItemId');
         $.ajax({
             type: "POST",
             url: url,
@@ -135,4 +111,22 @@ $(document).ready(function(){
     });
 
     $('.demo-auto').colorpicker();
+
+    $("#btnRemovePage").on('click', function(){
+        var url = Routing.generate('cgg_conference_admin_remove_page');
+        var idPage = $("#idPage").val();
+        var idMenuItem = $("#btnRemovePage").attr('data-menuItemId');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'idPage': idPage,
+                'idMenuItem': idMenuItem
+            },
+            dataType: "html",
+            success: function(){
+                window.location.reload(true);
+            }
+        });
+    });
 });

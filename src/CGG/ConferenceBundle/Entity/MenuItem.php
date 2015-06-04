@@ -13,6 +13,7 @@ class MenuItem
     private $menuItem_menu;
     private $idMenuItemParent = NULL;
     private $page;
+    private $children;
 
     public function __construct(Page $page){
         $this->setPage($page);
@@ -69,6 +70,21 @@ class MenuItem
 
     public function setPage(Page $page){
         $this->page = $page;
+    }
+
+    public function addChildren(MenuItem $menuItem)
+    {
+        $this->children[] = $menuItem;
+        return $this;
+    }
+
+    public function removeChildren(MenuItem $menuItem)
+    {
+        $this->contents->removeElement($menuItem);
+    }
+
+    public function getChildren(){
+        return $this->children;
     }
 
 }
