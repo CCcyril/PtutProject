@@ -77,6 +77,19 @@ $(document).ready(function() {
         $('#imageModal').modal('show');
     });
 
+    $('.btn-edit-content').on('click', function () {
+
+        $('#entity').val($(this).attr('id'));
+
+        if (typeof $(this).parent().find('div:first').attr('id') !== 'undefined' && $(this).parent().find('div:first').attr('id').substring(0, 7) === 'content') {
+            $('#idContent').val($(this).parent().find('div:first').attr('id').replace('content', ''));
+        }
+
+        CKEDITOR.instances['cgg_conferencebundle_content_content'].setData($(this).parent().html().replace('<i id="' + $(this).attr('id') + '" class="btn-edit-content fa fa-pencil fa-2x"></i>', ''));
+
+        $('#editModal').modal('show');
+    });
+
     $('#editModalValidate').on('click', function (e) {
         e.preventDefault();
 
@@ -259,7 +272,7 @@ $(document).ready(function() {
             data.append(key, value);
         });
         var idConference = $('#inputIdConferenceForImage').val();
-        alert(idConference);
+
         var url= Routing.generate('cgg_conference_admin_uploadImageHeader');
         $.ajax({
             type: "POST",
@@ -269,7 +282,8 @@ $(document).ready(function() {
                 'idConference': idConference
             },
             dataType: "html",
-            // processData: false, C'etait ca qui faisais tout planter
+            processData: false,
+            contentType: false,
             success:function() {
                 //window.location.reload();
             },
