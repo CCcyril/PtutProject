@@ -29,4 +29,9 @@ class ContentRepository extends EntityRepository
         $this->entityManager->persist($content);
         $this->entityManager->flush();
     }
+
+    public function delete(Content $content){
+        $this->entityManager->remove($content);
+        $this->entityManager->flush();
+    }
 }

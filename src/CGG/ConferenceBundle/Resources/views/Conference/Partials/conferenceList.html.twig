@@ -12,7 +12,7 @@
                 <div class="panel-heading">{{ conference.name }} : {{ conference.startDate }} - {{ conference.endDate }}</div>
                 <div class="panel-body">
                     <p>
-                        Description, homePage : {{ conference.homePage.id }}
+                        {{ conference.description | raw }}
                     </p>
                     <a href="{{ path('cgg_conference_detailConference', {'idConference': conference.id, 'idPage': conference.homePage.id}) }}" target="_blank" class="btn btn-primary">
                         Accéder au site

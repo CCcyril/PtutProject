@@ -60,12 +60,26 @@ footer {
 
 /* Edition de conférence */
 
-.btn-edit-content {
+.btn-edit-content, .btn-delete-content {
     margin: 5px;
     padding: 5px;
     border: 1px solid black;
     border-radius: 5px;
     position: absolute;
+    background: white;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.btn-delete-content {
+    margin-left: 50px;
+}
+
+#addContentButton {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
     background: white;
     cursor: pointer;
     z-index: 2;

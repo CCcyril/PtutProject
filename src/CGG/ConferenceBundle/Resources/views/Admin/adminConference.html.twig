@@ -32,17 +32,22 @@
 {% block contentText %}
     <div class="container-edit-content">
         <i id="contentText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+        <i id="deleteContent{{ content.id }}" class="btn-delete-content fa fa-close fa-2x"></i>
         <div id="content{{ content.id }}">
             {{ parent() }}
         </div>
     </div>
 {% endblock %}
 
+{% block addContent %}
+        <i id="addContentButton" class="fa fa-plus-square fa-2x"></i>
+{% endblock %}
+
 {% block footerText %}
     <footer class="container-edit-content">
         <i id="footerText" class="btn-edit-content fa fa-pencil fa-2x"></i>
         <span id="footerText2">{{ parent() }}</span>
-    </footer
+    </footer>
 {% endblock %}
 
 {% block body %}

@@ -92,7 +92,7 @@ class ConferenceController extends Controller
 
                 $idMenu = $menu->getId();
 
-                $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
+                $menuItems = $this->get('menuItem_repository')->findByMenuIdOrderByDepth($idMenu);
 
                 $contents = $this->get('content_repository')->findByPageId($idPage);
 

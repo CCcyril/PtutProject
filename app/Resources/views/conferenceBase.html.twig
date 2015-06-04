@@ -83,6 +83,8 @@
                         {{ content.text | raw }}
                     {% endblock %}
             {% endfor %}
+            {% block addContent %}
+            {% endblock %}
         </div>
         {% block body %}
         {% endblock %}

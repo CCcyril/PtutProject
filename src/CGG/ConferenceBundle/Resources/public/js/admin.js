@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
     $('.btn-edit-content').hide();
+    $('.btn-delete-content').hide();
 
     $("#saveChangesAdminConference").click(function () {
         var data = [];
@@ -63,10 +64,12 @@ $(document).ready(function(){
 
     $(".container-edit-content").mouseover(function(){
         $(this).find('.btn-edit-content').show();
+        $(this).find('.btn-delete-content').show();
     });
 
     $(".container-edit-content").mouseleave(function(){
         $(this).find('.btn-edit-content').hide();
+        $(this).find('.btn-delete-content').hide();
     });
 
     $('.btn-edit-content').on('click', function () {
@@ -180,4 +183,45 @@ $(document).ready(function(){
             }
         })
     };
+
+    $('#addContentButton').on('click', function () {
+        var idPage = $("#idPage").val();
+        var url= Routing.generate('cgg_conference_admin_addContent');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'idPage': idPage
+            },
+            dataType: "html",
+            success:function() {
+                window.location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError + xhr.status);
+            }
+        });
+
+    })
+
+    $('.btn-delete-content').on('click', function () {
+        var idContent = $(this).attr('id').replace('deleteContent', '');
+        var url= Routing.generate('cgg_conference_admin_deleteContent');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'idContent': idContent
+            },
+            dataType: "html",
+            success:function() {
+                window.location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError + xhr.status);
+            }
+        });
+
+    })
+
 });

@@ -118,4 +118,14 @@
         <option key="expose">true</option>
     </route>
 
+    <route id="cgg_conference_admin_addContent" path="/conference/admin/ajouter-un-contenu">
+        <default key="_controller">CGGConferenceBundle:Admin:addContent</default>
+        <option key="expose">true</option>
+    </route>
+
+    <route id="cgg_conference_admin_deleteContent" path="/conference/admin/supprimer-un-contenu">
+        <default key="_controller">CGGConferenceBundle:Admin:deleteContent</default>
+        <option key="expose">true</option>
+    </route>
+
 </routes>

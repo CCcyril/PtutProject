@@ -203,5 +203,27 @@ class AdminController extends Controller
 
         return $newPage;
     }
+
+    public function addContentAction(Request $request){
+        $idPage = $request->request->get('idPage');
+        $page = $this->get('page_repository')->find($idPage);
+        $content = new Content();
+
+        $content->setPage($page);
+        $content->setText('');
+
+        $this->get('content_repository')->save($content);
+
+        return new Response('ok');
+    }
+
+    public function deleteContentAction(Request $request){
+        $idContent = $request->request->get('idContent');
+        $content = $this->get('content_repository')->find($idContent);
+
+        $this->get('content_repository')->delete($content);
+
+        return new Response('ok');
+    }
 }
 
