@@ -29,4 +29,9 @@ class PageRepository extends EntityRepository
         $this->entityManager->persist($page);
         $this->entityManager->flush();
     }
+
+    public function removePage(Page $page){
+        $this->entityManager->remove($page);
+        $this->entityManager->flush();
+    }
 }
