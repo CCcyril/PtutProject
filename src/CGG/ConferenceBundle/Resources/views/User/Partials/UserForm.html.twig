@@ -10,7 +10,7 @@
 
     <div class="form-group">
         {{ form_label(form.plainPassword.first, 'Mot de passe :', { 'attr' : { 'class' : 'control-label' }}) }}
-        {{ form_errors(form.plainPassword.first) }}
+        {{ form_errors(form.plainPassword.first }}
         {{ form_widget(form.plainPassword.first, { 'attr' : { 'class' : 'form-control' }}) }}
     </div>
 

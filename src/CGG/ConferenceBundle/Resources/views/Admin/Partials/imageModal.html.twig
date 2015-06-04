@@ -1,0 +1,25 @@
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="imageModalLabel">Changer de logo</h4>
+                <!-- Inputs cachés -->
+                <input type="hidden" id="inputIdConferenceForImage" value="{{ conference.id }}">
+            </div>
+            <div class="modal-body">
+                {{ form_start(formImage) }}
+                <div class="form-group">
+                    {{ form_errors(formImage.file) }}
+                    {{ form_widget(formImage.file, { 'attr' : { 'class' : 'form-control'}}) }}
+                </div>
+                {{ form_end(formImage) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" id="imageModalValidate">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>

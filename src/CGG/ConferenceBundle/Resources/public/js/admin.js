@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     $('.btn-edit-content').hide();
     $('.btn-delete-content').hide();
+    $('.btn-edit-content-image').hide();
 
     $("#saveChangesAdminConference").click(function () {
         var data = [];
@@ -46,11 +47,13 @@ $(document).ready(function() {
     $(".container-edit-content").mouseover(function () {
         $(this).find('.btn-edit-content').show();
         $(this).find('.btn-delete-content').show();
+        $(this).find('.btn-edit-content-image').show();
     });
 
     $(".container-edit-content").mouseleave(function () {
         $(this).find('.btn-edit-content').hide();
         $(this).find('.btn-delete-content').hide();
+        $(this).find('.btn-edit-content-image').hide();
     });
 
     $("#addSubItem").on('click', function () {
@@ -68,6 +71,10 @@ $(document).ready(function() {
 
             $('#editModal').modal('show');
         });
+    });
+
+    $('.btn-edit-content-image').on('click', function () {
+        $('#imageModal').modal('show');
     });
 
     $('#editModalValidate').on('click', function (e) {
@@ -103,6 +110,8 @@ $(document).ready(function() {
             }
         });
     });
+
+
 
     $('#editModal').on('bs.modal.hidden', function () {
         $('iframe').find('body').html('<p></p>');
@@ -213,7 +222,6 @@ $(document).ready(function() {
 
     });
 
-
     $("#btnRemovePage").on('click', function () {
         var url = Routing.generate('cgg_conference_admin_remove_page');
         var idPage = $("#idPage").val();
@@ -232,4 +240,42 @@ $(document).ready(function() {
         });
     });
 
+    /* TOUT CE QUI EST NÉCESSAIRE À L'UPLOAD D'IMAGE */
+
+    var files;
+
+    $('input[type=file]').on('change', prepareUpload);
+
+    function prepareUpload(event)
+    {
+        files = event.target.files;
+    }
+
+    $('#imageModalValidate').on('click', function (e) {
+        e.preventDefault();
+
+        var data = new FormData();
+        $.each(files, function(key, value) {
+            data.append(key, value);
+        });
+        var idConference = $('#inputIdConferenceForImage').val();
+        alert(idConference);
+        var url= Routing.generate('cgg_conference_admin_uploadImageHeader');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                'data': data,
+                'idConference': idConference
+            },
+            dataType: "html",
+            // processData: false, C'etait ca qui faisais tout planter
+            success:function() {
+                //window.location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError + xhr.status);
+            }
+        });
+    });
 });

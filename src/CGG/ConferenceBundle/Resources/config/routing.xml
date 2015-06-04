@@ -138,6 +138,11 @@
         <default key="_controller">CGGConferenceBundle:Admin:saveSetting</default>
         <option key="expose">true</option>
     </route>
+
+    <route id="cgg_conference_admin_uploadImageHeader" path="/conference/admin/upload-image-header">
+        <default key="_controller">CGGConferenceBundle:Admin:uploadImageHeader</default>
+        <option key="expose">true</option>
+    </route>
     
     <route id="cgg_conference_admin_remove_page" path="/conference/admin/supprimer-une-page">
         <default key="_controller">CGGConferenceBundle:Admin:removePage</default>

@@ -22,6 +22,7 @@ class Conference
     private $mainColor;
     private $secondaryColor;
     private $emailContact;
+    private $imagePath;
 
     function __construct()
     {
@@ -177,5 +178,47 @@ class Conference
     {
         $this->emailContact = $emailContact;
     }
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
+    }
+    public function getAbsolutePath()
+    {
+        return null === $this->imagePath ? null : $this->getUploadRootDir().'/'.$this->imagePath;
+    }
 
+    public function getWebPath()
+    {
+        return null === $this->imagePath ? null : $this->getUploadDir().'/'.$this->imagePath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../web'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return '/uploads';
+    }
+    public function upload()
+    {
+        if (null === $this->file) {
+            return;
+        }
+
+        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+        $this->path = $this->file->getClientOriginalName();
+    }
+
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
+    }
 }
