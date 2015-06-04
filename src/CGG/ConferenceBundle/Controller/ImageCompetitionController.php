@@ -88,7 +88,7 @@ class ImageCompetitionController extends Controller
         $imageCompetition = $this->get('image_competition_repository')->findByIdImage($idImage);
 
         /* TODO: correction bug si l'image a des commentaires */
-        $imageCompetition->removeUpload();
+        //$imageCompetition->removeUpload();
         $this->get('image_competition_repository')->delete($imageCompetition);
 
         $this->addFlash('success', 'Votre image à été supprimée avec succes');
