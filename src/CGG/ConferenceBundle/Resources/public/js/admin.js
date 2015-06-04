@@ -271,21 +271,23 @@ $(document).ready(function() {
         $.each(files, function(key, value) {
             data.append(key, value);
         });
+
         var idConference = $('#inputIdConferenceForImage').val();
+
+        data.append('idConference', idConference);
 
         var url= Routing.generate('cgg_conference_admin_uploadImageHeader');
         $.ajax({
             type: "POST",
             url: url,
             data: {
-                'data': data,
-                'idConference': idConference
+                'data': data
             },
             dataType: "html",
             processData: false,
             contentType: false,
             success:function() {
-                //window.location.reload();
+                alert('PANCAKE');
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(thrownError + xhr.status);
