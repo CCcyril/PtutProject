@@ -85,9 +85,9 @@ class ImageCompetitionController extends Controller
         $request = $this->container->get('request');
         $idImage = $request->request->get('idImage');
 
-        $imageCompetition = new ImageCompetition();
         $imageCompetition = $this->get('image_competition_repository')->findByIdImage($idImage);
 
+        /* TODO: correction bug si l'image a des commentaires */
         $imageCompetition->removeUpload();
         $this->get('image_competition_repository')->delete($imageCompetition);
 
