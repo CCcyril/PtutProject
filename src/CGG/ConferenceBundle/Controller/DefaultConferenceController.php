@@ -31,12 +31,14 @@ class DefaultConferenceController extends Controller {
 
         $menu->setTitle('wtf');
 
-        $footer->setText('CGG Comférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a>');
 
         $homePage = $this->createDefaultHomePageAction($menu);
         $presentationPage = $this->createDefaultPresentationPageAction($menu);
         $informationPage = $this->createDefaultInformationPageAction($menu);
         $contactPage = $this->createDefaultContactPageAction($menu);
+        $mentionsLegalesPage = $this->createDefaultMentionsLegalesPageAction($menu);
+
+        $footer->setText('CGG Conférence © 2015 - <a href="#">Mentions légales</a>');
 
         $conference->setHeadband($headBand);
         $conference->setMenu($menu);
@@ -45,6 +47,7 @@ class DefaultConferenceController extends Controller {
         $conference->addPageId($presentationPage);
         $conference->addPageId($informationPage);
         $conference->addPageId($contactPage);
+        $conference->addPageId($mentionsLegalesPage);
 
         return $conference;
     }
@@ -184,5 +187,29 @@ class DefaultConferenceController extends Controller {
         $contactPage->addContent($content);
 
         return $contactPage;
+    }
+    public function createDefaultMentionsLegalesPageAction(Menu $menu){
+        $mentionsLegalesPage = new Page();
+        $menuItem = new MenuItem($mentionsLegalesPage);
+        $content = new Content();
+
+        $mentionsLegalesPage->setHome('0');
+        $mentionsLegalesPage->setContact('0');
+        $mentionsLegalesPage->setTitle('Mentions légales');
+
+        $content->setText('
+        <h3>CGGConference</h3>
+        <h4>Ce site internet a été réalisé par :</h4>
+        <p>Les étudiants de la licence professionnelle METINET 2014/2015</p>
+        <p>71 Rue Peter Fink, 01000 Bourg-en-Bresse</p>
+        <p>04 74 45 50 50</p>
+        <h4>Directeur de la publication : </h4>
+        <p>IUT Lyon 1 Bourg en bresse</p>
+        <h4>Hébergement</h4>
+        ');
+
+        $mentionsLegalesPage->addContent($content);
+
+        return $mentionsLegalesPage;
     }
 }

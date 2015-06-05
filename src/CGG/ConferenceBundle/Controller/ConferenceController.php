@@ -116,6 +116,7 @@ class ConferenceController extends Controller
 
 
                 return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
+                    'menuItems'=>$menuItems,
                     'conference' => $conference,
                     'headband' => $headBand,
                     'menuItemsTable' => $menuItemsTable,

@@ -21,6 +21,7 @@ class Page
     function __construct()
     {
         $this->contents = new ArrayCollection();
+        $this->isContact = 0;
     }
 
     public function getId()
