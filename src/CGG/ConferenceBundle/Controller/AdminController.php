@@ -190,9 +190,13 @@ class AdminController extends Controller
     }
 
     public function removePageAction(Request $request){
+
         $idMenuItem = $request->request->get('idMenuItem');
         $menuItem = $this->get('menuitem_repository')->find($idMenuItem);
         $children = $this->get('menuitem_repository')->findMenuItemChildren($idMenuItem, $menuItem->getMenu()->getId());
+        $idConference = $request->request->get('idConference');
+        $currentUrl = $request->request->get('currentUrl');
+        $data = array('idHomePage'=>null);
 
         foreach($children as $child){
             $page = $child->getPage();
@@ -201,10 +205,27 @@ class AdminController extends Controller
         }
 
         $page = $menuItem->getPage();
+        if(preg_match("#" . $page->getId() . "#", $currentUrl)){
+            if($page->isHome()){
+                $pages = $this->get('page_repository')->getFirstPageWhichIsNotHome($page->getId(), $idConference);
+                $newHome = array_shift($pages);
+                $newHome->setHome('1');
+                $page->setHome("0");
+                $data = array('idHomePage'=>$newHome->getId());
+            }else{
+                $homePage = $this->get('page_repository')->findHome($idConference);
+                $data = array('idHomePage'=>$homePage->getId());
+            }
+        }
+
         $this->get('menuitem_repository')->removeMenuItem($menuItem);
         $this->get('page_repository')->removePage($page);
         $this->addFlash('success', 'Page ' . $page->getTitle() . ' a été supprimée');
-        return new Response('ok');
+
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     public function createNewPage(){

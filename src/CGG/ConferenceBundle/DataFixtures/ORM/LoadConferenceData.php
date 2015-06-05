@@ -57,6 +57,7 @@ class LoadConference implements FixtureInterface {
             $conference->setFooter($footer);
             $conference->setMenu($menu);
             $conference->setHeadBand($headBand);
+            $conference->setEmailContact("mathisghomari@hotmail.fr");
 
             $manager->persist($conference);
 
