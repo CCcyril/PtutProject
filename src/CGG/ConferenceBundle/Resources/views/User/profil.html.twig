@@ -1,5 +1,8 @@
-<h2>Inscription</h2>
-{{ form_start(form, {'attr' : {novalidate: 'novalidate'}}) }}
+{% extends("::base.html.twig") %}
+
+{% block body %}
+    <h2>Modification des informations du compte</h2>
+    {{ form_start(form, {'attr' : {novalidate: 'novalidate'}}) }}
     {{ form_errors(form) }}
 
     <div class="form-group">
@@ -10,7 +13,7 @@
 
     <div class="form-group">
         {{ form_label(form.plainPassword.first, 'Mot de passe :', { 'attr' : { 'class' : 'control-label' }}) }}
-        {{ form_errors(form.plainPassword.first }}
+        {{ form_errors(form.plainPassword.first) }}
         {{ form_widget(form.plainPassword.first, { 'attr' : { 'class' : 'form-control' }}) }}
     </div>
 
@@ -30,7 +33,5 @@
         {{  form_rest(form) }}
     </div>
 
-{{ form_end(form) }}
-
-
-
+    {{ form_end(form) }}
+{% endblock %}

@@ -92,6 +92,11 @@ fieldset[disabled] .btn-primary.active {
     padding-left: 20px;
     width: 270px;
     list-style-type: none;
+    background: #fff;
+    top: 51px;
+}
+.menu_level_1 li{
+    padding: 5px 0px;
 }
 .navbar-inverse li span:hover{
     color: #fff;
@@ -232,6 +237,11 @@ footer {
         position: relative;
         width: 100%;
         margin-top: -15px;
+        background: transparent;
+        top: 0px;
+    }
+    .menu_level_1 li {
+        padding: 0px;
     }
     .menu_level_1 li a{
         color: #9d9d9d;

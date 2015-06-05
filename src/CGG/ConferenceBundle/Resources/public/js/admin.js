@@ -139,30 +139,10 @@ $(document).ready(function() {
         });
     });
 
-    $("#btnAddPages").on('click', function () {
-        $("#addPages").removeClass('hidden');
-    });
-
     /* Referme les nouvelles pages à la fermeture de la modale*/
 
     $('#myModal').on('hidden.bs.modal', function () {
         $("#addPages").addClass('hidden');
-    });
-
-    $("#addInput").on('click', function () {
-        var lastDiv = $("#addPages form div:last");
-        lastDiv.after("<div class='form-group'>" + lastDiv.html() + "</div>");
-        if ($("#removeInput").hasClass('disabled')) {
-            $("#removeInput").removeClass('disabled');
-        }
-    })
-
-    $("#removeInput").on('click', function () {
-        var countInput = $("#addPages form div").length;
-        if (countInput === 3) {
-            $("#removeInput").addClass('disabled');
-        }
-        $("#addPages form div:last").remove();
     });
 
     $("#saveSetting").on('click', function () {

@@ -2,15 +2,13 @@
 
 namespace CGG\ConferenceBundle\Tools;
 
-use CGG\ConferenceBundle\Repository\PageRepository;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class MailAdminForgotYourPassword {
+class MailForgotYourPassword {
 
     private $request;
-    private $conferenceAttributes;
     private $context;
     private $user;
     private $mailer;
@@ -37,10 +35,10 @@ class MailAdminForgotYourPassword {
                 'message'=>"Votre nouveau mot de passe : ".$password
             ]);
 
-        $this->sendMailAdminConferenceCreated($subject, $from, $to, $body);
+        $this->sendMail($subject, $from, $to, $body);
     }
 
-    public function sendMailAdminConferenceCreated($subject, $from, $to, $body){
+    public function sendMail($subject, $from, $to, $body){
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)

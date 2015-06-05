@@ -16,7 +16,7 @@ class UserType extends AbstractType
             ->add('username', 'text', array('constraints' => array(new NotBlank(array('message' => 'Ce champ es requis.')))))
             ->add('plainPassword', 'repeated', array('type' => 'password', 'constraints' => array(new NotBlank(array('message' => 'Ce champ est requis.')))))
             ->add('email', 'email', array('constraints' => array(new NotBlank(array('message' => 'Ce champ est requis.')))))
-            ->add('send', 'submit')
+            ->add('envoyer', 'submit')
         ;
     }
 

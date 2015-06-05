@@ -114,7 +114,25 @@ class UserController extends Controller{
         $response->setContent(json_encode($data));
         return $response;
     }
-    public function profilAction(){
-        return $this->render('CGGConferenceBundle:User:register.html.twig');
+    public function profilAction(Request $request){
+        $user = $this->get('security.context')->getToken()->getUser();
+        $form = $this->createForm(New UserType(), $user);
+        if($request->isMethod('POST')) {
+            $form->submit($request);
+            if ($form->isValid()) {
+                if (0 !== strlen($plainPassword = $user->getPlainPassword())) {
+                    $encoder = $this->get('security.encoder_factory')->getEncoder($user);
+                    $user->setPassword($encoder->encodePassword($plainPassword, $user->getSalt()));
+                    $user->eraseCredentials();
+                }
+                $this->get('user_repository')->save($user);
+                $this->authenticateUserAction($user);
+                $this->addFlash('success', 'Modification enregistrée');
+
+                $url = $this->redirectUserAction();
+                return $this->redirect($url);
+            }
+        }
+        return $this->render('CGGConferenceBundle:User:profil.html.twig',['form'=>$form->createView()]);
     }
 }
