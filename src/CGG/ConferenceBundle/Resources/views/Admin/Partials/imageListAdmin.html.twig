@@ -6,17 +6,10 @@
         <img id="{{ image.id }}_deleteImage" src="{{ image.getWebPath() }}" class="img-responsive"/>
         <p>{{ image.description | truncate(100, false, '')}}..</p>
         <p class="buttonComment">
-            {% if( app.user ) %}
-                <button><span>{{ image.rating }}</span>
-                <i class="fa fa-heart"></i></button> |
-                <span>0</span>
-                <i class="fa fa-comments"></i>
-            {% else %}
-                <span>{{ image.rating }}</span>
-                <i class="fa fa-heart"></i></button> |
-                <span>0</span>
-                <i class="fa fa-comments"></i>
-            {% endif %}
+            <span>{{ image.rating }}</span>
+            <i class="fa fa-heart"></i></button> |
+            <span>{{ image.nbComment }}</span>
+            <i class="fa fa-comments"></i>
         </p>
     </div>
 {% endfor %}

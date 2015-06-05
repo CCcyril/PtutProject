@@ -44,23 +44,25 @@
 {% for image in imageList %}
     <div class="col-md-3 col-sm-3 col-xd-12">
         <div class="openModal" data-id="{{ image.id }}">
-            <h3>{{ image.title }}</h3>
-            <img src="{{ image.getWebPath() }}" class="img-responsive"/>
-            <p>{{ image.description | truncate(100, false, '')}}..</p>
+            <img src="{{ image.getWebPath() }}" class="img-responsive img-thumbnail"/>
         </div>
-        <p class="buttonComment">
-            {% if( app.user ) %}
-                <button class="rating" data-id="{{ image.id }}"><span class="valueRating">{{ image.rating }}</span>
-                <i class="fa fa-heart"></i></button> |
-                <span class="valueComment">{{ image.nbComment }}</span>
-                <i class="fa fa-comments"></i>
-            {% else %}
-                <span class="valueRating">{{ image.rating }}</span>
-                <i class="fa fa-heart"></i></button> |
-                <span class="valueComment">{{ image.nbComment }}</span>
-                <i class="fa fa-comments"></i>
-            {% endif %}
-        </p>
+        <div class="descriptioImage">
+            <h3>{{ image.title }}</h3>
+            <p>{{ image.description | truncate(100, false, '')}}..</p>
+            <p class="buttonComment">
+                {% if( app.user ) %}
+                    <button class="rating" data-id="{{ image.id }}"><span class="valueRating">{{ image.rating }}</span>
+                    <i class="fa fa-heart"></i></button> |
+                    <span class="valueComment">{{ image.nbComment }}</span>
+                    <i class="fa fa-comments"></i>
+                {% else %}
+                    <span class="valueRating">{{ image.rating }}</span>
+                    <i class="fa fa-heart"></i></button> |
+                    <span class="valueComment">{{ image.nbComment }}</span>
+                    <i class="fa fa-comments"></i>
+                {% endif %}
+            </p>
+        </div>
     </div>
 {% endfor %}
 <script>
@@ -117,25 +119,29 @@
         var comment = $("#comment").val();
         var idImage = $(".ratingModal").attr("data-id");
         var nombrecomment = parseInt($(".valueCommentModal").text());
-        nombrecomment = nombrecomment + 1;
-        $(".comments").append("<p>"+comment+"</p>");
-        $(".valueComment").empty();
-        $(".valueComment").append(nombrecomment);
-        $("#comment").val("");
-        var url = "{{ path('cgg_image_competition_add_comment') }}";
-        data = [];
-        data.push({name: 'idImage', value: idImage});
-        data.push({name: 'comment', value: comment});
-        data.push({name: 'nbComment', value: nombrecomment});
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            dataType: 'json',
-            success: function(json){
-
-            }
-        });
+        if(comment == "") {
+            $("#comment").addClass("NotValid");
+        }
+        else{
+            nombrecomment = nombrecomment + 1;
+            $(".comments").append("<p>" + comment + "</p>");
+            $(".valueComment").empty();
+            $(".valueComment").append(nombrecomment);
+            $("#comment").val("");
+            var url = "{{ path('cgg_image_competition_add_comment') }}";
+            data = [];
+            data.push({name: 'idImage', value: idImage});
+            data.push({name: 'comment', value: comment});
+            data.push({name: 'nbComment', value: nombrecomment});
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                dataType: 'json',
+                success: function (json) {
+                }
+            });
+        }
         /* évite de refermer la box*/
         return false;
     });

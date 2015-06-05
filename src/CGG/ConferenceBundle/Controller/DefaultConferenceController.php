@@ -146,15 +146,38 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('
+        <div class="col-md-6">
+            <form>
+                <div class="form-group">
+                    <label>Nom :</label>
+                    <input type="text" name="name" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Prénom :</label>
+                    <input type="text" name="firstName" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Mail :</label>
+                    <input type="email" name="email" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Sujet :</label>
+                    <input type="text" name="sujet" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Message :</label>
+                    <textarea name="message" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Contact</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div id="map"></div>
+        </div>
+        ');
 
         $contactPage->addContent($content);
 

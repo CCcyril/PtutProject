@@ -196,6 +196,10 @@ footer {
     margin-top: 10px;
     background: #e9eaed;
 }
+.descriptioImage{
+    text-align: center;
+    margin-top: -10px;
+}
 #btncomment{
     width: 25%;
     float: left;
@@ -227,6 +231,9 @@ footer {
 }
 .delete:hover .remove{
     display: block;
+}
+.NotValid{
+    border: 1px solid #d9534f;
 }
 @media(max-width: 767px){
     .modal-dialog {
