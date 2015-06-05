@@ -40,8 +40,10 @@ $(document).ready(function() {
     $('#navbar li:not(:last-child)').on('click', function () {
         var itemId = $(this).attr('id');
         var idMenuItem = $('#' + itemId).attr('data-menuItemId');
+        var idCurrentPage = $(this).attr('data-pageId');
         $("#addSubItem").attr('data-menuItemId', idMenuItem);
         $("#btnRemovePage").attr('data-menuItemId', idMenuItem);
+        $("#btnRemovePage").attr('data-idCurrentPage', idCurrentPage);
     });
 
     $(".container-edit-content").mouseover(function () {
@@ -238,17 +240,28 @@ $(document).ready(function() {
     $("#btnRemovePage").on('click', function () {
         var url = Routing.generate('cgg_conference_admin_remove_page');
         var idPage = $("#idPage").val();
+        var idConference = $("#idConference").val();
         var idMenuItem = $("#btnRemovePage").attr('data-menuItemId');
+        var currentUrl =  window.location.pathname;
+        var idCurrentPage = $("#btnRemovePage").attr('data-idCurrentPage');
+        var idRedirectPage = $("#navbar li:first").attr('data-pageId');
+        if(idCurrentPage == idRedirectPage){
+            idRedirectPage = $("#navbar li:nth-child(2)").attr('data-pageId');
+        }
         $.ajax({
             type: "POST",
             url: url,
             data: {
                 'idPage': idPage,
-                'idMenuItem': idMenuItem
+                'idMenuItem': idMenuItem,
+                'idConference': idConference,
+                'currentUrl': currentUrl
             },
-            dataType: "html",
-            success: function () {
-                window.location.reload(true);
+            dataType: "json",
+            success: function (json) {
+                var idHomePage = json['idHomePage'];
+                redirectUrl = currentUrl.replace(idPage, idHomePage);
+                window.location.href = redirectUrl;
             }
         });
     });
