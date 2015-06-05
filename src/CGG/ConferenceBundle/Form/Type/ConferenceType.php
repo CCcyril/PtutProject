@@ -14,7 +14,7 @@ class ConferenceType extends AbstractType
         $builder
             ->add('name', 'text', array('constraints' => array(new NotBlank(array('message' => 'Veuillez nommer la conférence.')))))
             ->add('startDate', 'date', array('widget' => 'single_text', 'constraints' => array(new NotBlank(array('message' => 'La date de début est requise.')))))
-            ->add('endDate', array('widget' => 'single_text', 'constraints' => array(new NotBlank(array('message' => 'La date de fin est requise.')))))
+            ->add('endDate', 'date', array('widget' => 'single_text', 'constraints' => array(new NotBlank(array('message' => 'La date de fin est requise.')))))
             ->add('description', 'textarea')
             ->add('valider', 'submit')
         ;
