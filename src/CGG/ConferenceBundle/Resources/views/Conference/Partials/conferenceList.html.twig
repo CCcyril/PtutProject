@@ -9,7 +9,7 @@
     {% else %}
         {% for conference in conferenceList %}
             <div class="panel panel-default">
-                <div class="panel-heading">{{ conference.name }} : {{ conference.startDate }} - {{ conference.endDate }}</div>
+                <div class="panel-heading">{{ conference.name }} : {{ conference.startDate|date('d/m/Y') }} - {{ conference.endDate|date('d/m/Y') }}</div>
                 <div class="panel-body">
                     <p>
                         {{ conference.description | raw }}
