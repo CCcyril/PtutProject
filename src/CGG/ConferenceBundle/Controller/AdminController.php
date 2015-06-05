@@ -276,8 +276,6 @@ class AdminController extends Controller
         $idConference = $request->request->get('idConference');
         $conference = $this->get('conference_repository')->find($idConference);
 
-        var_dump($this->file);exit;
-
         $conference->setImagePath($this->file);
         $conference->upload();
 

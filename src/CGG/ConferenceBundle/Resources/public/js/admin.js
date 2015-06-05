@@ -242,7 +242,6 @@ $(document).ready(function() {
 
     });
 
-
     $("#btnRemovePage").on('click', function () {
         var url = Routing.generate('cgg_conference_admin_remove_page');
         var idPage = $("#idPage").val();
@@ -276,22 +275,23 @@ $(document).ready(function() {
         e.preventDefault();
 
         var data = new FormData();
-        $.each(files, function(key, value)
-        {
+        $.each(files, function(key, value) {
             data.append(key, value);
         });
-
+        var idConference = $('#inputIdConferenceForImage').val();
+        alert(idConference);
         var url= Routing.generate('cgg_conference_admin_uploadImageHeader');
         $.ajax({
             type: "POST",
             url: url,
             data: {
                 'data': data,
-                'idConference': $('#inputIdConferenceForImage').val()
+                'idConference': idConference
             },
             dataType: "html",
+            // processData: false, C'etait ca qui faisais tout planter
             success:function() {
-                window.location.reload();
+                //window.location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(thrownError + xhr.status);
