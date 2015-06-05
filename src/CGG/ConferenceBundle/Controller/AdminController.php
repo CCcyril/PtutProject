@@ -30,28 +30,22 @@ class AdminController extends Controller
                 $headBand = $conference->getHeadBand();
                 $menu = $conference->getMenu();
                 $idMenu = $menu->getId();
-                $menuItems = $this->get('menuitem_repository')->findByMenuIdOrderByDepth($idMenu);
-                $menuItemsTable = array();
-                foreach($menuItems as $menuItem){
-                    if($menuItem->getParent() == NULL){
-                        $menuItemsTable[$menuItem->getId()] = array();
-                        $menuItemsTable[$menuItem->getId()]['menuItem'] = $menuItem;
-                        $menuItemsTable[$menuItem->getId()]['children'] = array();
-                    }
-                }
-                foreach($menuItems as $menuItem){
-                    if($menuItem->getParent() !== NULL) {
-                        $menuItemsTable[$menuItem->getParent()]['children'][] = $menuItem;
-                    }
-                }
+                $menuItems = $this->get('menuitem_repository')->findMenuItemWithoutParentOrderedByDepth($idMenu);
 
+                foreach($menuItems as $menuItem){
+                    $idMenuItem = $menuItem->getId();
+                    $children = $this->get('menuitem_repository')->findMenuItemChildren($idMenuItem, $idMenu);
+                    foreach($children as $child){
+                        $menuItem->addChildren($child);
+                    }
+                }
 
                 $contents = $this->get('content_repository')->findByPageId($idPage);
 
                 $footer = $conference->getFooter();
 
                 return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
-                    'menuItemsTable'=>$menuItemsTable,
+                    'menuItems'=>$menuItems,
                     'conference' => $conference,
                     'headband' => $headBand,
                     'contents' => $contents,
@@ -188,8 +182,6 @@ class AdminController extends Controller
         $idParent = $request->request->get('idParent');
         $menuItem->setParent($idParent);
 
-        $menuItemParent = $this->get('menuitem_repository')->find($idParent);
-
         $menu->addMenuItem($menuItem);
 
         $conference->addPageId($newPage);
@@ -197,6 +189,24 @@ class AdminController extends Controller
 
         $this->addFlash('success', 'Sous menu ajouté avec SSSSUSUUUUUUUUUUUSSSSSSSSS(ccey)');
 
+        return new Response('ok');
+    }
+
+    public function removePageAction(Request $request){
+        $idMenuItem = $request->request->get('idMenuItem');
+        $menuItem = $this->get('menuitem_repository')->find($idMenuItem);
+        $children = $this->get('menuitem_repository')->findMenuItemChildren($idMenuItem, $menuItem->getMenu()->getId());
+
+        foreach($children as $child){
+            $page = $child->getPage();
+            $this->get('menuitem_repository')->removeMenuItem($child);
+            $this->get('page_repository')->removePage($page);
+        }
+
+        $page = $menuItem->getPage();
+        $this->get('menuitem_repository')->removeMenuItem($menuItem);
+        $this->get('page_repository')->removePage($page);
+        $this->addFlash('success', 'Page ' . $page->getTitle() . ' a été supprimée');
         return new Response('ok');
     }
 
