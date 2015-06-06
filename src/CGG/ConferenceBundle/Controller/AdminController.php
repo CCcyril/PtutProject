@@ -15,8 +15,10 @@ use CGG\ConferenceBundle\Form\Type\ImageHeaderType;
 class AdminController extends Controller
 {
     public function adminAction($idConference, $idPage) {
-
         $conference = $this->get('conference_repository')->find($idConference);
+        $page = $this->get('page_repository')->find($idPage);
+
+        $isContact = $page->getContact();
         if ($conference !== NULL) {
             $pages = $this->get('page_repository')->findByConferenceId($idConference);
             if ($this->get('check_if_page_belong_conference')->checkIfPageBelongConference()) {
@@ -51,7 +53,8 @@ class AdminController extends Controller
                     'contents' => $contents,
                     'footer' => $footer,
                     'form' => $form->createView(),
-                    'formImage' => $formImage->createView()
+                    'formImage' => $formImage->createView(),
+                    'isContact' => $isContact
                 ));
 
             }else{
@@ -259,15 +262,45 @@ class AdminController extends Controller
         $mainColor = $request->request->get('mainColor');
         $secondaryColor = $request->request->get('secondaryColor');
         $emailContact = $request->request->get('emailContact');
+        $longitude = $request->request->get('longitude');
+        $latitude = $request->request->get('latitude');
+        $info = $request->request->get('info');
+        $data = array();
+        if($mainColor == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur principale s'il vous plaît");
+        }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $mainColor)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur principale correcte s'il vous plaît");
+        }else if($secondaryColor == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur secondaire s'il vous plaît");
+        }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $secondaryColor)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur secondaire correcte s'il vous plaît");
+        }else if($emailContact == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail s'il vous plaît");
+        }else if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $emailContact)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide s'il vous plaît");
+        }else if($longitude == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude s'il vous plaît");
+        }else if(!preg_match("/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/", $longitude)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude correcte s'il vous plaît");
+        }else if($latitude == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude s'il vous plaît");
+        }else if(!preg_match("/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/", $latitude)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude correcte s'il vous plaît");
+        }else{
+            $conference = $this->get('conference_repository')->find($idConference);
 
-        $conference = $this->get('conference_repository')->find($idConference);
+            $conference->setMainColor($mainColor);
+            $conference->setSecondaryColor($secondaryColor);
+            $conference->setEmailContact($emailContact);
+            $conference->setLongitude($longitude);
+            $conference->setLatitude($latitude);
+            $conference->setInfoMap($info);
 
-        $conference->setMainColor($mainColor);
-        $conference->setSecondaryColor($secondaryColor);
-        $conference->setEmailContact($emailContact);
-
-        $this->get('conference_repository')->save($conference);
+            $this->get('conference_repository')->save($conference);
+        }
         $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -301,6 +334,20 @@ class AdminController extends Controller
         $conference->upload();
 
         return new Response('ok');
+    }
+    public function showMapAction(Request $request){
+        $idConference = $request->request->get('idConference');
+        $conference = $this->get('conference_repository')->find($idConference);
+        $data = array(
+            "longitude"=>$conference->getLongitude(),
+            "latitude"=>$conference->getLatitude(),
+            "infoMap"=>$conference->getInfoMap()
+        );
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+
     }
 }
 

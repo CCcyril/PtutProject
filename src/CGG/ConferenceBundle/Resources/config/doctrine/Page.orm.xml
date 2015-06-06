@@ -6,6 +6,7 @@
       </id>
       <field name="title" type="string" column="title" length="255"/>
       <field name="isHome" type="string" column="page_is_home" length="255"/>
+      <field name="isContact" type="string" column="page_is_contact" length="255"/>
 
       <one-to-many target-entity="Content" mapped-by="page" field="contents" >
           <cascade>

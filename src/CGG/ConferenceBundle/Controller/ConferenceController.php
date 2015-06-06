@@ -7,6 +7,7 @@ use CGG\ConferenceBundle\Form\Type\ConferenceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
@@ -139,6 +140,43 @@ class ConferenceController extends Controller
         $this->addFlash('success', 'Conférence supprimée avec succès mgl!');
 
         return $this->listAction();
+    }
+
+    public function contactConferenceAction(){
+        $request = $this->container->get('request');
+        $nom = $request->request->get('nom');
+        $prenom = $request->request->get('prenom');
+        $mail = $request->request->get('mail');
+        $sujet = $request->request->get('sujet');
+        $message = $request->request->get('message');
+        $data = array();
+
+        if($nom == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre nom s'il vous plaît");
+        }else if(!preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$#", $nom)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un nom valide s'il vous plaît");
+        }else if($prenom == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre prénom s'il vous plaît");
+        }else if(!preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$#", $prenom)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un prénom valide s'il vous plaît");
+        }else if($mail == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail s'il vous plaît");
+        }else if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $mail)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide s'il vous plaît");
+        }else if($sujet == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre sujet s'il vous plaît");
+        }else if($message == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre message s'il vous plaît");
+        }else{
+            $idConference = $request->request->get('idConference');
+            $conference = $this->get('conference_repository')->find($idConference);
+            $this->get('mail_contact_conference')->mailContactConference($nom,$prenom,$mail,$sujet,$message,$conference->getEmailContact());
+            $data = array("erreur"=>false, "message"=>"Votre mail à été envoyer avec succes");
+        }
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
 }

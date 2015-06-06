@@ -62,19 +62,26 @@
     </div>
 {% endblock %}
 {% block contentText %}
-    <div class="container-edit-content">
-        <i id="contentText" class="btn-edit-content fa fa-pencil fa-2x"></i>
-        <i id="deleteContent{{ content.id }}" class="btn-delete-content fa fa-close fa-2x"></i>
+    {% if( isContact == 0) %}
+        <div class="container-edit-content">
+            <i id="contentText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+            <i id="deleteContent{{ content.id }}" class="btn-delete-content fa fa-close fa-2x"></i>
+            <div id="content{{ content.id }}">
+                {{ parent() }}
+            </div>
+        </div>
+    {% else %}
         <div id="content{{ content.id }}">
             {{ parent() }}
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block addContent %}
+    {% if( isContact == 0 ) %}
         <i id="addContentButton" class="fa fa-plus-square fa-2x"></i>
+    {% endif %}
 {% endblock %}
-
 {% block footerText %}
     <footer class="container-edit-content backgroundcolor">
         <i id="footerText" class="btn-edit-content fa fa-pencil fa-2x"></i>
@@ -90,7 +97,6 @@
     {% include 'CGGConferenceBundle:Admin/Partials:headerModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:editModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:menuItemModal.html.twig' %}
-    <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
     {% include 'CGGConferenceBundle:Admin/Partials:imageModal.html.twig' %}
     <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
         <a href="" id="pagePath" class="btn btn-success">

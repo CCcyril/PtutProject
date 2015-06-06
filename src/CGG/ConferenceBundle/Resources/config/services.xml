@@ -82,6 +82,13 @@
 
         <service id="generate_password" class="CGG\ConferenceBundle\Tools\GeneratePassword">
         </service>
+
+        <service id="mail_contact_conference" class="CGG\ConferenceBundle\Tools\MailContactConference">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
+        </service>
     </services>
 
 </container>

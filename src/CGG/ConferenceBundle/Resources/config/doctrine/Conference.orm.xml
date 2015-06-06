@@ -15,8 +15,11 @@
         <field name="status" type="string" length="255"/>
         <field name="mainColor" type="string" length="255"/>
         <field name="secondaryColor" type="string" length="255"/>
-        <field name="emailContact" type="string" length="255"/>
+        <field name="emailContact" type="string" length="255" nullable="true"/>
         <field name="imagePath" type="string" length="255" nullable="true"/>
+        <field name="longitude" type="string" length="255" nullable="true"/>
+        <field name="latitude" type="string" length="255" nullable="true"/>
+        <field name="infoMap" type="string" length="255" nullable="true"/>
 
         <one-to-one field="headband" target-entity="HeadBand">
             <cascade>

@@ -157,6 +157,14 @@ footer p{
     margin: 20px 0px;
 }
 /* Fin Admin */
+/* Modal reglage */
+.modal-image-dialog {
+    width: 80%;
+}
+/* Contact */
+#map{
+    height: 400px;
+}
 @media(min-width: 767px){
     .navbar-inverse .btn:hover ul{
         display: block;

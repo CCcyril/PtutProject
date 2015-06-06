@@ -55,6 +55,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $homePage->setHome('1');
+        $homePage->setContact('0');
         $homePage->setTitle('Accueil');
 
         $menuItem->setTitle($homePage->getTitle());
@@ -83,6 +84,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $presentationPage->setHome('0');
+        $presentationPage->setContact('0');
         $presentationPage->setTitle('Présentation');
 
         $menuItem->setTitle($presentationPage->getTitle());
@@ -111,6 +113,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $informationPage->setHome('0');
+        $informationPage->setContact('0');
         $informationPage->setTitle('Informations');
 
         $menuItem->setTitle($informationPage->getTitle());
@@ -139,6 +142,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $contactPage->setHome('0');
+        $contactPage->setContact('1');
         $contactPage->setTitle('Contact');
 
         $menuItem->setTitle($contactPage->getTitle());
@@ -146,38 +150,36 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('
-        <div class="col-md-6">
-            <form>
+        $content->setText('<div class="col-md-6">
+            <div id="reponseContact"></div>
+            <h2>Formulaire de contact</h2>
                 <div class="form-group">
                     <label>Nom :</label>
-                    <input type="text" name="name" class="form-control"/>
+                    <input type="text" id="name" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Prénom :</label>
-                    <input type="text" name="firstName" class="form-control"/>
+                    <input type="text" id="firstName" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Mail :</label>
-                    <input type="email" name="email" class="form-control"/>
+                    <input type="email" id="email" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Sujet :</label>
-                    <input type="text" name="sujet" class="form-control"/>
+                    <input type="text" id="sujet" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Message :</label>
-                    <textarea name="message" class="form-control"></textarea>
+                    <textarea id="message" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                    <button type="submit">Contact</button>
+                    <button type="button" class="btn btn-primary" id="envoieEmail">Contact</button>
                 </div>
-            </form>
         </div>
         <div class="col-md-6">
             <div id="map"></div>
-        </div>
-        ');
+        </div> ');
 
         $contactPage->addContent($content);
 

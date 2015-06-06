@@ -149,4 +149,14 @@
         <option key="expose">true</option>
     </route>
 
+    <route id="cgg_conference_contact_conference" path="/conference/contactConference">
+        <default key="_controller">CGGConferenceBundle:Conference:contactConference</default>
+        <option key="expose">true</option>
+    </route>
+    <route id="cgg_conference_map" path="/conference/admin/afficher-map">
+        <default key="_controller">CGGConferenceBundle:Admin:showMap</default>
+        <option key="expose">true</option>
+    </route>
+
+
 </routes>

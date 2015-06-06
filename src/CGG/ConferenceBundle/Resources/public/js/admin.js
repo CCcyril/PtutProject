@@ -157,7 +157,7 @@ $(document).ready(function() {
     /* Referme les nouvelles pages à la fermeture de la modale*/
 
     $('#myModal').on('hidden.bs.modal', function () {
-        $("#addPages").addClass('hidden');
+        $("#reponseValidation").empty();
     });
 
     $("#saveSetting").on('click', function () {
@@ -165,6 +165,9 @@ $(document).ready(function() {
         var mainColor = $("#mainColor").val();
         var secondaryColor = $("#secondaryColor").val();
         var emailContact = $("#emailContact").val();
+        var longitude = $("#longitude").val();
+        var latitude = $("#latitude").val();
+        var info = $("#info").val();
         var url = Routing.generate('cgg_conference_admin_save_setting');
         $.ajax({
             type: "POST",
@@ -173,12 +176,19 @@ $(document).ready(function() {
                 'idConference': idConference,
                 'mainColor': mainColor,
                 'secondaryColor': secondaryColor,
-                'emailContact': emailContact
+                'emailContact': emailContact,
+                'longitude': longitude,
+                'latitude': latitude,
+                'info': info
             },
-            dataType: "html",
-            success: function () {
-                $('#myModal').modal('hide');
-                window.location.reload(true);
+            dataType: "json",
+            success: function (json) {
+                if(json['erreur'] == true){
+                    $("#reponseValidation").append('<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation"></i> '+json['message']+'</div>');
+                }else {
+                    $('#myModal').modal('hide');
+                    window.location.reload(true);
+                }
             }
         });
     });

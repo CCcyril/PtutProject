@@ -23,6 +23,9 @@ class Conference
     private $secondaryColor;
     private $emailContact;
     private $imagePath;
+    private $longitude;
+    private $latitude;
+    private $infoMap;
 
     function __construct()
     {
@@ -32,6 +35,9 @@ class Conference
         $this->mainColor = "#2B1138";
         $this->secondaryColor = "#E84349";
         $this->emailContact = null;
+        $this->longitude = "5.2415621";
+        $this->latitude = "46.2153648";
+        $this->infoMap = "IUT Lyon 1 site de Bourg-en-Bresse";
     }
 
     public function getId()
@@ -221,4 +227,33 @@ class Conference
             unlink($file);
         }
     }
+
+
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
+
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+    public function getInfoMap()
+    {
+        return $this->infoMap;
+    }
+    public function setInfoMap($infoMap)
+    {
+        $this->infoMap = $infoMap;
+    }
+
 }
