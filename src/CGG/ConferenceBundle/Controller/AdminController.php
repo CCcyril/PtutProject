@@ -360,6 +360,5 @@ class AdminController extends Controller
         return $response;
 
     }
-}
 
 }
