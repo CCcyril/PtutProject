@@ -33,4 +33,8 @@ class CommentImageRepository extends EntityRepository
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
     }
+    public function delete($comment){
+        $this->entityManager->remove($comment);
+        $this->entityManager->flush();
+    }
 }

@@ -34,4 +34,25 @@ class PageRepository extends EntityRepository
         $this->entityManager->remove($page);
         $this->entityManager->flush();
     }
+
+    public function getFirstPageWhichIsNotHome($idHome, $idConference){
+        $query = $this->entityManager->getRepository('CGGConferenceBundle:Page')->createQueryBuilder('p')
+            ->where('p.id <> :idHome')
+            ->andWhere('p.page_conference_id = :idConference')
+            ->setParameter('idHome', $idHome)
+            ->setParameter('idConference', $idConference)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    Public function findHome($idConference){
+        return $this->entityManager->getRepository('CGGConferenceBundle:Page')->createQueryBuilder('p')
+            ->where('p.page_conference_id = :idConference')
+            ->andWhere('p.isHome = 1')
+            ->setParameter('idConference', $idConference)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+    }
 }

@@ -3,6 +3,7 @@
 namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\User;
+use CGG\ConferenceBundle\Form\Type\UserProfilType;
 use CGG\ConferenceBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -116,7 +117,7 @@ class UserController extends Controller{
     }
     public function profilAction(Request $request){
         $user = $this->get('security.context')->getToken()->getUser();
-        $form = $this->createForm(New UserType(), $user);
+        $form = $this->createForm(New UserProfilType(), $user);
         if($request->isMethod('POST')) {
             $form->submit($request);
             if ($form->isValid()) {

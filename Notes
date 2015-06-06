@@ -1,15 +1,10 @@
-A faire:
-
--validation/contraintes base
--design site
--competition images
--page admin à améliorer
-
-
-Page admin :
--Bouton ajouter un sous menu
--Bouton ajouter un bouton à améliorer (bouton avec sous-menu ...)
--Ajouter des zones de contenus / images
--Ajouter background header
--Couleur de la conférence
--liste user pour l'admin pour changer les ROLEs
+sous-Menu : disable suppression page si pluqu'une page
+ACL compétition
+ACL : demander à participer
+Gestion User
+Envoyer à lafosse pour le server
+Envoi de mail pour demande de participation
+Améliorer création page par défaut
+Mettre message confirmation avant suppression(sous-menu, conf, user)
+Mettre un message épique avant la suppression de la page contact
+classe active

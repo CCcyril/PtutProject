@@ -92,33 +92,14 @@
         {% block javascript %}
             {% javascripts
                 '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'
+                '@CGGConferenceBundle/Resources/public/js/sensor.js'
+                '@CGGConferenceBundle/Resources/public/js/gmaps.js'
                 '@CGGConferenceBundle/Resources/public/js/jquery.js'
                 '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js'
+                '@CGGConferenceBundle/Resources/public/js/script.js'
                 output='js/script.js' %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
-            {% javascripts '@CGGConferenceBundle/Resources/public/js/colorpicker/*.js' output='js/script.js' %}
-            <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-            <script>
-                $(document).ready(function(){
-                    var heightfooter = $("footer").height();
-                    heightfooter = heightfooter +60;
-                    $("body").css("margin-bottom",heightfooter+"px");
-                    /* Scroll top */
-                    $('#back-top').click(function () {
-                        $('body,html').animate({scrollTop:0}, 800);
-                        return false;
-                    });
-                    $(window).scroll(function(){
-                        if($(document).scrollTop() > 400){
-                            $("#back-top").fadeIn(500);
-                        }else{
-                            $("#back-top").fadeOut(400);
-                        }
-                    });
-                });
-            </script>
         {% endblock %}
     </body>
 </html>
