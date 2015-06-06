@@ -82,6 +82,7 @@
 
         <service id="generate_password" class="CGG\ConferenceBundle\Tools\GeneratePassword">
         </service>
+
     </services>
 
 </container>

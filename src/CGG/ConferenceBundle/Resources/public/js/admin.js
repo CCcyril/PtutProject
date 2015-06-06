@@ -3,6 +3,7 @@ $(document).ready(function() {
     $('.btn-edit-content').hide();
     $('.btn-delete-content').hide();
     $('.btn-edit-content-image').hide();
+    $('.btn-edit-content-menu').hide();
 
     $("#saveChangesAdminConference").click(function () {
         var data = [];
@@ -44,16 +45,18 @@ $(document).ready(function() {
         $("#btnRemovePage").attr('data-menuItemId', idMenuItem);
     });
 
-    $(".container-edit-content").mouseover(function () {
+    $(".container-edit-content, .menu-edit-content").mouseover(function () {
         $(this).find('.btn-edit-content').show();
         $(this).find('.btn-delete-content').show();
         $(this).find('.btn-edit-content-image').show();
+        $(this).find('.btn-edit-content-menu').show();
     });
 
-    $(".container-edit-content").mouseleave(function () {
+    $(".container-edit-content, .menu-edit-content").mouseleave(function () {
         $(this).find('.btn-edit-content').hide();
         $(this).find('.btn-delete-content').hide();
         $(this).find('.btn-edit-content-image').hide();
+        $(this).find('.btn-edit-content-menu').hide();
     });
 
     $("#addSubItem").on('click', function () {
@@ -266,32 +269,6 @@ $(document).ready(function() {
 
     $('#imageModalValidate').on('click', function (e) {
         e.preventDefault();
-
-        var data = new FormData();
-        $.each(files, function(key, value) {
-            data.append(key, value);
-        });
-
-        var idConference = $('#inputIdConferenceForImage').val();
-
-        data.append('idConference', idConference);
-
-        var url= Routing.generate('cgg_conference_admin_uploadImageHeader');
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                'data': data
-            },
-            dataType: "html",
-            processData: false,
-            contentType: false,
-            success:function() {
-                alert('PANCAKE');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(thrownError + xhr.status);
-            }
-        });
+        $(this).parent().parent().find('form').submit();
     });
 });

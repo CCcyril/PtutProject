@@ -4,6 +4,7 @@ namespace CGG\ConferenceBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Conference
 {
@@ -24,6 +25,11 @@ class Conference
     private $emailContact;
     private $imagePath;
 
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    public $file;
+
     function __construct()
     {
         $this->creationDate = \date('r');
@@ -32,6 +38,7 @@ class Conference
         $this->mainColor = "#2B1138";
         $this->secondaryColor = "#E84349";
         $this->emailContact = null;
+        $this->imagePath = null;
     }
 
     public function getId()
@@ -121,6 +128,16 @@ class Conference
         return null;
     }
 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
     public function getStatus()
     {
         return $this->status;
@@ -203,7 +220,7 @@ class Conference
 
     protected function getUploadDir()
     {
-        return '/uploads';
+        return '/uploads/logos';
     }
     public function upload()
     {
@@ -212,7 +229,7 @@ class Conference
         }
 
         $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-        $this->path = $this->file->getClientOriginalName();
+        $this->imagePath = $this->file->getClientOriginalName();
     }
 
     public function removeUpload()

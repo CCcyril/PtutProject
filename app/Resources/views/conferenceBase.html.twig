@@ -73,7 +73,6 @@
             </div>
         </nav>
 
-        <div id="back-top"><i class="fa fa-arrow-circle-up color"></i></div>
         <div class="container">
             {% for content in contents %}
                 {% block contentText %}
@@ -88,6 +87,8 @@
         {% block footerText %}
             {{ footer.text | raw }}
         {% endblock %}
+
+        <div id="back-top"><i class="fa fa-arrow-circle-up color"></i></div>
         {% block javascript %}
             {% javascripts
                 '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'

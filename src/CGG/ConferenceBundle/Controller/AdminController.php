@@ -2,6 +2,7 @@
 
 namespace CGG\ConferenceBundle\Controller;
 
+use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Entity\Content;
 use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
@@ -14,7 +15,7 @@ use CGG\ConferenceBundle\Form\Type\ImageHeaderType;
 
 class AdminController extends Controller
 {
-    public function adminAction($idConference, $idPage) {
+    public function adminAction(Request $request, $idConference, $idPage) {
 
         $conference = $this->get('conference_repository')->find($idConference);
         if ($conference !== NULL) {
@@ -25,7 +26,16 @@ class AdminController extends Controller
                 }
 
                 $form = $this->createForm(New ContentType());
-                $formImage = $this->createForm(New ImageHeaderType());
+                $formImage = $this->createForm(New ImageHeaderType(),$conference);
+
+                if($request->isMethod('POST')){
+
+                    $formImage->submit($request);
+                    if($formImage->isValid()) {
+                        $conference->upload();
+                        $this->get('conference_repository')->save($conference);
+                    }
+                }
 
                 $headBand = $conference->getHeadBand();
                 $menu = $conference->getMenu();
@@ -271,15 +281,4 @@ class AdminController extends Controller
 
         return new Response('ok');
     }
-
-    public function uploadImageHeaderAction(Request $request){
-        $idConference = $request->request->get('idConference');
-        $conference = $this->get('conference_repository')->find($idConference);
-
-        $conference->setImagePath($this->file);
-        $conference->upload();
-
-        return new Response('ok');
-    }
 }
-

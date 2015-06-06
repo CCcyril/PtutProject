@@ -14,14 +14,14 @@
     </button>
     {% block headbandTitle %}
         <div class="container-edit-content">
-            <i id="headBandTitle" class="btn-edit-content fa fa-pencil fa-2x"></i>
+            <i id="headBandTitle" class="fa fa-pencil fa-2x btn-edit-content "></i>
             <span id="headbandTitle2">{{ parent() }}</span>
         </div>
     {% endblock %}
 
     {% block headbandText %}
         <div class="container-edit-content">
-            <i id="headBandText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+            <i id="headBandText" class="fa fa-pencil fa-2x btn-edit-content"></i>
             <span id="headbandText2">{{ parent() }}</span>
         </div>
     {% endblock %}
@@ -33,17 +33,20 @@
             {% for menuItem in menuItems %}
                 {% if menuItem.children is null %}
                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                        data-menuItemId="{{ menuItem.id }}" class="btn" data-toggle="modal" data-target="#menuItemModal">
+                        data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
+                        <i id="menuItemEdit{{ loop.index }}" class="fa fa-pencil btn-edit-content-menu "></i>
                         {{ menuItem.title }}
                     </li>
                 {% else %}
-                    <li id="menuItemTitle{{ loop.index }}" class="btn" data-pageId="{{ menuItem.page.id }}"
-                        data-menuItemId="{{ menuItem.id }}" class="btn" data-toggle="modal" data-target="#menuItemModal">
+                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                        data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
+                        <i id="menuItemEdit{{ loop.index }}" class="fa fa-pencil btn-edit-content-menu "></i>
                         {{ menuItem.title }}
                         <ul class="backgroundcolor">
                             {% for menuItemChild in menuItem.children  %}
                                 <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                                    data-menuItemId="{{ menuItem.id }}" class="btn" data-toggle="modal" data-target="#menuItemModal">
+                                    data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
+                                    <i id="menuItemEdit{{ loop.index }}" class="fa fa-pencil btn-edit-content-menu"></i>
                                     {{ menuItemChild.title }}
                                 </li>
                             {% endfor %}
@@ -63,7 +66,7 @@
 {% endblock %}
 {% block contentText %}
     <div class="container-edit-content">
-        <i id="contentText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+        <i id="contentText" class="fa fa-pencil fa-2x btn-edit-content "></i>
         <i id="deleteContent{{ content.id }}" class="btn-delete-content fa fa-close fa-2x"></i>
         <div id="content{{ content.id }}">
             {{ parent() }}
@@ -77,7 +80,7 @@
 
 {% block footerText %}
     <footer class="container-edit-content backgroundcolor">
-        <i id="footerText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+        <i id="footerText" class="fa fa-pencil fa-2x btn-edit-content "></i>
         <span id="footerText2">{{ parent() }}</span>
     </footer>
 {% endblock %}
@@ -90,19 +93,7 @@
     {% include 'CGGConferenceBundle:Admin/Partials:headerModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:editModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:menuItemModal.html.twig' %}
-    <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
     {% include 'CGGConferenceBundle:Admin/Partials:imageModal.html.twig' %}
-    <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
-        <a href="" id="pagePath" class="btn btn-success">
-            <i class="fa fa-arrow-circle-o-right"></i>
-        </a>
-        <button id="editMenuItem" class="btn btn-primary">
-            <i class="fa fa-pencil-square-o"></i>
-        </button>
-        <button id="addSubItem" class="btn btn-default" data-menuItemId="">
-            <i class="fa fa-plus-circle"></i>
-        </button>
-    </div>
 {% endblock %}
 
 {% block javascript %}
