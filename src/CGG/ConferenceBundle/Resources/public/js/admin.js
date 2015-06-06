@@ -3,7 +3,6 @@ $(document).ready(function() {
     $('.btn-edit-content').hide();
     $('.btn-delete-content').hide();
     $('.btn-edit-content-image').hide();
-    $('.btn-edit-content-menu').hide();
 
     $("#saveChangesAdminConference").click(function () {
         var data = [];
@@ -51,14 +50,12 @@ $(document).ready(function() {
         $(this).find('.btn-edit-content').show();
         $(this).find('.btn-delete-content').show();
         $(this).find('.btn-edit-content-image').show();
-        $(this).find('.btn-edit-content-menu').show();
     });
 
     $(".container-edit-content, .menu-edit-content").mouseleave(function () {
         $(this).find('.btn-edit-content').hide();
         $(this).find('.btn-delete-content').hide();
         $(this).find('.btn-edit-content-image').hide();
-        $(this).find('.btn-edit-content-menu').hide();
     });
 
     $("#addSubItem").on('click', function () {

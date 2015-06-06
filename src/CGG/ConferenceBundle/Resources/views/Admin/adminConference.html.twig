@@ -34,19 +34,16 @@
                 {% if menuItem.children is null %}
                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
                         data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
-                        <i id="menuItemEdit{{ loop.index }}" class="fa fa-pencil btn-edit-content-menu "></i>
                         {{ menuItem.title }}
                     </li>
                 {% else %}
                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
                         data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
-                        <i id="menuItemEdit{{ loop.index }}" class="fa fa-pencil btn-edit-content-menu "></i>
                         {{ menuItem.title }}
                         <ul class="backgroundcolor">
                             {% for menuItemChild in menuItem.children  %}
                                 <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
                                     data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
-                                    <i id="menuItemEdit{{ loop.index }}" class="fa fa-pencil btn-edit-content-menu"></i>
                                     {{ menuItemChild.title }}
                                 </li>
                             {% endfor %}
