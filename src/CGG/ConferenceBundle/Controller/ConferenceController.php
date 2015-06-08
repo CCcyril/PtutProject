@@ -134,6 +134,15 @@ class ConferenceController extends Controller
     }
 
     public function deleteConferenceAction($idConference){
+        $images = $this->get('image_competition_repository')->findAllByIdConference($idConference);
+        foreach($images as $image){
+            $idImage = $image->getId();
+            $comments = $this->get('comments_image_competition_repository')->findByIdImage($idImage);
+            foreach($comments as $comment){
+                $this->get('comments_image_competition_repository')->delete($comment);
+            }
+            $this->get('image_competition_repository')->delete($image);
+        }
         $conferenceRepo = $this->get('conference_repository');
         $conference = $conferenceRepo->find($idConference);
         $conferenceRepo->removeConference($conference);
