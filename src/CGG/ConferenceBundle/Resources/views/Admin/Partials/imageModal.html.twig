@@ -8,18 +8,22 @@
                 <!-- Inputs cachés -->
                 <input type="hidden" id="inputIdConferenceForImage" value="{{ conference.id }}">
             </div>
-            <div class="modal-body">
+            <form action="#" method="post" {{ form_enctype(formImage) }}>
                 {{ form_start(formImage) }}
-                <div class="form-group">
-                    {{ form_errors(formImage.file) }}
-                    {{ form_widget(formImage.file, { 'attr' : { 'class' : 'form-control'}}) }}
+                <div class="modal-body">
+                    <div class="form-group">
+                        {{ form_errors(formImage.file) }}
+                        {{ form_widget(formImage.file, { 'attr' : { 'class' : 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    {{  form_widget(formImage.envoyer, {'attr':{'class' :'btn btn-primary'}}) }}
+                    {{  form_rest(formImage) }}
+
                 </div>
                 {{ form_end(formImage) }}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary" id="imageModalValidate">Valider</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -130,7 +130,9 @@ footer p{
     border: none;
     position: relative;
 }
-
+.navbar-nav{
+    margin: 0px;
+}
 .navbar-inverse .btn ul{
     position: absolute;
     z-index: 9;
@@ -140,9 +142,7 @@ footer p{
     padding: 0;
     display: none;
 }
-.navbar-inverse .btn:hover ul{
-    display: block;
-}
+
 .navbar-inverse .btn ul li{
     display: block;
 }
@@ -157,3 +157,16 @@ footer p{
     margin: 20px 0px;
 }
 /* Fin Admin */
+/* Modal reglage */
+.modal-image-dialog {
+    width: 80%;
+}
+/* Contact */
+#map{
+    height: 400px;
+}
+@media(min-width: 767px){
+    .navbar-inverse .btn:hover ul{
+        display: block;
+    }
+}

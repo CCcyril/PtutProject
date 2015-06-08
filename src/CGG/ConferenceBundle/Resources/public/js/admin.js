@@ -40,17 +40,19 @@ $(document).ready(function() {
     $('#navbar li:not(:last-child)').on('click', function () {
         var itemId = $(this).attr('id');
         var idMenuItem = $('#' + itemId).attr('data-menuItemId');
+        var idCurrentPage = $(this).attr('data-pageId');
         $("#addSubItem").attr('data-menuItemId', idMenuItem);
         $("#btnRemovePage").attr('data-menuItemId', idMenuItem);
+        $("#btnRemovePage").attr('data-idCurrentPage', idCurrentPage);
     });
 
-    $(".container-edit-content").mouseover(function () {
+    $(".container-edit-content, .menu-edit-content").mouseover(function () {
         $(this).find('.btn-edit-content').show();
         $(this).find('.btn-delete-content').show();
         $(this).find('.btn-edit-content-image').show();
     });
 
-    $(".container-edit-content").mouseleave(function () {
+    $(".container-edit-content, .menu-edit-content").mouseleave(function () {
         $(this).find('.btn-edit-content').hide();
         $(this).find('.btn-delete-content').hide();
         $(this).find('.btn-edit-content-image').hide();
@@ -75,6 +77,19 @@ $(document).ready(function() {
 
     $('.btn-edit-content-image').on('click', function () {
         $('#imageModal').modal('show');
+    });
+
+    $('.btn-edit-content').on('click', function () {
+
+        $('#entity').val($(this).attr('id'));
+
+        if (typeof $(this).parent().find('div:first').attr('id') !== 'undefined' && $(this).parent().find('div:first').attr('id').substring(0, 7) === 'content') {
+            $('#idContent').val($(this).parent().find('div:first').attr('id').replace('content', ''));
+        }
+
+        CKEDITOR.instances['cgg_conferencebundle_content_content'].setData($(this).parent().html().replace('<i id="' + $(this).attr('id') + '" class="btn-edit-content fa fa-pencil fa-2x"></i>', ''));
+
+        $('#editModal').modal('show');
     });
 
     $('#editModalValidate').on('click', function (e) {
@@ -142,7 +157,7 @@ $(document).ready(function() {
     /* Referme les nouvelles pages à la fermeture de la modale*/
 
     $('#myModal').on('hidden.bs.modal', function () {
-        $("#addPages").addClass('hidden');
+        $("#reponseValidation").empty();
     });
 
     $("#saveSetting").on('click', function () {
@@ -150,6 +165,9 @@ $(document).ready(function() {
         var mainColor = $("#mainColor").val();
         var secondaryColor = $("#secondaryColor").val();
         var emailContact = $("#emailContact").val();
+        var longitude = $("#longitude").val();
+        var latitude = $("#latitude").val();
+        var info = $("#info").val();
         var url = Routing.generate('cgg_conference_admin_save_setting');
         $.ajax({
             type: "POST",
@@ -158,12 +176,19 @@ $(document).ready(function() {
                 'idConference': idConference,
                 'mainColor': mainColor,
                 'secondaryColor': secondaryColor,
-                'emailContact': emailContact
+                'emailContact': emailContact,
+                'longitude': longitude,
+                'latitude': latitude,
+                'info': info
             },
-            dataType: "html",
-            success: function () {
-                $('#myModal').modal('hide');
-                window.location.reload(true);
+            dataType: "json",
+            success: function (json) {
+                if(json['erreur'] == true){
+                    $("#reponseValidation").append('<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation"></i> '+json['message']+'</div>');
+                }else {
+                    $('#myModal').modal('hide');
+                    window.location.reload(true);
+                }
             }
         });
     });
@@ -225,17 +250,28 @@ $(document).ready(function() {
     $("#btnRemovePage").on('click', function () {
         var url = Routing.generate('cgg_conference_admin_remove_page');
         var idPage = $("#idPage").val();
+        var idConference = $("#idConference").val();
         var idMenuItem = $("#btnRemovePage").attr('data-menuItemId');
+        var currentUrl =  window.location.pathname;
+        var idCurrentPage = $("#btnRemovePage").attr('data-idCurrentPage');
+        var idRedirectPage = $("#navbar li:first").attr('data-pageId');
+        if(idCurrentPage == idRedirectPage){
+            idRedirectPage = $("#navbar li:nth-child(2)").attr('data-pageId');
+        }
         $.ajax({
             type: "POST",
             url: url,
             data: {
                 'idPage': idPage,
-                'idMenuItem': idMenuItem
+                'idMenuItem': idMenuItem,
+                'idConference': idConference,
+                'currentUrl': currentUrl
             },
-            dataType: "html",
-            success: function () {
-                window.location.reload(true);
+            dataType: "json",
+            success: function (json) {
+                var idHomePage = json['idHomePage'];
+                redirectUrl = currentUrl.replace(idPage, idHomePage);
+                window.location.href = redirectUrl;
             }
         });
     });
@@ -253,29 +289,6 @@ $(document).ready(function() {
 
     $('#imageModalValidate').on('click', function (e) {
         e.preventDefault();
-
-        var data = new FormData();
-        $.each(files, function(key, value) {
-            data.append(key, value);
-        });
-        var idConference = $('#inputIdConferenceForImage').val();
-        alert(idConference);
-        var url= Routing.generate('cgg_conference_admin_uploadImageHeader');
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                'data': data,
-                'idConference': idConference
-            },
-            dataType: "html",
-            // processData: false, C'etait ca qui faisais tout planter
-            success:function() {
-                //window.location.reload();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(thrownError + xhr.status);
-            }
-        });
+        $(this).parent().parent().find('form').submit();
     });
 });

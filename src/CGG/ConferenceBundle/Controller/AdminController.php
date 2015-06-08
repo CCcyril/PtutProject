@@ -2,6 +2,7 @@
 
 namespace CGG\ConferenceBundle\Controller;
 
+use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Entity\Content;
 use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
@@ -14,9 +15,12 @@ use CGG\ConferenceBundle\Form\Type\ImageHeaderType;
 
 class AdminController extends Controller
 {
-    public function adminAction($idConference, $idPage) {
+    public function adminAction(Request $request, $idConference, $idPage) {
 
         $conference = $this->get('conference_repository')->find($idConference);
+        $page = $this->get('page_repository')->find($idPage);
+
+        $isContact = $page->getContact();
         if ($conference !== NULL) {
             $pages = $this->get('page_repository')->findByConferenceId($idConference);
             if ($this->get('check_if_page_belong_conference')->checkIfPageBelongConference()) {
@@ -25,7 +29,16 @@ class AdminController extends Controller
                 }
 
                 $form = $this->createForm(New ContentType());
-                $formImage = $this->createForm(New ImageHeaderType());
+                $formImage = $this->createForm(New ImageHeaderType(),$conference);
+
+                if($request->isMethod('POST')){
+
+                    $formImage->submit($request);
+                    if($formImage->isValid()) {
+                        $conference->upload();
+                        $this->get('conference_repository')->save($conference);
+                    }
+                }
 
                 $headBand = $conference->getHeadBand();
                 $menu = $conference->getMenu();
@@ -51,7 +64,8 @@ class AdminController extends Controller
                     'contents' => $contents,
                     'footer' => $footer,
                     'form' => $form->createView(),
-                    'formImage' => $formImage->createView()
+                    'formImage' => $formImage->createView(),
+                    'isContact' => $isContact
                 ));
 
             }else{
@@ -193,9 +207,13 @@ class AdminController extends Controller
     }
 
     public function removePageAction(Request $request){
+
         $idMenuItem = $request->request->get('idMenuItem');
         $menuItem = $this->get('menuitem_repository')->find($idMenuItem);
         $children = $this->get('menuitem_repository')->findMenuItemChildren($idMenuItem, $menuItem->getMenu()->getId());
+        $idConference = $request->request->get('idConference');
+        $currentUrl = $request->request->get('currentUrl');
+        $data = array('idHomePage'=>null);
 
         foreach($children as $child){
             $page = $child->getPage();
@@ -204,10 +222,27 @@ class AdminController extends Controller
         }
 
         $page = $menuItem->getPage();
+        if(preg_match("#" . $page->getId() . "#", $currentUrl)){
+            if($page->isHome()){
+                $pages = $this->get('page_repository')->getFirstPageWhichIsNotHome($page->getId(), $idConference);
+                $newHome = array_shift($pages);
+                $newHome->setHome('1');
+                $page->setHome("0");
+                $data = array('idHomePage'=>$newHome->getId());
+            }else{
+                $homePage = $this->get('page_repository')->findHome($idConference);
+                $data = array('idHomePage'=>$homePage->getId());
+            }
+        }
+
         $this->get('menuitem_repository')->removeMenuItem($menuItem);
         $this->get('page_repository')->removePage($page);
         $this->addFlash('success', 'Page ' . $page->getTitle() . ' a été supprimée');
-        return new Response('ok');
+
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     public function createNewPage(){
@@ -238,15 +273,45 @@ class AdminController extends Controller
         $mainColor = $request->request->get('mainColor');
         $secondaryColor = $request->request->get('secondaryColor');
         $emailContact = $request->request->get('emailContact');
+        $longitude = $request->request->get('longitude');
+        $latitude = $request->request->get('latitude');
+        $info = $request->request->get('info');
+        $data = array();
+        if($mainColor == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur principale s'il vous plaît");
+        }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $mainColor)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur principale correcte s'il vous plaît");
+        }else if($secondaryColor == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur secondaire s'il vous plaît");
+        }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $secondaryColor)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur secondaire correcte s'il vous plaît");
+        }else if($emailContact == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail s'il vous plaît");
+        }else if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $emailContact)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide s'il vous plaît");
+        }else if($longitude == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude s'il vous plaît");
+        }else if(!preg_match("/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/", $longitude)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude correcte s'il vous plaît");
+        }else if($latitude == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude s'il vous plaît");
+        }else if(!preg_match("/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/", $latitude)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude correcte s'il vous plaît");
+        }else{
+            $conference = $this->get('conference_repository')->find($idConference);
 
-        $conference = $this->get('conference_repository')->find($idConference);
+            $conference->setMainColor($mainColor);
+            $conference->setSecondaryColor($secondaryColor);
+            $conference->setEmailContact($emailContact);
+            $conference->setLongitude($longitude);
+            $conference->setLatitude($latitude);
+            $conference->setInfoMap($info);
 
-        $conference->setMainColor($mainColor);
-        $conference->setSecondaryColor($secondaryColor);
-        $conference->setEmailContact($emailContact);
-
-        $this->get('conference_repository')->save($conference);
+            $this->get('conference_repository')->save($conference);
+        }
         $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -281,5 +346,19 @@ class AdminController extends Controller
 
         return new Response('ok');
     }
-}
+    public function showMapAction(Request $request){
+        $idConference = $request->request->get('idConference');
+        $conference = $this->get('conference_repository')->find($idConference);
+        $data = array(
+            "longitude"=>$conference->getLongitude(),
+            "latitude"=>$conference->getLatitude(),
+            "infoMap"=>$conference->getInfoMap()
+        );
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
 
+    }
+
+}

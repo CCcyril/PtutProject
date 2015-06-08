@@ -16,6 +16,7 @@ class Page
     private $isHome;
     private $page_conference_id;
     private $contents;
+    private $isContact;
 
     function __construct()
     {
@@ -75,4 +76,13 @@ class Page
     {
         return $this->contents;
     }
+    public function getContact()
+    {
+        return $this->isContact;
+    }
+    public function setContact($isContact)
+    {
+        $this->isContact = $isContact;
+    }
+
 }

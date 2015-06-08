@@ -9,7 +9,9 @@ class ImageHeaderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', 'file');
+        $builder->add('file', 'file')
+                ->add('envoyer', 'submit')
+        ;
     }
     public function getName()
     {
