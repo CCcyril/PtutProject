@@ -17,7 +17,7 @@
                     <a href="{{ path('cgg_conference_detailConference', {'idConference': conference.id, 'idPage': conference.homePage.id}) }}" target="_blank" class="btn btn-primary">
                         <i class="fa fa-arrow-circle-o-right"></i> Accéder au site
                     </a>
-                    <a href="#" class="btn btn-primary">Demander à participer</a>
+                    <a href="{{ path('cgg_conference_request_take_part_conference', {'idConference': conference.id}) }}" class="btn btn-primary">Demander à participer</a>
                     {% if is_granted('EDIT', conference) %}
                         <a href="{{ path('cgg_conference_adminConference', {'idConference': conference.id, 'idPage': conference.homePage.id}) }}" class="btn btn-primary">
                             <i class="fa fa-cogs"></i> Administration

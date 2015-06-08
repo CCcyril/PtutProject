@@ -38,7 +38,7 @@ class MailAdminConferenceCreated {
 
         $subject = $username . ' demande à créer une conférence nommée : ' . $conferenceTitle;
         $from = $this->user->getEmail();
-        $to = 'yoann.galland71@gmail.com';
+        $to = 'cally.cyril@hotmail.fr';
 
         $body = $this->template->render('CGGConferenceBundle:Mail:bodyEmailAdminConferenceCreated.html.twig',
             [
@@ -55,6 +55,12 @@ class MailAdminConferenceCreated {
 
     public function sendMailAdminConferenceCreated($subject, $from, $to, $body){
 
+        $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
+            ->setUsername('yoann.galland71@gmail.com')
+            ->setPassword('cafartee')
+        ;
+
+        $this->mailer->newInstance($transport);
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom($from)
