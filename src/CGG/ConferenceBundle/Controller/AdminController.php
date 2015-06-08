@@ -118,6 +118,17 @@ class AdminController extends Controller
         }
     }
 
+    public function saveButtonNameAction(Request $request) {
+
+        $menuItem = $this->get('menuitem_repository')->find($request->request->get('idMenuItem'));
+
+        $menuItem->setTitle($request->request->get('buttonName'));
+
+        $this->get('menuitem_repository')->save($menuItem);
+
+        return new Response('ok');
+    }
+
     public function addMenuItemAction($idConference){
 
         $conferenceRepository = $this->get('conference_repository');

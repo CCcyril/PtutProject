@@ -153,6 +153,12 @@
         <default key="_controller">CGGConferenceBundle:Conference:contactConference</default>
         <option key="expose">true</option>
     </route>
+
+    <route id="cgg_conference_admin_saveButtonName" path="/conference/admin/editer-un-bouton">
+        <default key="_controller">CGGConferenceBundle:Admin:saveButtonName</default>
+        <option key="expose">true</option>
+    </route>
+
     <route id="cgg_conference_map" path="/conference/admin/afficher-map">
         <default key="_controller">CGGConferenceBundle:Admin:showMap</default>
         <option key="expose">true</option>
