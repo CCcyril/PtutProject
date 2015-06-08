@@ -34,21 +34,21 @@
                 {% if menuItem.children is null %}
                     {% if menuItem.depth == 1 %}
                         <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn first
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% elseif menuItem.depth == menuItems|length %}
                         <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn last
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% else %}
                         <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
@@ -59,21 +59,21 @@
                 {% else %}
                     {% if menuItem.depth == 1 %}
                         <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn first
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% elseif menuItem.depth == menuItems|length %}
                         <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn last
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% else %}
                         <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
@@ -84,21 +84,21 @@
                             {% for menuItemChild in menuItem.children  %}
                                 {% if menuItem.depth == 1 %}
                                 <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                                    data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn first
+                                    data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
                                         {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                             active
                                         {% endif %}
                                 ">
                                 {% elseif menuItem.depth == menuItems|length %}
                                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                                        data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn last
+                                        data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
                                         {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                             active
                                         {% endif %}
                                     ">
                                 {% else %}
                                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                                        data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn
+                                        data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
                                         {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                             active
                                         {% endif %}
@@ -113,7 +113,7 @@
             {% endfor %}
             {% block addMenuItem %}
             {% endblock %}
-            <li>
+            <li class="btn">
                 <a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}">
                     <i class="fa fa-plus-square"></i>
                 </a>
