@@ -3,8 +3,11 @@
 namespace CGG\ConferenceBundle\Tools;
 
 use CGG\ConferenceBundle\Entity\Conference;
+use CGG\ConferenceBundle\Entity\User;
+use CGG\ConferenceBundle\Repository\UserRepository;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class MailRequestTakePartConference {
@@ -21,7 +24,7 @@ class MailRequestTakePartConference {
         $this->template = $template;
     }
 
-    public function mailRequestTakePartConference(Conference $conference){
+    public function mailRequestTakePartConference(Conference $conference, User $user){
 
         $this->user = $this->context->getToken()->getUser();
         $username = $this->user->getUsername();
@@ -29,7 +32,8 @@ class MailRequestTakePartConference {
 
         $subject = $username . ' demande à participer à l\'administration : ' . $conferenceTitle;
         $from = $this->user->getEmail();
-        $to = 'cally.cyril@hotmail.fr';
+
+        $to = $user->getEmail();
 
         $body = $this->template->render('CGGConferenceBundle:Mail:bodyEmailRequestTakePartConference.html.twig',
             [
@@ -43,8 +47,8 @@ class MailRequestTakePartConference {
     public function sendMailRequestTakePartConference($subject, $from, $to, $body){
 
         $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
-            ->setUsername('yoann.galland71@gmail.com')
-            ->setPassword('cafartee')
+            ->setUsername('cggconference@gmail.com')
+            ->setPassword('cggconferencePTUT')
         ;
 
         $this->mailer->newInstance($transport);

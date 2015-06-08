@@ -3,8 +3,26 @@ ACL compétition
 ACL : demander à participer
 Gestion User
 Envoyer à lafosse pour le server
-Envoi de mail pour demande de participation
+
 Améliorer création page par défaut
-Mettre message confirmation avant suppression(sous-menu, conf, user)
 Mettre un message épique avant la suppression de la page contact
-classe active
+
+
+
+accéder à la compet(desgin menu)
+classe active(mettre sur le menu parent)
+suppression conf + image
+mettre des vrais messages succès
+script
+mail form user
+acl compet image
+Mettre message confirmation avant suppression(sous-menu, conf, user, image)
+tri competition images
+jury compet
+pagination compet
+tri compet
+
+fait :
+
+voir acl demande de validation
+Envoi de mail pour demande de participation

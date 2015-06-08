@@ -93,22 +93,15 @@ class ConferenceController extends Controller
 
                 $idMenu = $menu->getId();
 
-                $menuItems = $this->get('menuitem_repository')->findByMenuIdOrderByDepth($idMenu);
-                $menuItemsTable = array();
-                foreach($menuItems as $menuItem){
-                    if($menuItem->getParent() == NULL){
-                        $menuItemsTable[$menuItem->getId()] = array();
-                        $menuItemsTable[$menuItem->getId()]['menuItem'] = $menuItem;
-                        $menuItemsTable[$menuItem->getId()]['children'] = array();
-                    }
-                }
-                foreach($menuItems as $menuItem){
-                    if($menuItem->getParent() !== NULL) {
-                        $menuItemsTable[$menuItem->getParent()]['children'][] = $menuItem;
-                    }
-                }
-                $menuItems = $this->get('menuItem_repository')->findByMenuIdOrderByDepth($idMenu);
+                $menuItems = $this->get('menuitem_repository')->findMenuItemWithoutParentOrderedByDepth($idMenu);
 
+                foreach($menuItems as $menuItem){
+                    $idMenuItem = $menuItem->getId();
+                    $children = $this->get('menuitem_repository')->findMenuItemChildren($idMenuItem, $idMenu);
+                    foreach($children as $child){
+                        $menuItem->addChildren($child);
+                    }
+                }
                 $contents = $this->get('content_repository')->findByPageId($idPage);
 
                 $footer = $conference->getFooter();
@@ -117,7 +110,7 @@ class ConferenceController extends Controller
                 return $this->render('CGGConferenceBundle:Conference:detailConference.html.twig', array(
                     'conference' => $conference,
                     'headband' => $headBand,
-                    'menuItemsTable' => $menuItemsTable,
+                    'menuItems' => $menuItems,
                     'contents' => $contents,
                     'footer' => $footer
                 ));
@@ -143,19 +136,27 @@ class ConferenceController extends Controller
 
     public function requestTakePartConferenceAction($idConference){
         $conference = $this->get('conference_repository')->find($idConference);
-        $this->get('request_take_part_conference')->mailRequestTakePartConference($conference);
+        $authorizationChecker = $this->get('security.authorization_checker');
+        $users = $this->get('user_repository')->findAll();
+        foreach($users as $user){
+            if($authorizationChecker->isGranted('EDIT', $conference)){
+                $owner = $user;
+
+            }
+        }
+        $this->get('request_take_part_conference')->mailRequestTakePartConference($conference, $owner);
         $this->addFlash('success', 'TA ENVOYER LE MAIL ENFIN');
         return $this->render('CGGConferenceBundle:Conference:home.html.twig');
     }
 
     public function validateRequestTakePartConferenceAction($idConference, $idUser){
         $user = $this->get('user_repository')->find($idUser);
-        $conferece = $this->get('conference_repository')->find($idConference);
+        $conference = $this->get('conference_repository')->find($idConference);
 
         // creating the ACL
         $aclProvider = $this->get('security.acl.provider');
-        $objectIdentity = ObjectIdentity::fromDomainObject($conferece);
-        $acl = $aclProvider->createAcl($objectIdentity);
+        $objectIdentity = ObjectIdentity::fromDomainObject($conference);
+        $acl = $aclProvider->findAcl($objectIdentity);
 
         // retrieving the security identity of the currently logged-in user
         $tokenStorage = $this->get('security.token_storage');

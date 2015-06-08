@@ -2,14 +2,12 @@
 <p>Informations sur la conférence :</p>
 <p>Titre : {{ conference.name }}<br/>
 Description : {{ conference.description }}<br/>
-{#
-Date de début : {{ conference.startDate }}<br/>
-Date de fin : {{ conference.endDate }}</p>
-#}
+{#Date de début : {{ conference.startDate }}<br/>
+Date de fin : {{ conference.endDate }}</p>#}
 <p> Informations sur l'utilisateur :</p>
 <p>Nom : {{ user.username }}<br/>
 Email : {{ user.email }}</p>
 <p>Pour <strong>VALIDER</strong> cette demande, cliquez le lien ci-dessous :</p>
-<a href="http://127.0.0.1:8000/{{ path('cgg_conference_accept_request_take_part_conference', {'idConference':conference.id, 'idUser':user.id}) }}">{{ path('cgg_conference_accept_request_take_part_conference', {'idConference':conference.id}) }}</a>
+<a href="http://127.0.0.1:8000/{{ path('cgg_conference_accept_request_take_part_conference', {'idConference':conference.id, 'idUser':user.id}) }}">{{ path('cgg_conference_accept_request_take_part_conference', {'idConference':conference.id, 'idUser':user.id}) }}</a>
 <p>Pour <strong>REFUSER</strong> cette demande, cliquez le lien ci-dessous :</p>
-<a href="http://127.0.0.1:8000/{{ path('cgg_conference_refuse_request_take_part_conference') }}">{{ path('cgg_conference_accept_request_take_part_conference', {'idConference':conference.id}) }}</a>
+<a href="http://127.0.0.1:8000/{{ path('cgg_conference_refuse_request_take_part_conference') }}">{{ path('cgg_conference_refuse_request_take_part_conference', {'idConference':conference.id}) }}</a>

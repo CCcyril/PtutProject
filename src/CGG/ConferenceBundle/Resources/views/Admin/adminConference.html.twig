@@ -32,19 +32,79 @@
         <ul class="nav navbar-nav">
             {% for menuItem in menuItems %}
                 {% if menuItem.children is null %}
-                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                        data-menuItemId="{{ menuItem.id }}" class="btn" data-toggle="modal" data-target="#menuItemModal">
+                    {% if menuItem.depth == 1 %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
                         {{ menuItem.title }}
                     </li>
                 {% else %}
-                    <li id="menuItemTitle{{ loop.index }}" class="btn" data-pageId="{{ menuItem.page.id }}"
-                        data-menuItemId="{{ menuItem.id }}" class="btn" data-toggle="modal" data-target="#menuItemModal">
-                        {{ menuItem.title }}
+                    {% if menuItem.depth == 1 %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
+                    {{ menuItem.title }}
                         <ul class="backgroundcolor">
                             {% for menuItemChild in menuItem.children  %}
+                                {% if menuItem.depth == 1 %}
                                 <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                                    data-menuItemId="{{ menuItem.id }}" class="btn" data-toggle="modal" data-target="#menuItemModal">
-                                    {{ menuItemChild.title }}
+                                    data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn first
+                                        {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                ">
+                                {% elseif menuItem.depth == menuItems|length %}
+                                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                                        data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn last
+                                        {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                                {% else %}
+                                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                                        data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="btn
+                                        {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                                {% endif %}
+                                {{ menuItemChild.title }}
                                 </li>
                             {% endfor %}
                         </ul>
