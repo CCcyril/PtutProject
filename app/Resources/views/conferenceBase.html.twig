@@ -25,7 +25,9 @@
                 }
                 .navbar-inverse li:hover{
                     background: {{ conference.secondaryColor }};
-                }
+                }.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+                     background: {{ conference.secondaryColor }};
+                 }
             </style>
         {% endblock style %}
     </head>
@@ -45,7 +47,7 @@
                             <img id="imageHeader" src="{{ conference.getWebPath() }}" class="img-responsive"/>
                         {% endblock %}
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 headband">
                     {% block headband %}
                         {% block headbandTitle %}
                             {{ headband.title | raw}}

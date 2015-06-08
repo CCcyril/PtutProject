@@ -230,9 +230,6 @@ $(document).ready(function() {
             }
         });
     });
-
-    $('.demo-auto').colorpicker();
-
     $.fn.modal.Constructor.prototype.enforceFocus = function () {
         var $modalElement = this.$element;
         $(document).on('focusin.modal', function (e) {

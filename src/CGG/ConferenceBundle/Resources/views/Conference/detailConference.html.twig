@@ -8,10 +8,31 @@
     <span>{{ parent() }}</span>
 {% endblock %}
 
-{% block menuItemTitle %}
-    <a href="{{ path('cgg_conference_detailConference',{'idConference':conference.id, 'idPage':menuItem.page.id}) }}">
-        {{ parent() }}
-    </a>
+{% block menu %}
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            {% for menuItem in menuItems %}
+                {% if menuItem.children is null %}
+                    <li class="btn">
+                        {{ menuItem.title }}
+                    </li>
+                {% else %}
+                    <li id="menuItemTitle{{ loop.index }}" class="btn dropdown">
+                        {{ menuItemChild.title }}
+                        <ul class="backgroundcolor">
+                            {% for menuItemChild in menuItem.children  %}
+                                <li id="menuItemTitle{{ loop.index }}" class="btn">
+                                    {{ menuItemChild.title }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% block addMenuItem %}
+            {% endblock %}
+        </ul>
+    </div>
 {% endblock %}
 
 {% block contentText %}
@@ -21,6 +42,8 @@
 {% endblock %}
 
 {% block footerText %}
-    <p>{{ parent() }}</p>
+    <footer class="backgroundcolor">
+        <p>{{ parent() }}</p>
+    </footer>
 {% endblock %}
 
