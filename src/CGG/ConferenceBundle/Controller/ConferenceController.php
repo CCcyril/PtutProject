@@ -141,5 +141,37 @@ class ConferenceController extends Controller
         return $this->listAction();
     }
 
+    public function requestTakePartConferenceAction($idConference){
+        $conference = $this->get('conference_repository')->find($idConference);
+        $this->get('request_take_part_conference')->mailRequestTakePartConference($conference);
+        $this->addFlash('success', 'TA ENVOYER LE MAIL ENFIN');
+        return $this->render('CGGConferenceBundle:Conference:home.html.twig');
+    }
+
+    public function validateRequestTakePartConferenceAction($idConference, $idUser){
+        $user = $this->get('user_repository')->find($idUser);
+        $conferece = $this->get('conference_repository')->find($idConference);
+
+        // creating the ACL
+        $aclProvider = $this->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($conferece);
+        $acl = $aclProvider->createAcl($objectIdentity);
+
+        // retrieving the security identity of the currently logged-in user
+        $tokenStorage = $this->get('security.token_storage');
+        $user = $tokenStorage->getToken()->getUser();
+        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+        // grant owner access
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+        $aclProvider->updateAcl($acl);
+
+        return $this->render('CGGConferenceBundle:Conference:acceptRequestTakePartConference.html.twig', ['idConference'=>$idConference]);
+    }
+
+    public function RefuseRequestTakePartConferenceAction(){
+        return $this->render('CGGConferenceBundle:Conference:refuseRequestTakePartConference.html.twig');
+    }
+
 }
 

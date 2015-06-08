@@ -149,4 +149,20 @@
         <option key="expose">true</option>
     </route>
 
+    <route id="cgg_conference_request_take_part_conference" path="/conference/demande-de-participation/{idConference}">
+        <default key="_controller">CGGConferenceBundle:Conference:requestTakePartConference</default>
+    </route>
+
+    <route id="cgg_conference_refuse_request_take_part_conference" path="/conference/refuser-demande-de-participation/">
+        <default key="_controller">CGGConferenceBundle:Conference:RefuseRequestTakePartConference</default>
+    </route>
+
+    <route id="cgg_conference_accept_request_take_part_conference" path="/conference/accepter-demande-de-participation/{idConference}/{idUser}">
+        <default key="_controller">CGGConferenceBundle:Conference:ValidateRequestTakePartConference</default>
+    </route>
+
+    <route id="cgg_conference_admin_remove_user" path="/admin/conference/supprimer-utilisateur/{idUser}">
+        <default key="_controller">CGGConferenceBundle:User:removeUser</default>
+    </route>
+
 </routes>

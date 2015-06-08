@@ -62,7 +62,6 @@
         <service id="check_if_page_belong_conference" class="CGG\ConferenceBundle\Tools\CheckIfPageBelongConference">
             <argument type="service" id="request_stack"/>
             <argument type="service" id="page_repository"/>
-            <!--<call method="checkIfPageBelongConference"/>-->
         </service>
 
         <service id="mail_admin_conference_created" class="CGG\ConferenceBundle\Tools\MailAdminConferenceCreated">
@@ -80,8 +79,14 @@
             <argument type="service" id="templating"/>
         </service>
 
-        <service id="generate_password" class="CGG\ConferenceBundle\Tools\GeneratePassword">
+        <service id="generate_password" class="CGG\ConferenceBundle\Tools\GeneratePassword"/>
+
+        <service id="request_take_part_conference" class="CGG\ConferenceBundle\Tools\MailRequestTakePartConference">
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
         </service>
+
     </services>
 
 </container>
