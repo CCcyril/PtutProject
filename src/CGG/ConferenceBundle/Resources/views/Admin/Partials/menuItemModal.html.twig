@@ -4,16 +4,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Réglage de votre site</h4>
+                <h4 class="modal-title" id="menuItemModalLabel">Réglage de votre site</h4>
+                <!-- inputs cachés -->
+                <input type="hidden" id="menuItemIdModalInput">
             </div>
             <div class="modal-body">
-                <div class="btn-group btn-group-justified btn-add-pages">
-                    <div class="btn-group">
-                        <a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}"
-                           class="btn btn-primary">
-                            Editer le bouton
-                        </a>
+                <div id="menuItemModalErrors" class="alert alert-danger hidden">
+                    Le nom du bouton ne peut pas être vide.
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="text" id="buttonNameInput" class="form-control" placeholder="Titre du bouton">
+                        </div>
                     </div>
+                </div>
+                <div class="btn-group btn-group-justified btn-add-pages">
                     <div class="btn-group">
                         <button id="addSubItem" class="btn" data-menuItemId="">
                             <i class="fa fa-plus-circle"></i>Ajouter un sous-menu.
@@ -28,7 +34,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">Enregister</button>
+                <button type="button" id="menuItemModalValidate" class="btn btn-primary">Enregister</button>
             </div>
         </div>
     </div>

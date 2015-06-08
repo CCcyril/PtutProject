@@ -2,7 +2,7 @@
 
 {% block imageHeader %}
     <div class="container-edit-content">
-        <i id="imageHeader" class="btn-edit-content-image fa fa-pencil fa-2x"></i>
+        <i id="editImageHeader" class="btn-edit-content-image fa fa-pencil fa-2x"></i>
         {{ parent() }}
     </div>
 {% endblock %}
@@ -38,12 +38,12 @@
                     </li>
                 {% else %}
                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                        data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
+                        data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content dropdown" data-toggle="modal" data-target="#menuItemModal">
                         {{ menuItem.title }}
-                        <ul class="backgroundcolor">
+                        <ul class="backgroundcolor dropdown-toggle" data-toggle="dropdown">
                             {% for menuItemChild in menuItem.children  %}
                                 <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                                    data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
+                                    data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content dropdown-submenu" data-toggle="modal" data-target="#menuItemModal">
                                     {{ menuItemChild.title }}
                                 </li>
                             {% endfor %}
@@ -85,7 +85,7 @@
 {% block footerText %}
     <footer class="container-edit-content backgroundcolor">
         <i id="footerText" class="fa fa-pencil fa-2x btn-edit-content "></i>
-        <span id="footerText2">{{ parent() }}</span>
+        <p id="footerText2">{{ parent() }}</p>
     </footer>
 {% endblock %}
 

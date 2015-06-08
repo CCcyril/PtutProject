@@ -11,7 +11,9 @@
 .navbar-inverse li:hover{
     background: #E84349;
 }
-
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background: #E84349;
+}
 /* Fin classe de couleur */
 html {
     position: relative;
@@ -142,6 +144,14 @@ footer p{
     padding: 0;
     display: none;
 }
+.nav>li {
+    text-align: center;
+}
+.navbar-inverse .navbar-nav>li>a{
+    padding: 0px;
+    color: #fff;
+}
+
 
 .navbar-inverse .btn ul li{
     display: block;
@@ -168,5 +178,16 @@ footer p{
 @media(min-width: 767px){
     .navbar-inverse .btn:hover ul{
         display: block;
+    }
+}
+@media(max-width: 767px){
+    .headband{
+        position: inherit;
+    }
+    .reglage{
+        right: 5%;
+    }
+    #back-top {
+        bottom: 30px;
     }
 }
