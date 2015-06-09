@@ -54,7 +54,7 @@
                                 {% endif %}
                         ">
                     {% endif %}
-                        {{ menuItem.title }}
+                    <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
                     </li>
                 {% else %}
                     {% if menuItem.depth == 1 %}
@@ -79,7 +79,7 @@
                                 {% endif %}
                         ">
                     {% endif %}
-                    {{ menuItem.title }}
+                    <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
                         <ul class="backgroundcolor">
                             {% for menuItemChild in menuItem.children  %}
                                 {% if menuItem.depth == 1 %}
@@ -104,7 +104,7 @@
                                         {% endif %}
                                     ">
                                 {% endif %}
-                                {{ menuItemChild.title }}
+                                <span class="spanMenuItem" id="spanMenuItem{{ menuItemChild.id }}">{{ menuItemChild.title }}</span>
                                 </li>
                             {% endfor %}
                         </ul>
