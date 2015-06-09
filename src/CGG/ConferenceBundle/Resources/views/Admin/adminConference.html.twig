@@ -54,7 +54,7 @@
                                 {% endif %}
                         ">
                     {% endif %}
-                        {{ menuItem.title }}
+                    <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
                     </li>
                 {% else %}
                     {% if menuItem.depth == 1 %}
@@ -79,7 +79,7 @@
                                 {% endif %}
                         ">
                     {% endif %}
-                    {{ menuItem.title }}
+                    <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
                         <ul class="backgroundcolor">
                             {% for menuItemChild in menuItem.children  %}
                                 {% if menuItem.depth == 1 %}
@@ -104,7 +104,7 @@
                                         {% endif %}
                                     ">
                                 {% endif %}
-                                {{ menuItemChild.title }}
+                                <span class="spanMenuItem" id="spanMenuItem{{ menuItemChild.id }}">{{ menuItemChild.title }}</span>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -158,17 +158,6 @@
     {% include 'CGGConferenceBundle:Admin/Partials:editModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:menuItemModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:imageModal.html.twig' %}
-    <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
-        <a href="" id="pagePath" class="btn btn-success">
-            <i class="fa fa-arrow-circle-o-right"></i>
-        </a>
-        <button id="editMenuItem" class="btn btn-primary">
-            <i class="fa fa-pencil-square-o"></i>
-        </button>
-        <button id="addSubItem" class="btn btn-default" data-menuItemId="">
-            <i class="fa fa-plus-circle"></i>
-        </button>
-    </div>
 {% endblock %}
 
 {% block javascript %}
