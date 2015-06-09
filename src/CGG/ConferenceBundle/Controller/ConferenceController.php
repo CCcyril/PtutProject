@@ -63,6 +63,14 @@ class ConferenceController extends Controller
                 $conference->setEmailContact($user->getEmail());
                 $this->get('conference_repository')->save($conference);
 
+                $footer = $conference->getFooter();
+
+                $legalPage = $this->get('page_repository')->findLegal($conference->getId());
+
+                $footer->setText('CGG Conférence © 2015 - <a href="/conference/' . $conference->getId() . '/' . $legalPage->getId() . '">Mentions légales</a>');
+
+                $this->get('footer_repository')->save($footer);
+
                 $aclProvider = $this->get('security.acl.provider');
                 $objectIdentity = ObjectIdentity::fromDomainObject($conference);
 
@@ -138,7 +146,7 @@ class ConferenceController extends Controller
         $conference = $conferenceRepo->find($idConference);
         $conferenceRepo->removeConference($conference);
 
-        $this->addFlash('success', 'Conférence supprimée avec succès mgl!');
+        $this->addFlash('success', 'Conférence supprimée avec succès');
 
         return $this->listAction();
     }
@@ -153,21 +161,21 @@ class ConferenceController extends Controller
         $data = array();
 
         if($nom == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre nom s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre nom ");
         }else if(!preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$#", $nom)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un nom valide s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un nom valide");
         }else if($prenom == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre prénom s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre prénom");
         }else if(!preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$#", $prenom)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un prénom valide s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un prénom valide");
         }else if($mail == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail");
         }else if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $mail)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide");
         }else if($sujet == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre sujet s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre sujet");
         }else if($message == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre message s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre message");
         }else{
             $idConference = $request->request->get('idConference');
             $conference = $this->get('conference_repository')->find($idConference);

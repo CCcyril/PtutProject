@@ -112,7 +112,7 @@ class AdminController extends Controller
             $this->get('page_repository')->save($page);
             $this->get('conference_repository')->save($conference);
 
-            $this->addFlash('success', 'Modifications enregistrées avec succès, c\'est le plus beau jour de ta vie');
+            $this->addFlash('success', 'Modifications enregistrées avec succès');
 
             return new Response('ok');
         }
@@ -185,7 +185,7 @@ class AdminController extends Controller
         }
 
         $this->get($repo)->save($modifiedContent);
-        $this->addFlash('success', 'Changements effectués avec succccceeeeeyyyyyy');
+        $this->addFlash('success', 'Changements effectués avec succès');
         return new Response('ok');
     }
 
@@ -212,7 +212,7 @@ class AdminController extends Controller
         $conference->addPageId($newPage);
         $conferenceRepository->save($conference);
 
-        $this->addFlash('success', 'Sous menu ajouté avec SSSSUSUUUUUUUUUUUSSSSSSSSS(ccey)');
+        $this->addFlash('success', 'Sous menu ajouté avec succès');
 
         return new Response('ok');
     }
@@ -263,14 +263,7 @@ class AdminController extends Controller
         $newPage->setHome('0');
 
         $content = new Content();
-        $content->setText( "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-                            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-                            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                            consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
-                            quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
-                            nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-                            quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" );
+        $content->setText( "Contenu par défaut de la page. Vous pouvez modifier ce bloc ou en ajouter des nouveaux." );
 
         $newPage->addContent($content);
 
@@ -289,25 +282,25 @@ class AdminController extends Controller
         $info = $request->request->get('info');
         $data = array();
         if($mainColor == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur principale s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur principale");
         }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $mainColor)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur principale correcte s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur principale correcte");
         }else if($secondaryColor == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur secondaire s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur secondaire");
         }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $secondaryColor)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur secondaire correcte s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur secondaire correcte");
         }else if($emailContact == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail");
         }else if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $emailContact)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide");
         }else if($longitude == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude");
         }else if(!preg_match("/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/", $longitude)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude correcte s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude correcte");
         }else if($latitude == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude");
         }else if(!preg_match("/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/", $latitude)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude correcte s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude correcte");
         }else{
             $conference = $this->get('conference_repository')->find($idConference);
 

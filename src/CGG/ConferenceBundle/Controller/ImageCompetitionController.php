@@ -95,7 +95,7 @@ class ImageCompetitionController extends Controller
         $imageCompetition->removeUpload();
         $this->get('image_competition_repository')->delete($imageCompetition);
 
-        $this->addFlash('success', 'Votre image à été supprimée avec succes');
+        $this->addFlash('success', 'Votre image a été supprimée avec succès');
         $response = new Response();
         return $response;
     }

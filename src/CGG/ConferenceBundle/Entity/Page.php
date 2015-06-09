@@ -17,11 +17,22 @@ class Page
     private $page_conference_id;
     private $contents;
     private $isContact;
+    private $isLegal = "0";
 
     function __construct()
     {
         $this->contents = new ArrayCollection();
         $this->isContact = 0;
+    }
+
+    public function getIsLegal()
+    {
+        return $this->isLegal;
+    }
+
+    public function setIsLegal($isLegal)
+    {
+        $this->isLegal = $isLegal;
     }
 
     public function getId()

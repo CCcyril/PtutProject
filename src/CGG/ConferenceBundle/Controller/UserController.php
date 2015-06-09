@@ -27,7 +27,7 @@ class UserController extends Controller{
                 $user->addRole($role);
                 $this->get('user_repository')->save($user);
                 $this->authenticateUserAction($user);
-                $this->addFlash('success', 'WAHHHHHHHHHHHHHHHHHHHHHHHHOOOOOOUUUUUUUUU');
+                $this->addFlash('success', 'Opération effectuée avec succès.');
 
                 $url = $this->redirectUserAction();
                 return $this->redirect($url);

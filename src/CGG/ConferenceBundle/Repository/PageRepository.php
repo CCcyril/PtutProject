@@ -55,4 +55,14 @@ class PageRepository extends EntityRepository
             ->getOneOrNullResult();
 
     }
+
+    Public function findLegal($idConference){
+        return $this->entityManager->getRepository('CGGConferenceBundle:Page')->createQueryBuilder('p')
+            ->where('p.page_conference_id = :idConference')
+            ->andWhere('p.isLegal = 1')
+            ->setParameter('idConference', $idConference)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+    }
 }
