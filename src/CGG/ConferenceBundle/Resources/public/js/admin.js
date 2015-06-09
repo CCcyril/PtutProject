@@ -77,6 +77,7 @@ $(document).ready(function() {
         $("#addSubItem").attr('data-menuItemId', idMenuItem);
         $("#btnRemovePage").attr('data-menuItemId', idMenuItem);
         $("#btnRemovePage").attr('data-idCurrentPage', idCurrentPage);
+        $("#pagePath").attr('data-menuItemId', itemId);
     });
 
     $('.menu-edit-content').on('click', function () {
@@ -94,23 +95,6 @@ $(document).ready(function() {
         $(this).find('.btn-edit-content').hide();
         $(this).find('.btn-delete-content').hide();
         $(this).find('.btn-edit-content-image').hide();
-    });
-
-    $("#addSubItem").on('click', function () {
-        var url = Routing.generate('cgg_conference_admin_add_sub_item');
-        Routing.generate('cgg_conference_admin_add_sub_item');
-        $('.btn-edit-content').on('click', function () {
-
-            $('#entity').val($(this).attr('id'));
-
-            if (typeof $(this).parent().find('div:first').attr('id') !== 'undefined' && $(this).parent().find('div:first').attr('id').substring(0, 7) === 'content') {
-                $('#idContent').val($(this).parent().find('div:first').attr('id').replace('content', ''));
-            }
-
-            CKEDITOR.instances['cgg_conferencebundle_content_content'].setData($(this).parent().html().replace('<i id="' + $(this).attr('id') + '" class="btn-edit-content fa fa-pencil fa-2x"></i>', ''));
-
-            $('#editModal').modal('show');
-        });
     });
 
     $('.btn-edit-content-image').on('click', function () {
@@ -174,7 +158,6 @@ $(document).ready(function() {
 
     $("#addSubItem").on('click', function (event) {
         var url = Routing.generate('cgg_conference_admin_add_sub_item');
-        Routing.generate('cgg_conference_admin_add_sub_item');
         var idConference = $("#idConference").val();
         var itemId = event.target.id;
         var idParent = $("#" + itemId).attr('data-menuItemId');
@@ -288,11 +271,6 @@ $(document).ready(function() {
         var idConference = $("#idConference").val();
         var idMenuItem = $("#btnRemovePage").attr('data-menuItemId');
         var currentUrl =  window.location.pathname;
-        var idCurrentPage = $("#btnRemovePage").attr('data-idCurrentPage');
-        var idRedirectPage = $("#navbar li:first").attr('data-pageId');
-        if(idCurrentPage == idRedirectPage){
-            idRedirectPage = $("#navbar li:nth-child(2)").attr('data-pageId');
-        }
         $.ajax({
             type: "POST",
             url: url,
@@ -325,5 +303,14 @@ $(document).ready(function() {
     $('#imageModalValidate').on('click', function (e) {
         e.preventDefault();
         $(this).parent().parent().find('form').submit();
+    });
+
+    $("#pagePath").on('click', function(){
+        var menuItemId = $("#pagePath").attr('data-menuItemId');
+        var pageId = $("#"+menuItemId).attr('data-pageId');
+        var currentPageId = $("#idPage").val();
+        var currentUrl = window.location.pathname;
+        var url = currentUrl.replace(currentPageId, pageId);
+        $("#pagePath").attr('href', url);
     });
 });

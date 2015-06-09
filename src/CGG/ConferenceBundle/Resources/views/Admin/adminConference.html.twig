@@ -32,19 +32,79 @@
         <ul class="nav navbar-nav">
             {% for menuItem in menuItems %}
                 {% if menuItem.children is null %}
-                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                        data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
+                    {% if menuItem.depth == 1 %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
                         {{ menuItem.title }}
                     </li>
                 {% else %}
-                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                        data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content dropdown" data-toggle="modal" data-target="#menuItemModal">
-                        {{ menuItem.title }}
-                        <ul class="backgroundcolor dropdown-toggle" data-toggle="dropdown">
+                    {% if menuItem.depth == 1 %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
+                    {{ menuItem.title }}
+                        <ul class="backgroundcolor">
                             {% for menuItemChild in menuItem.children  %}
-                                <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
-                                    data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content dropdown-submenu" data-toggle="modal" data-target="#menuItemModal">
-                                    {{ menuItemChild.title }}
+                                {% if menuItem.depth == 1 %}
+                                <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
+                                    data-menuItemId="{{ menuItemChild.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
+                                        {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                ">
+                                {% elseif menuItem.depth == menuItems|length %}
+                                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
+                                        data-menuItemId="{{ menuItemChild.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
+                                        {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                                {% else %}
+                                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
+                                        data-menuItemId="{{ menuItemChild.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
+                                        {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                                {% endif %}
+                                {{ menuItemChild.title }}
                                 </li>
                             {% endfor %}
                         </ul>
@@ -53,7 +113,7 @@
             {% endfor %}
             {% block addMenuItem %}
             {% endblock %}
-            <li>
+            <li class="btn">
                 <a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}">
                     <i class="fa fa-plus-square"></i>
                 </a>
@@ -98,6 +158,17 @@
     {% include 'CGGConferenceBundle:Admin/Partials:editModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:menuItemModal.html.twig' %}
     {% include 'CGGConferenceBundle:Admin/Partials:imageModal.html.twig' %}
+    <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
+        <a href="" id="pagePath" class="btn btn-success">
+            <i class="fa fa-arrow-circle-o-right"></i>
+        </a>
+        <button id="editMenuItem" class="btn btn-primary">
+            <i class="fa fa-pencil-square-o"></i>
+        </button>
+        <button id="addSubItem" class="btn btn-default" data-menuItemId="">
+            <i class="fa fa-plus-circle"></i>
+        </button>
+    </div>
 {% endblock %}
 
 {% block javascript %}

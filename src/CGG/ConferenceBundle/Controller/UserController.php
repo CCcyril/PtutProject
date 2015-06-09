@@ -115,10 +115,11 @@ class UserController extends Controller{
         $response->setContent(json_encode($data));
         return $response;
     }
-    public function profilAction(Request $request){
+    public function profilAction(Request $request)
+    {
         $user = $this->get('security.context')->getToken()->getUser();
         $form = $this->createForm(New UserProfilType(), $user);
-        if($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $form->submit($request);
             if ($form->isValid()) {
                 if (0 !== strlen($plainPassword = $user->getPlainPassword())) {
@@ -134,6 +135,14 @@ class UserController extends Controller{
                 return $this->redirect($url);
             }
         }
-        return $this->render('CGGConferenceBundle:User:profil.html.twig',['form'=>$form->createView()]);
+        return $this->render('CGGConferenceBundle:User:profil.html.twig', ['form' => $form->createView()]);
+    }
+
+    public function removeUserAction($idUser){
+        $user = $this->get('user_repository')->find($idUser);
+        $this->get('user_repository')->removeUser($user);
+
+
+        return $this->forward('CGGConferenceBundle:User:listUser');
     }
 }
