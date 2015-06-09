@@ -149,6 +149,9 @@ footer p{
 .nav>li {
     text-align: center;
 }
+.navbar-inverse .menu-edit-content{
+    padding: 15px;
+}
 .navbar-inverse .navbar-nav li a{
     text-decoration: none;
     display: block;
@@ -179,7 +182,7 @@ footer p{
 }
 @media(min-width: 767px){
     .navbar-inverse .btn:hover ul{
-        display: block;
+        display: inline-table;
     }
     .navbar-inverse .btn ul{
         width: 100%;
