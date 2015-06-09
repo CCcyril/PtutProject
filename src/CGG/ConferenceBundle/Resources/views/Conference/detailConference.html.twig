@@ -36,19 +36,19 @@
                     </li>
                 {% else %}
                     {% if menuItem.depth == 1 %}
-                    <li class="btn first
+                    <li data-id="childrenOK" class="btn first
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% elseif menuItem.depth == menuItems|length %}
-                        <li class="btn last
+                        <li data-id="childrenOK" class="btn last
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% else %}
-                        <li class="btn
+                        <li data-id="childrenOK" class="btn
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
