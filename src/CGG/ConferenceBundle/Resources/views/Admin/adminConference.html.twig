@@ -84,21 +84,21 @@
                             {% for menuItemChild in menuItem.children  %}
                                 {% if menuItem.depth == 1 %}
                                 <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
-                                    data-menuItemId="{{ menuItemChild.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
+                                    data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn first
                                         {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
                                             active
                                         {% endif %}
                                 ">
                                 {% elseif menuItem.depth == menuItems|length %}
                                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
-                                        data-menuItemId="{{ menuItemChild.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
+                                        data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn last
                                         {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
                                             active
                                         {% endif %}
                                     ">
                                 {% else %}
                                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
-                                        data-menuItemId="{{ menuItemChild.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
+                                        data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn
                                         {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
                                             active
                                         {% endif %}

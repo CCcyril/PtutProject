@@ -70,8 +70,8 @@ $(document).ready(function() {
         });
     });
 
-    $('#navbar li:not(:last-child)').on('click', function () {
-        var itemId = $(this).attr('id');
+    $('#navbar li:not(:last-child) span').on('click', function () {
+        var itemId = $(this).parent().attr('id');
         var idMenuItem = $('#' + itemId).attr('data-menuItemId');
         var idCurrentPage = $(this).attr('data-pageId');
         $("#addSubItem").attr('data-menuItemId', idMenuItem);
