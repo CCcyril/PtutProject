@@ -172,7 +172,7 @@ class ConferenceController extends Controller
             $idConference = $request->request->get('idConference');
             $conference = $this->get('conference_repository')->find($idConference);
             $this->get('mail_contact_conference')->mailContactConference($nom,$prenom,$mail,$sujet,$message,$conference->getEmailContact());
-            $data = array("erreur"=>false, "message"=>"Votre mail à été envoyer avec succes");
+            $data = array("erreur"=>false, "message"=>"Votre mail à été envoyer avec succès");
         }
         $response = new Response();
         $response->setContent(json_encode($data));
