@@ -27,7 +27,7 @@ $(document).ready(function() {
                 },
                 dataType: "html",
                 success: function () {
-                    $('.menu-edit-content[data-menuItemId=' + idMenuItem + ']').html(buttonName);
+                    $('#spanMenuItem' + idMenuItem).html(buttonName);
                     $('#menuItemModal').modal('hide');
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -79,9 +79,10 @@ $(document).ready(function() {
         $("#btnRemovePage").attr('data-idCurrentPage', idCurrentPage);
     });
 
-    $('.menu-edit-content').on('click', function () {
+    $('.menu-edit-content span').on('click', function () {
         $('#buttonNameInput').val($(this).html().trim());
-        $('#menuItemIdModalInput').val($(this).attr('data-menuItemId'));
+        $('#menuItemIdModalInput').val($(this).parent().attr('data-menuItemId'));
+
     })
 
     $(".container-edit-content, .menu-edit-content").mouseover(function () {

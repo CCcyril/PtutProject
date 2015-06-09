@@ -34,17 +34,17 @@
                 {% if menuItem.children is null %}
                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
                         data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content" data-toggle="modal" data-target="#menuItemModal">
-                        {{ menuItem.title }}
+                        <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
                     </li>
                 {% else %}
                     <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
                         data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content dropdown" data-toggle="modal" data-target="#menuItemModal">
-                        {{ menuItem.title }}
+                        <span class="spanMenuItem" id="spanMenuItem{{ menuItem.page.id }}">{{ menuItem.title }}</span>
                         <ul class="backgroundcolor dropdown-toggle" data-toggle="dropdown">
                             {% for menuItemChild in menuItem.children  %}
                                 <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
                                     data-menuItemId="{{ menuItem.id }}" class="btn menu-edit-content dropdown-submenu" data-toggle="modal" data-target="#menuItemModal">
-                                    {{ menuItemChild.title }}
+                                    <span class="spanMenuItem" id="spanMenuItem{{ menuItemChild.id }}">{{ menuItemChild.title }}</span>
                                 </li>
                             {% endfor %}
                         </ul>

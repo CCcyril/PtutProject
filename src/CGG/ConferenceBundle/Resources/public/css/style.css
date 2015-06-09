@@ -108,7 +108,7 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover{
-    background-color: #0099FF;
+    background-color: #2F80C3;
 }
 .navbar-inverse .navbar-toggle {
     border-color: #0099FF;
