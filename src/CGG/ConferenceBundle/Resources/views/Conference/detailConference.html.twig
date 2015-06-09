@@ -1,11 +1,17 @@
 {% extends "::conferenceBase.html.twig" %}
 
-{% block headbandTitle %}
-    <h1>{{ parent() }}</h1>
+{% block imageHeader %}
+      {{ parent() }}
 {% endblock %}
 
-{% block headbandText %}
-    <span>{{ parent() }}</span>
+{% block headband %}
+    {% block headbandTitle %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block headbandText %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}
 
 {% block menu %}
@@ -99,5 +105,18 @@
     <footer class="backgroundcolor">
         <p>{{ parent() }}</p>
     </footer>
+{% endblock %}
+{% block body %}
+<!-- inputs cachés -->
+<input type="hidden" id="idConference" value="{{ conference.id }}">
+<input type="hidden" id="idPage" value="{{ app.request.get('idPage') }}">
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' '@CGGConferenceBundle/Resources/public/js/ckeditor/ckeditor.js' %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type='text/javascript' src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 

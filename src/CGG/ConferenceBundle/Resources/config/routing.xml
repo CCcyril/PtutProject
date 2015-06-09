@@ -159,11 +159,10 @@
         <option key="expose">true</option>
     </route>
 
-    <route id="cgg_conference_map" path="/conference/admin/afficher-map">
+    <route id="cgg_conference_map" path="/conference/afficher-map">
         <default key="_controller">CGGConferenceBundle:Admin:showMap</default>
         <option key="expose">true</option>
     </route>
-
 
     <route id="cgg_conference_request_take_part_conference" path="/conference/demande-de-participation/{idConference}">
         <default key="_controller">CGGConferenceBundle:Conference:requestTakePartConference</default>
