@@ -94,6 +94,7 @@ fieldset[disabled] .btn-primary.active {
     list-style-type: none;
     background: #fff;
     top: 51px;
+    z-index: 9;
 }
 .menu_level_1 li{
     padding: 5px 0px;
