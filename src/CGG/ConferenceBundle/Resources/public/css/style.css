@@ -205,11 +205,11 @@ footer {
     outline: none;
 }
 .buttonComment .rating:hover .fa-heart{
-    color: #49033e;
+    color: #0099FF;
 }
 .comments{
     margin-top: 10px;
-    background: #0099FF;
+    background: #eee;
 }
 .descriptioImage{
     text-align: center;
@@ -249,6 +249,14 @@ footer {
 }
 .NotValid{
     border: 1px solid #0099FF;
+}
+.navigation{
+    text-align: center;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background-color: #0099FF;
+    border-color: #0099FF;
+
 }
 @media(max-width: 767px){
     .modal-dialog {

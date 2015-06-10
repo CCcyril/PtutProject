@@ -13,6 +13,9 @@
         </p>
     </div>
 {% endfor %}
+<div class="navigation col-md-12">
+    {{ knp_pagination_render(imageList) }}
+</div>
 <script>
     $(".remove").click(function(){
         var idImage = $(this).attr("id");
