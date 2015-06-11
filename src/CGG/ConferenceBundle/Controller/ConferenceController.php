@@ -4,6 +4,7 @@ namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Form\Type\ConferenceType;
+use DateTime;
 use Ivory\CKEditorBundle\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -58,8 +59,27 @@ class ConferenceController extends Controller
             $form->submit($request);
             if($form->isValid()){
 
-                if (!validateDate($conference->getStartDate())) {
-                    throw new Exception('ça marche pas');
+                $errors = array();
+
+                if (!$this->validateDate($conference->getStartDate())) {
+                    $errors['startDate'] = 'Veuillez entrer une date valide.';
+                }
+
+                if (!$this->validateDate($conference->getEndDate())) {
+                    $errors['endDate'] = 'Veuillez entrer une date valide.';
+                }
+
+                if(empty($errors)) {
+
+                    $d1 = DateTime::createFromFormat('d/m/Y', $conference->getStartDate());
+                    $d2 = DateTime::createFromFormat('d/m/Y', $conference->getEndDate());
+                    if ($d1 > $d2) {
+                        $errors['startDate'] = 'La date de début doit être antérieure à la date de fin.';
+                    }
+                }
+
+                if (!empty($errors)) {
+                    return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form' => $form->createView(), 'validationErrors' => $errors]);
                 }
 
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
@@ -95,7 +115,7 @@ class ConferenceController extends Controller
         return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form'=>$form->createView()]);
     }
 
-    function validateDate($date, $format = 'd/m/Y') {
+    public function validateDate($date, $format = 'd/m/Y') {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }

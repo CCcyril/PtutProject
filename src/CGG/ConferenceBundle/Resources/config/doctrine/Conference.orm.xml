@@ -10,8 +10,8 @@
         <field name="name" type="string" length="255" />
         <field name="description" type="text" length="255" />
         <field name="creationDate" type="string" length="255" />
-        <field name="startDate" type="datetime"/>
-        <field name="endDate" type="datetime"/>
+        <field name="startDate" type="string" length="255" />
+        <field name="endDate" type="string" length="255" />
         <field name="status" type="string" length="255"/>
         <field name="mainColor" type="string" length="255"/>
         <field name="secondaryColor" type="string" length="255"/>

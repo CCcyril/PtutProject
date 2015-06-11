@@ -14,11 +14,21 @@
 <div class="form-group">
     {{ form_label(form.startDate, 'Date de début de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
     {{ form_errors(form.startDate) }}
+    {% if validationErrors is defined and validationErrors is not empty %}
+        {% if validationErrors.startDate is defined %}
+            <br>{{ validationErrors.startDate }}
+        {% endif %}
+    {% endif %}
     {{ form_widget(form.startDate, { 'attr' : { 'class' : 'form-control'}}) }}
 </div>
 <div class="form-group">
     {{ form_label(form.endDate, 'Date de fin de la conférence :', { 'attr' : { 'class' : 'control_label'}}) }}
     {{ form_errors(form.endDate) }}
+    {% if validationErrors is defined and validationErrors is not empty %}
+        {% if validationErrors.endDate is defined %}
+            <br>{{ validationErrors.endDate }}
+        {% endif %}
+    {% endif %}
     {{ form_widget(form.endDate, { 'attr' : { 'class' : 'form-control'}}) }}
 </div>
 
