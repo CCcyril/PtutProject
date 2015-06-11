@@ -314,4 +314,24 @@ $(document).ready(function() {
         var url = currentUrl.replace(currentPageId, pageId);
         $("#pagePath").attr('href', url);
     });
+
+    $(".list-group li")
+        .on('mouseover', function(){
+            $(this).addClass("btn btn-info");
+        })
+        .on('mouseout', function(){
+            $(this).removeClass("btn btn-info");
+        });
+
+    $(".user").on("click", function(){
+        var idUser = $(this).attr("data-id");
+        $("#idUser").val(idUser);
+        $(".userName").text($(this).text());
+    });
+
+    $(".conference").on('click', function(){
+        var idConf = $(this).attr("data-id");
+        $("#idConf").val(idConf);
+        $(".conferenceName").text($(this).text());
+    });
 });

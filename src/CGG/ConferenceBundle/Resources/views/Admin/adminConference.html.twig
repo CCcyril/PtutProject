@@ -28,26 +28,27 @@
 {% endblock %}
 
 {% block menu %}
+    {% set i = 0 %}
     <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
             {% for menuItem in menuItems %}
                 {% if menuItem.children is null %}
                     {% if menuItem.depth == 1 %}
-                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
                             data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% elseif menuItem.depth == menuItems|length %}
-                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
                             data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% else %}
-                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
                             data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
@@ -58,46 +59,49 @@
                     </li>
                 {% else %}
                     {% if menuItem.depth == 1 %}
-                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
                             data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% elseif menuItem.depth == menuItems|length %}
-                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
                             data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% else %}
-                        <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItem.page.id }}"
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
                             data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
                                 {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
                                     active
                                 {% endif %}
                         ">
                     {% endif %}
+                    {% set idLoop = loop.index %}
                     <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
                         <ul class="backgroundcolor">
                             {% for menuItemChild in menuItem.children  %}
+                                {% set i = idLoop+1 %}
+                                {% set idLoop = idLoop+i %}
                                 {% if menuItem.depth == 1 %}
-                                <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
+                                <li id="menuItemTitle{{ idLoop }}" data-pageId="{{ menuItemChild.page.id }}"
                                     data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn first
                                         {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
                                             active
                                         {% endif %}
                                 ">
                                 {% elseif menuItem.depth == menuItems|length %}
-                                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
+                                    <li id="menuItemTitle{{ idLoop }}" data-pageId="{{ menuItemChild.page.id }}"
                                         data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn last
                                         {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
                                             active
                                         {% endif %}
                                     ">
                                 {% else %}
-                                    <li id="menuItemTitle{{ loop.index }}" data-pageId="{{ menuItemChild.page.id }}"
+                                    <li id="menuItemTitle{{ idLoop }}" data-pageId="{{ menuItemChild.page.id }}"
                                         data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn
                                         {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
                                             active

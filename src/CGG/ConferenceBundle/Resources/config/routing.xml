@@ -181,4 +181,8 @@
         <default key="_controller">CGGConferenceBundle:User:removeUser</default>
     </route>
 
+    <route id="cgg_conference_admin_define_jury" path="/admin/conference/definir-jury">
+        <default key="_controller">CGGConferenceBundle:User:defineJury</default>
+    </route>
+
 </routes>

@@ -1,0 +1,61 @@
+{% extends("::base.html.twig") %}
+
+{% block body %}
+    <form action="{{ path('cgg_conference_admin_define_jury') }}" method="POST">
+        <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Conférence :</th>
+                    <th>Utilisateur :</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="conferenceName" data-toggle="dropdown" aria-expanded="true" >
+                                <span class="conferenceName">Conférences</span>
+                                <span class="caret"></span>
+                            </button>
+                            <input name="idConference" type="hidden" id="idConf"/>
+                            <ul class="dropdown-menu list-group" role="menu" aria-labelledby="dropdownMenu1">
+                                {% for conference in conferences %}
+                                    <li style="text-align: center;" class="list-group-item conference" data-id="{{ conference.id }}">{{ conference.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="userName" data-toggle="dropdown" aria-expanded="true" >
+                                <span class="userName">Utilisateur</span>
+                                <span class="caret"></span>
+                            </button>
+                            <input name="idUser" type="hidden" id="idUser"/>
+                            <ul class="dropdown-menu list-group" role="menu" aria-labelledby="dropdownMenu1" id="test">
+                                {% for user in users %}
+                                    <li style="text-align: center;" class="list-group-item user" data-id="{{ user.id }}">{{ user.username }}</li>
+
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            <tbody>
+        </table>
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="submit" class="btn btn-success">Valider</button>
+        </div>
+    </form>
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' '@CGGConferenceBundle/Resources/public/js/ckeditor/ckeditor.js' %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type='text/javascript' src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
