@@ -8,5 +8,4 @@ $(document).ready(function () {
         $(this).find('input').hide();
     });
 
-
 });

@@ -25,8 +25,12 @@ class ImageCompetitionController extends Controller
     public function competitionAction($idConference){
         $imageList = $this->get('image_competition_repository')->findAllByIdConference($idConference);
         $conference = $this->get('conference_repository')->find($idConference);
+        $images  = $this->get('knp_paginator')->paginate(
+            $imageList,
+            $this->get("request")->query->get('page', 1),8
+        );
         return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array(
-            "imageList"=>$imageList,
+            "imageList"=>$images,
             "idConf"=>$idConference,
             "conference"=>$conference,
             "order"=>'0'
@@ -42,8 +46,12 @@ class ImageCompetitionController extends Controller
             $imageList = $this->get('image_competition_repository')->findAllByIdConference($idConference);
             $order = '0';
         }
+        $images  = $this->get('knp_paginator')->paginate(
+            $imageList,
+            $this->get("request")->query->get('page', 1),8
+        );
         return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array(
-            "imageList" => $imageList,
+            "imageList" => $images,
             "idConf" => $idConference,
             "order" => $order,
             "conference"=>$conference
@@ -122,7 +130,13 @@ class ImageCompetitionController extends Controller
     }
     public function listImagesCompetitionAction(){
         $imageList = $this->get('image_competition_repository')->findAll();
-        return $this->render('CGGConferenceBundle:Admin:listImageCompetition.html.twig',array("imageList"=>$imageList));
+
+
+        $images  = $this->get('knp_paginator')->paginate(
+            $imageList,
+            $this->get("request")->query->get('page', 1),8
+        );
+        return $this->render('CGGConferenceBundle:Admin:listImageCompetition.html.twig',array("imageList"=>$images));
     }
     public function deleteImageAction(){
         /* Recupère les datas de l'ajax */

@@ -82,6 +82,9 @@
         </div>
     </div>
 {% endfor %}
+<div class="navigation col-md-12">
+    {{ knp_pagination_render(imageList) }}
+</div>
 <script>
 
     $(document).ready(function () {

@@ -103,5 +103,23 @@
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
+    <script>
+        if($(window).width() < 767){
+            open = false;
+            $(".navbar-nav li").click(function(e){
+                myclass = $(this).attr("data-id");
+                if(myclass === "childrenOK"){
+                    e.preventDefault();
+                    if(open === false){
+                        $(this).children("ul").show();
+                        open = true;
+                    }else{
+                        $(this).children("ul").hide();
+                        open = false;
+                    }
+                }
+            });
+        }
+    </script>
     </body>
 </html>

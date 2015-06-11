@@ -130,11 +130,13 @@ footer p{
 }
 .navbar-inverse .btn{
     border-radius: 0px;
-    padding: 15px;
     background: transparent;
     color: #fff;
     border: none;
     position: relative;
+}
+.navbar-inverse li {
+    padding: 0px
 }
 .navbar-nav{
     margin: 0px;
@@ -151,14 +153,17 @@ footer p{
 .nav>li {
     text-align: center;
 }
-.navbar-inverse .navbar-nav>li>a{
-    padding: 0px;
+.navbar-inverse .menu-edit-content{
+    padding: 15px;
+}
+.navbar-inverse .navbar-nav li a{
+    text-decoration: none;
+    display: block;
+    padding: 15px;
     color: #fff;
 }
-
-
-.navbar-inverse .btn ul li{
-    display: block;
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    background-color: transparent;
 }
 /* Fin Menu */
 /* Admin */
@@ -181,12 +186,26 @@ footer p{
 }
 @media(min-width: 767px){
     .navbar-inverse .btn:hover ul{
-        display: block;
+        display: inline-table;
+    }
+    .navbar-inverse .btn ul{
+        width: 100%;
     }
 }
 @media(max-width: 767px){
     .headband{
         position: inherit;
+    }
+    .navbar-inverse .btn ul{
+        position: initial;
+        width: 100%;
+    }
+    .navbar-inverse .btn ul li{
+        width: 100%;
+    }
+    .navbar-inverse .btn ul li a{
+        width: 100%;
+        display: block;
     }
     .reglage{
         right: 5%;
