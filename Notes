@@ -10,8 +10,7 @@ Mettre un message épique avant la suppression de la page contact
 
 
 accéder à la compet(desgin menu)
-suppression conf + image
-mettre des vrais messages succès
+
 script
 mail form user
 acl compet image
@@ -27,3 +26,5 @@ voir acl demande de validation
 Envoi de mail pour demande de participation
 aller à
 classe active
+suppression conf + image
+mettre des vrais messages succès
