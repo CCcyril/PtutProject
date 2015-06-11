@@ -274,4 +274,9 @@ footer {
         color: #fff;
     }
 }
+
+.addImageBtn {
+    background-color: #0099FF;
+    color: white;
+}
 /* Fin compétition d'image */

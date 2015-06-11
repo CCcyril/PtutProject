@@ -70,6 +70,10 @@
         <default key="_controller">CGGConferenceBundle:ImageCompetition:competition</default>
     </route>
 
+    <route id="cgg_image_competition_ordered" path="/competition-image-ordered/{idConference}">
+        <default key="_controller">CGGConferenceBundle:ImageCompetition:competitionOrdered</default>
+    </route>
+
     <route id="cgg_image_competition_show_modal" path="/competition-image/voir-image/">
         <default key="_controller">CGGConferenceBundle:ImageCompetition:showModal</default>
     </route>

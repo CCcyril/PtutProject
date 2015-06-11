@@ -125,7 +125,7 @@ class UserController extends Controller{
                 if (0 !== strlen($plainPassword = $user->getPlainPassword())) {
                     $encoder = $this->get('security.encoder_factory')->getEncoder($user);
                     $user->setPassword($encoder->encodePassword($plainPassword, $user->getSalt()));
-                    $user->eraseCredentials();
+                    $user->erasecredentials();
                 }
                 $this->get('user_repository')->save($user);
                 $this->authenticateUserAction($user);

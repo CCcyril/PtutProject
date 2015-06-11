@@ -22,6 +22,18 @@ class ImageCompetitionController extends Controller
         $imageList = $this->get('image_competition_repository')->findAllByIdConference($idConference);
         return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array("imageList"=>$imageList, "idConf"=>$idConference));
     }
+
+    public function competitionOrderedAction(Request $request, $idConference){
+        if ($request->isMethod('POST')) {
+            $imageList = $this->get('image_competition_repository')->findALlByOrder($idConference, $request->request->get('order'));
+            $order = $request->request->get('order');
+        } else {
+            $imageList = $this->get('image_competition_repository')->findAllByIdConference($idConference);
+            $order = '0';
+        }
+        return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array("imageList" => $imageList, "idConf" => $idConference, "order" => $order));
+    }
+
     public function showModalAction(){
         /* Recupère les datas de l'ajax */
         $request = $this->container->get('request');
