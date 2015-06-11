@@ -4,6 +4,7 @@ namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Form\Type\ConferenceType;
+use Ivory\CKEditorBundle\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,6 +57,11 @@ class ConferenceController extends Controller
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){
+
+                if (!validateDate($conference->getStartDate())) {
+                    throw new Exception('ça marche pas');
+                }
+
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
                 $tokenStorage = $this->get('security.token_storage');
                 $user = $tokenStorage->getToken()->getUser();
@@ -87,6 +93,11 @@ class ConferenceController extends Controller
         }
 
         return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form'=>$form->createView()]);
+    }
+
+    function validateDate($date, $format = 'd/m/Y') {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
 
     public function detailAction($idConference, $idPage){
