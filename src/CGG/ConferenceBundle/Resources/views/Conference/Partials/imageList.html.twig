@@ -13,13 +13,13 @@
                         <h3></h3>
                         <p class="description"></p>
                         <p class="buttonComment">
-                            {% if( app.user ) %}
-                                <button class='rating ratingModal' data-id='0'>
-                                    <span class='valueRating valueRatingModal'></span>
-                                    <i class='fa fa-heart'></i>
-                                </button> |
-                                <span class="valueComment valueCommentModal"></span>
+                            {% if is_granted('VIEW', conference) %}
+                                <span class="valueRating valueRatingModal"></span>
+
+                                <button><i class="fa fa-heart"></i></button> |
+                                <span class="valueComment"></span>
                                 <i class="fa fa-comments"></i>
+
                                 <form>
                                     <div class="comments">
                                     </div>
@@ -28,7 +28,8 @@
                                 </form>
                             {% else %}
                                 <span class="valueRating valueRatingModal"></span>
-                                <i class="fa fa-heart"></i></button> |
+
+                                <button><i class="fa fa-heart"></i></button> |
                                 <span class="valueComment"></span>
                                 <i class="fa fa-comments"></i>
                             {% endif %}
@@ -59,11 +60,18 @@
             <h3>{{ image.title }}</h3>
             <p>{{ image.description | truncate(100, false, '')}}..</p>
             <p class="buttonComment">
-                {% if( app.user ) %}
-                    <button class="rating" data-id="{{ image.id }}"><span class="valueRating">{{ image.rating }}</span>
-                    <i class="fa fa-heart"></i></button> |
-                    <span class="valueComment">{{ image.nbComment }}</span>
-                    <i class="fa fa-comments"></i>
+                {% if is_granted('VIEW', conference) %}
+                    {% if is_granted('VIEW', image) %}
+                        <span class="valueRating">{{ image.rating }}</span>
+                        <i class="fa fa-heart"></i></button> |
+                        <span class="valueComment">{{ image.nbComment }}</span>
+                        <i class="fa fa-comments"></i>
+                    {% else %}
+                        <button class="rating" data-id="{{ image.id }}"><span class="valueRating">{{ image.rating }}</span>
+                        <i class="fa fa-heart"></i></button> |
+                        <span class="valueComment">{{ image.nbComment }}</span>
+                        <i class="fa fa-comments"></i>
+                    {% endif %}
                 {% else %}
                     <span class="valueRating">{{ image.rating }}</span>
                     <i class="fa fa-heart"></i></button> |

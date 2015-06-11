@@ -6,9 +6,15 @@ use CGG\ConferenceBundle\Entity\User;
 use CGG\ConferenceBundle\Form\Type\UserProfilType;
 use CGG\ConferenceBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Validator\Constraints\Null;
 
 class UserController extends Controller{
 
@@ -58,7 +64,6 @@ class UserController extends Controller{
 
         return $url;
     }
-    /*TODO : liste user + changement role sur certaines conf (acl)*/
 
     public function listUserAction(){
         $users = $this->get('user_repository')->listUser();
@@ -144,5 +149,40 @@ class UserController extends Controller{
 
 
         return $this->forward('CGGConferenceBundle:User:listUser');
+    }
+
+    public function defineJuryAction(Request $request){
+        $users = $this->get('user_repository')->findAll();
+        $conferences = $this->get('conference_repository')->findAllConferenceByStatus('V');
+        if($request->isMethod("POST")){
+            $idConference = $request->request->get('idConference');
+            $idUser = $request->request->get('idUser');
+            $conference = $this->get('conference_repository')->find($idConference);
+            $user = $this->get('user_repository')->find($idUser);
+
+            if(empty($idUser) || empty($idConference)){
+                $this->addFlash('alert', "La conférence ou l'utilisateur n'a pas été sélectionné.");
+                return $this->redirect($this->generateUrl('cgg_conference_admin_define_jury'));
+                die;
+            }
+
+            $aclProvider = $this->get('security.acl.provider');
+            $objectIdentity = ObjectIdentity::fromDomainObject($conference);
+            $acl = $aclProvider->findAcl($objectIdentity);
+
+            $securityIdentity = UserSecurityIdentity::fromAccount($user);
+            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_VIEW);
+            $aclProvider->updateAcl($acl);
+
+            $this->addFlash('success', 'Jury associé à la compétition d\'image avec succès');
+            return $this->redirect($this->generateUrl('cgg_conference_admin_define_jury'));
+
+        }
+
+        return $this->render('CGGConferenceBundle:User:defineJury.html.twig',
+            [
+                'users'=>$users,
+                'conferences'=>$conferences
+            ]);
     }
 }

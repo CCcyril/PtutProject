@@ -22,6 +22,7 @@ class MenuBuilder extends ContainerAware {
             $menu['Administration']->addChild('Liste des conférences à valider', array('route' => 'cgg_conference_listNewConferences'));
             $menu['Administration']->addChild('Gestion des utilisateurs', array('route' => 'cgg_conference_list_user'));
             $menu['Administration']->addChild('Gestion des images des compétitions', array('route' => 'cgg_image_competition_list_image'));
+            $menu['Administration']->addChild('Définir le jury', array('route' => 'cgg_conference_admin_define_jury'));
         }
 
         return $menu;

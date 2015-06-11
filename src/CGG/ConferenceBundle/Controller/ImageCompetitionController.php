@@ -15,15 +15,26 @@ use CGG\ConferenceBundle\Form\ImageCompetitionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Exception\AclAlreadyExistsException;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 class ImageCompetitionController extends Controller
 {
     public function competitionAction($idConference){
         $imageList = $this->get('image_competition_repository')->findAllByIdConference($idConference);
-        return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array("imageList"=>$imageList, "idConf"=>$idConference));
+        $conference = $this->get('conference_repository')->find($idConference);
+        return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array(
+            "imageList"=>$imageList,
+            "idConf"=>$idConference,
+            "conference"=>$conference,
+            "order"=>'0'
+        ));
     }
 
     public function competitionOrderedAction(Request $request, $idConference){
+        $conference = $this->get('conference_repository')->find($idConference);
         if ($request->isMethod('POST')) {
             $imageList = $this->get('image_competition_repository')->findALlByOrder($idConference, $request->request->get('order'));
             $order = $request->request->get('order');
@@ -31,7 +42,12 @@ class ImageCompetitionController extends Controller
             $imageList = $this->get('image_competition_repository')->findAllByIdConference($idConference);
             $order = '0';
         }
-        return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array("imageList" => $imageList, "idConf" => $idConference, "order" => $order));
+        return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array(
+            "imageList" => $imageList,
+            "idConf" => $idConference,
+            "order" => $order,
+            "conference"=>$conference
+        ));
     }
 
     public function showModalAction(){
@@ -64,6 +80,22 @@ class ImageCompetitionController extends Controller
         $imageCompetition = new ImageCompetition();
         $imageCompetition = $this->get('image_competition_repository')->findByIdImage($idImage);
         $imageCompetition->setRating($valueRating);
+
+        $user= $this->get('security.context')->getToken()->getUser();
+        $aclProvider = $this->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($imageCompetition);
+        try{
+            $acl = $aclProvider->createAcl($objectIdentity);
+        }catch (AclAlreadyExistsException $e){
+            $acl = $aclProvider->findAcl($objectIdentity);
+        }
+
+
+        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_VIEW);
+        $aclProvider->updateAcl($acl);
+
+
         $this->get('image_competition_repository')->save($imageCompetition);
         $response = new Response();
         return $response;

@@ -24,6 +24,13 @@
             {% endfor %}
         </div>
     {% endif %}
+    {% if app.session.flashBag.has('alert') %}
+        <div class="alert alert-danger">
+            {% for msg in app.session.flashBag.get('alert') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
         <div class="jumbotron header-home">
             <h1>CGG Conférence</h1>
             {% image '@CGGConferenceBundle/Resources/public/images/Conference.png'  output="images/Conference.png" %}
