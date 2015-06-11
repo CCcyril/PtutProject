@@ -27,7 +27,7 @@ $(document).ready(function() {
                 },
                 dataType: "html",
                 success: function () {
-                    $('.menu-edit-content[data-menuItemId=' + idMenuItem + ']').html(buttonName);
+                    $('#spanMenuItem' + idMenuItem).html(buttonName);
                     $('#menuItemModal').modal('hide');
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -70,8 +70,8 @@ $(document).ready(function() {
         });
     });
 
-    $('#navbar li:not(:last-child)').on('click', function () {
-        var itemId = $(this).attr('id');
+    $('#navbar li:not(:last-child) span').on('click', function () {
+        var itemId = $(this).parent().attr('id');
         var idMenuItem = $('#' + itemId).attr('data-menuItemId');
         var idCurrentPage = $(this).attr('data-pageId');
         $("#addSubItem").attr('data-menuItemId', idMenuItem);
@@ -80,9 +80,10 @@ $(document).ready(function() {
         $("#pagePath").attr('data-menuItemId', itemId);
     });
 
-    $('.menu-edit-content').on('click', function () {
+    $('.menu-edit-content span').on('click', function () {
         $('#buttonNameInput').val($(this).html().trim());
-        $('#menuItemIdModalInput').val($(this).attr('data-menuItemId'));
+        $('#menuItemIdModalInput').val($(this).parent().attr('data-menuItemId'));
+
     })
 
     $(".container-edit-content, .menu-edit-content").mouseover(function () {

@@ -4,6 +4,8 @@ namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Form\Type\ConferenceType;
+use DateTime;
+use Ivory\CKEditorBundle\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,12 +58,44 @@ class ConferenceController extends Controller
         if($request->isMethod('POST')){
             $form->submit($request);
             if($form->isValid()){
+
+                $errors = array();
+
+                if (!$this->validateDate($conference->getStartDate())) {
+                    $errors['startDate'] = 'Veuillez entrer une date valide.';
+                }
+
+                if (!$this->validateDate($conference->getEndDate())) {
+                    $errors['endDate'] = 'Veuillez entrer une date valide.';
+                }
+
+                if(empty($errors)) {
+
+                    $d1 = DateTime::createFromFormat('d/m/Y', $conference->getStartDate());
+                    $d2 = DateTime::createFromFormat('d/m/Y', $conference->getEndDate());
+                    if ($d1 > $d2) {
+                        $errors['startDate'] = 'La date de début doit être antérieure à la date de fin.';
+                    }
+                }
+
+                if (!empty($errors)) {
+                    return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form' => $form->createView(), 'validationErrors' => $errors]);
+                }
+
                 $conference = $this->get('cgg_default_conference')->defaultConferenceAction($conference);
                 $tokenStorage = $this->get('security.token_storage');
                 $user = $tokenStorage->getToken()->getUser();
 
                 $conference->setEmailContact($user->getEmail());
                 $this->get('conference_repository')->save($conference);
+
+                $footer = $conference->getFooter();
+
+                $legalPage = $this->get('page_repository')->findLegal($conference->getId());
+
+                $footer->setText('CGG Conférence © 2015 - <a href="/conference/' . $conference->getId() . '/' . $legalPage->getId() . '">Mentions légales</a>');
+
+                $this->get('footer_repository')->save($footer);
 
                 $aclProvider = $this->get('security.acl.provider');
                 $objectIdentity = ObjectIdentity::fromDomainObject($conference);
@@ -79,6 +113,11 @@ class ConferenceController extends Controller
         }
 
         return $this->render('CGGConferenceBundle:Conference:createConference.html.twig', ['form'=>$form->createView()]);
+    }
+
+    public function validateDate($date, $format = 'd/m/Y') {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
 
     public function detailAction($idConference, $idPage){
@@ -126,11 +165,20 @@ class ConferenceController extends Controller
     }
 
     public function deleteConferenceAction($idConference){
+        $images = $this->get('image_competition_repository')->findAllByIdConference($idConference);
+        foreach($images as $image){
+            $idImage = $image->getId();
+            $comments = $this->get('comments_image_competition_repository')->findByIdImage($idImage);
+            foreach($comments as $comment){
+                $this->get('comments_image_competition_repository')->delete($comment);
+            }
+            $this->get('image_competition_repository')->delete($image);
+        }
         $conferenceRepo = $this->get('conference_repository');
         $conference = $conferenceRepo->find($idConference);
         $conferenceRepo->removeConference($conference);
 
-        $this->addFlash('success', 'Conférence supprimée avec succès mgl!');
+        $this->addFlash('success', 'Conférence supprimée avec succès');
 
         return $this->listAction();
     }
@@ -145,26 +193,26 @@ class ConferenceController extends Controller
         $data = array();
 
         if($nom == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre nom s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre nom ");
         }else if(!preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$#", $nom)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un nom valide s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un nom valide");
         }else if($prenom == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre prénom s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre prénom");
         }else if(!preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$#", $prenom)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un prénom valide s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un prénom valide");
         }else if($mail == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail");
         }else if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $mail)){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide");
         }else if($sujet == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre sujet s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre sujet");
         }else if($message == ""){
-            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre message s'il vous plaît");
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre message");
         }else{
             $idConference = $request->request->get('idConference');
             $conference = $this->get('conference_repository')->find($idConference);
             $this->get('mail_contact_conference')->mailContactConference($nom,$prenom,$mail,$sujet,$message,$conference->getEmailContact());
-            $data = array("erreur"=>false, "message"=>"Votre mail à été envoyer avec succes");
+            $data = array("erreur"=>false, "message"=>"Votre mail à été envoyer avec succès");
         }
         $response = new Response();
         $response->setContent(json_encode($data));

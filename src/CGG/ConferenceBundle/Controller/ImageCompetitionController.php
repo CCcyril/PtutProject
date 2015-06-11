@@ -29,6 +29,18 @@ class ImageCompetitionController extends Controller
 
         return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array("imageList"=>$images, "idConf"=>$idConference));
     }
+
+    public function competitionOrderedAction(Request $request, $idConference){
+        if ($request->isMethod('POST')) {
+            $imageList = $this->get('image_competition_repository')->findALlByOrder($idConference, $request->request->get('order'));
+            $order = $request->request->get('order');
+        } else {
+            $imageList = $this->get('image_competition_repository')->findAllByIdConference($idConference);
+            $order = '0';
+        }
+        return $this->render('CGGConferenceBundle:Conference:imageCompetition.html.twig',array("imageList" => $imageList, "idConf" => $idConference, "order" => $order));
+    }
+
     public function showModalAction(){
         /* Recupère les datas de l'ajax */
         $request = $this->container->get('request');
@@ -108,7 +120,7 @@ class ImageCompetitionController extends Controller
         $imageCompetition->removeUpload();
         $this->get('image_competition_repository')->delete($imageCompetition);
 
-        $this->addFlash('success', 'Votre image à été supprimée avec succes');
+        $this->addFlash('success', 'Votre image a été supprimée avec succès');
         $response = new Response();
         return $response;
     }

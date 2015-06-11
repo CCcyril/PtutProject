@@ -40,7 +40,16 @@
     </div>
 </div>
 <h2>Compétition d'image</h2>
-<a href="{{ path('cgg_image_competition_add_image', {'idConference': idConf}) }}" class="col-md-12">Ajouter une image à la compétition</a>
+<div style="margin-bottom: 20px;" class="col-md-12">
+    <form id="orderForm" method="POST" action="{{ path('cgg_image_competition_ordered', {'idConference': idConf}) }}">
+        <span>Trier par : </span>
+        <select class="input-sm" name="order" id="selectOrder" >
+            <option value="id" {% if order == "id" %}selected{% endif %}>Ancienneté</option>
+            <option value="rating" {% if order == "rating" %}selected{% endif %}>Nombre de votes</option>
+        </select>
+        <a class="btn addImageBtn" href="{{ path('cgg_image_competition_add_image', {'idConference': idConf}) }}">Ajouter une image à la compétition</a>
+    </form>
+</div>
 {% for image in imageList %}
     <div class="col-md-3 col-sm-3 col-xd-12">
         <div class="openModal" data-id="{{ image.id }}">
@@ -69,83 +78,91 @@
     {{ knp_pagination_render(imageList) }}
 </div>
 <script>
-    $('.rating').on("click", function(){
-        var idImage = $(this).attr("data-id");
-        var valueRating = parseInt($(this).children('.valueRating').html());
-        valueRating = valueRating +1;
-        var url = "{{ path('cgg_image_competition_add_rating') }}";
-        $(".rating[data-id=" + idImage + "]").children('.valueRating').empty();
-        $(".rating[data-id=" + idImage + "]").children('.valueRating').append(valueRating);
-        data = [];
-        data.push({name: 'idImage', value: idImage});
-        data.push({name: 'valueRating', value: valueRating});
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            dataType: 'html',
-            success: function(html){
 
-            }
+    $(document).ready(function () {
+
+        $('#selectOrder').on('change', function () {
+            $('#orderForm').submit();
         });
-    });
-    $('.openModal').on("click", function(){
-        var idImage = $(this).data('id');
-        var url = "{{ path('cgg_image_competition_show_modal') }}";
-        data = [];
-        data.push({name: 'idImage', value: idImage});
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            dataType: 'json',
-            success: function(json){
-                $('#imageModal').modal('show');
-                $(".modal-body h3").empty();
-                $(".modal-body h3").append(json['title']);
-                $(".modal-body img").attr("src","/uploads/"+json['path']);
-                $(".modal-body .description").empty();
-                $(".modal-body .description").append(json['description']);
-                $(".valueRatingModal").empty();
-                $(".valueRatingModal").append(json['rating']);
-                $(".ratingModal").attr("data-id", idImage);
-                $(".valueComment").empty();
-                $(".valueComment").append(json['nbComment']);
-                $(".comments").empty();
-                for(i=0 ; i<json['listComments'].length ; i++) {
-                    $(".comments").append("<p>"+json['listComments'][i]+"</p>");
-                }
-            }
-        });
-    });
-    $("#btncomment").on("click", function(){
-        var comment = $("#comment").val();
-        var idImage = $(".ratingModal").attr("data-id");
-        var nombrecomment = parseInt($(".valueCommentModal").text());
-        if(comment == "") {
-            $("#comment").addClass("NotValid");
-        }
-        else{
-            nombrecomment = nombrecomment + 1;
-            $(".comments").append("<p>" + comment + "</p>");
-            $(".valueComment").empty();
-            $(".valueComment").append(nombrecomment);
-            $("#comment").val("");
-            var url = "{{ path('cgg_image_competition_add_comment') }}";
+
+        $('.rating').on("click", function () {
+            var idImage = $(this).attr("data-id");
+            var valueRating = parseInt($(this).children('.valueRating').html());
+            valueRating = valueRating + 1;
+            var url = "{{ path('cgg_image_competition_add_rating') }}";
+            $(".rating[data-id=" + idImage + "]").children('.valueRating').empty();
+            $(".rating[data-id=" + idImage + "]").children('.valueRating').append(valueRating);
             data = [];
             data.push({name: 'idImage', value: idImage});
-            data.push({name: 'comment', value: comment});
-            data.push({name: 'nbComment', value: nombrecomment});
+            data.push({name: 'valueRating', value: valueRating});
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                dataType: 'html',
+                success: function (html) {
+
+                }
+            });
+        });
+        $('.openModal').on("click", function () {
+            var idImage = $(this).data('id');
+            var url = "{{ path('cgg_image_competition_show_modal') }}";
+            data = [];
+            data.push({name: 'idImage', value: idImage});
             $.ajax({
                 type: "POST",
                 url: url,
                 data: data,
                 dataType: 'json',
                 success: function (json) {
+                    $('#imageModal').modal('show');
+                    $(".modal-body h3").empty();
+                    $(".modal-body h3").append(json['title']);
+                    $(".modal-body img").attr("src", "/uploads/" + json['path']);
+                    $(".modal-body .description").empty();
+                    $(".modal-body .description").append(json['description']);
+                    $(".valueRatingModal").empty();
+                    $(".valueRatingModal").append(json['rating']);
+                    $(".ratingModal").attr("data-id", idImage);
+                    $(".valueComment").empty();
+                    $(".valueComment").append(json['nbComment']);
+                    $(".comments").empty();
+                    for (i = 0; i < json['listComments'].length; i++) {
+                        $(".comments").append("<p>" + json['listComments'][i] + "</p>");
+                    }
                 }
             });
-        }
-        /* évite de refermer la box*/
-        return false;
+        });
+        $("#btncomment").on("click", function () {
+            var comment = $("#comment").val();
+            var idImage = $(".ratingModal").attr("data-id");
+            var nombrecomment = parseInt($(".valueCommentModal").text());
+            if (comment == "") {
+                $("#comment").addClass("NotValid");
+            }
+            else {
+                nombrecomment = nombrecomment + 1;
+                $(".comments").append("<p>" + comment + "</p>");
+                $(".valueComment").empty();
+                $(".valueComment").append(nombrecomment);
+                $("#comment").val("");
+                var url = "{{ path('cgg_image_competition_add_comment') }}";
+                data = [];
+                data.push({name: 'idImage', value: idImage});
+                data.push({name: 'comment', value: comment});
+                data.push({name: 'nbComment', value: nombrecomment});
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    dataType: 'json',
+                    success: function (json) {
+                    }
+                });
+            }
+            /* évite de refermer la box*/
+            return false;
+        });
     });
 </script>

@@ -37,6 +37,15 @@ class ImageCompetitionRepository extends EntityRepository
         $query = $this->entityManager->getRepository('CGGConferenceBundle:ImageCompetition')->createQueryBuilder('c')->getQuery();
         return $query->getResult();
     }
+
+    public function findALlByOrder($idConference, $order) {
+        $query = $this->entityManager->getRepository('CGGConferenceBundle:ImageCompetition')->createQueryBuilder('c')
+            ->where('c.conference_id = ' . $idConference)
+            ->orderBy('c.' . $order, 'DESC')
+            ->getQuery();
+        return $query->getResult();
+    }
+
     public function delete($imageCompetition){
         $this->entityManager->remove($imageCompetition);
         $this->entityManager->flush();

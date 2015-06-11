@@ -104,6 +104,10 @@ footer p{
     z-index: 2;
 }
 
+.spanMenuItem {
+    padding: 16px;
+}
+
 .container-edit-content {
     border: 1px solid lightgray;
     min-height: 50px;

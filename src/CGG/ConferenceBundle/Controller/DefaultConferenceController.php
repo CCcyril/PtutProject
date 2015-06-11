@@ -31,14 +31,13 @@ class DefaultConferenceController extends Controller {
 
         $menu->setTitle('wtf');
 
-
         $homePage = $this->createDefaultHomePageAction($menu);
         $presentationPage = $this->createDefaultPresentationPageAction($menu);
         $informationPage = $this->createDefaultInformationPageAction($menu);
         $contactPage = $this->createDefaultContactPageAction($menu);
         $mentionsLegalesPage = $this->createDefaultMentionsLegalesPageAction($menu);
 
-        $footer->setText('CGG Conférence © 2015 - <a href="#">Mentions légales</a>');
+        $footer->setText('');
 
         $conference->setHeadband($headBand);
         $conference->setMenu($menu);
@@ -66,15 +65,7 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('"Contenu par défaut, vous pouvez le modifier ou en ajouter un nouveau."');
 
         $homePage->addContent($content);
 
@@ -95,15 +86,7 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('Contenu par défaut, vous pouvez le modifier ou en ajouter un nouveau.');
 
         $presentationPage->addContent($content);
 
@@ -124,15 +107,7 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('Contenu par défaut, vous pouvez le modifier ou en ajouter un nouveau.');
 
         $informationPage->addContent($content);
 
@@ -196,6 +171,7 @@ class DefaultConferenceController extends Controller {
         $mentionsLegalesPage->setHome('0');
         $mentionsLegalesPage->setContact('0');
         $mentionsLegalesPage->setTitle('Mentions légales');
+        $mentionsLegalesPage->setIsLegal('1');
 
         $content->setText('
         <h3>CGGConference</h3>
