@@ -27,7 +27,6 @@ class LoadConference implements FixtureInterface {
             $page = new Page();
             $menu = new Menu();
             $menuItem = new MenuItem($page);
-            //$menuItem2 = new MenuItem($page);
             $headBand = new HeadBand();
             $footer = new Footer();
             $content1 = new Content();
@@ -35,11 +34,8 @@ class LoadConference implements FixtureInterface {
 
             $menuItem->setDepth($i);
             $menuItem->setTitle('menuItem'.$i);
-            //$menuItem2->setDepth(($i+1));
-            //$menuItem2->setTitle('menuItem'.($i+1));
             $menu->setTitle('Menu'.$i);
             $menu->addMenuItem($menuItem);
-            //$menu->addMenuItem($menuItem2);
             $headBand->setTitle('Title'.$i);
             $headBand->setText('Text'.$i);
             $headBand->setImage('Image'.$i);
@@ -48,7 +44,7 @@ class LoadConference implements FixtureInterface {
             $content2->setText('Content'.($i+1));
 
             $page->setTitle('Home');
-            $page->setIsHome('1');
+            $page->setHome('1');
             $page->addContent($content1);
             $page->addContent($content2);
 
@@ -61,6 +57,7 @@ class LoadConference implements FixtureInterface {
             $conference->setFooter($footer);
             $conference->setMenu($menu);
             $conference->setHeadBand($headBand);
+            $conference->setEmailContact("mathisghomari@hotmail.fr");
 
             $manager->persist($conference);
 

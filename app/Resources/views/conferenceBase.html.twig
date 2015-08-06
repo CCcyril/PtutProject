@@ -11,17 +11,56 @@
         {% stylesheets '@CGGConferenceBundle/Resources/public/css/siteConference/style.css' filter="cssrewrite" output='css/stylesheets.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        {% block style %}
+            <style>
+                .backgroundcolor{
+                    background-color: {{ conference.mainColor }};
+                }
+                .color{
+                    color: {{ conference.mainColor }};
+                }
+                .navbar-inverse .active{
+                    background: {{ conference.secondaryColor }};
+                }
+                .navbar-inverse li:hover{
+                    background: {{ conference.secondaryColor }};
+                }.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+                     background: {{ conference.secondaryColor }};
+                 }
+            </style>
+        {% endblock style %}
     </head>
     <body>
-        <div class="jumbotron header-home">
-            {% block headbandTitle %}
-                {{ headband.title }}
-            {% endblock %}
-            {% block headbandText %}
-                {{ headband.text }}
-            {% endblock %}
+    {% if app.session.flashBag.has('success') %}
+        <div class="alert alert-success">
+            {% for msg in app.session.flashBag.get('success') %}
+                {{ msg }}
+            {% endfor %}
         </div>
-        <nav class="navbar navbar-inverse">
+    {% endif %}
+        <div class="jumbotron header-home">
+            <div class="container">
+                <div class="row container-header">
+                    <div class="col-md-4">
+                        {% block imageHeader %}
+                            <img id="imageHeader" src="{{ conference.getWebPath() }}" class="img-responsive"/>
+                        {% endblock %}
+                    </div>
+                    <div class="col-md-8 headband">
+                    {% block headband %}
+                        {% block headbandTitle %}
+                            {{ headband.title | raw}}
+                        {% endblock %}
+                        {% block headbandText %}
+                            {{ headband.text | raw }}
+                        {% endblock %}
+                    {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-inverse backgroundcolor">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -31,61 +70,56 @@
                         {% endfor %}
                     </button>
                 </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        {% for menuItem in menuItems %}
-                            {% if menuItem.depth == 1 %}
-                                <li class="first
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        active
-                                    {% endif %}
-                                ">
-                            {% elseif menuItem.depth == menuItems|length %}
-                                <li class="last
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        active
-                                    {% endif %}
-                                ">
-                            {% else %}
-                                <li
-                                    {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
-                                        class="active"
-                                    {% endif %}
-                                >
-                            {% endif %}
-
-                            {% block menuItemTitle %}
-                                {{ menuItem.title }}
-                            {% endblock %}
-
-                            </li>
-                        {% endfor %}
-                        {% block addMenuItem %}
-                        {% endblock %}
-                    </ul>
-
-                </div>
+                {% block menu %}
+                {% endblock %}
             </div>
         </nav>
+
         <div class="container">
             {% for content in contents %}
                 {% block contentText %}
-                    {{ content.text }}
+                    {{ content.text | raw }}
                 {% endblock %}
             {% endfor %}
+            {% block addContent %}
+            {% endblock %}
         </div>
         {% block body %}
         {% endblock %}
-        <footer>
-            {% block footerText %}
-                {{ footer.text }}
-            {% endblock %}
-        </footer>
+        {% block footerText %}
+            {{ footer.text | raw }}
+        {% endblock %}
+
+        <div id="back-top"><i class="fa fa-arrow-circle-up color"></i></div>
         {% block javascript %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-            {% javascripts '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js' output='js/script.js' %}
+            {% javascripts
+                '@CGGConferenceBundle/Resources/public/js/jquery/jquery-1.11.3.min.js'
+                '@CGGConferenceBundle/Resources/public/js/sensor.js'
+                '@CGGConferenceBundle/Resources/public/js/gmaps.js'
+                '@CGGConferenceBundle/Resources/public/js/jquery.js'
+                '@CGGConferenceBundle/Resources/public/js/bootstrap/*.js'
+                '@CGGConferenceBundle/Resources/public/js/script.js'
+                output='js/script.js' %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
+    <script>
+        if($(window).width() < 767){
+            open = false;
+            $(".navbar-nav li").click(function(e){
+                myclass = $(this).attr("data-id");
+                if(myclass === "childrenOK"){
+                    e.preventDefault();
+                    if(open === false){
+                        $(this).children("ul").show();
+                        open = true;
+                    }else{
+                        $(this).children("ul").hide();
+                        open = false;
+                    }
+                }
+            });
+        }
+    </script>
     </body>
 </html>

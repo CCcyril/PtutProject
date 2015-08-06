@@ -1,30 +1,156 @@
 {% extends "::conferenceBase.html.twig" %}
 
-{% block headbandTitle %}
-    <h1 contenteditable="true" id="headbandTitle">{{ parent() }}</h1>
-{% endblock %}
-
-{% block headbandText %}
-    <span contenteditable="true" id="headbandText">{{ parent() }}</span>
-{% endblock %}
-
-{% block menuItemTitle %}
-    {#<a href="{{ path('cgg_conference_adminConference',{'idConference':conference.id, 'idPage':menuItem.page.id}) }}" id="menuItemTitle{{ loop.index }}">{{ parent() }}</a>#}
-    <button id="menuItemTitle{{ loop.index }}">{{ parent() }}</button>
-{% endblock %}
-
-{% block addMenuItem %}
-    <li><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}"><span class="glyphicon glyphicon-plus"></span></a></li>
-{% endblock %}
-
-{% block contentText %}
-    <div contenteditable="true" id="content{{ loop.index }}">
+{% block imageHeader %}
+    <div class="container-edit-content">
+        <i id="editImageHeader" class="btn-edit-content-image fa fa-pencil fa-2x"></i>
         {{ parent() }}
     </div>
 {% endblock %}
 
+{% block headband %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-lg reglage" data-toggle="modal" data-target="#myModal">
+        <i class="fa fa-cogs"></i> Réglage de votre site
+    </button>
+    {% block headbandTitle %}
+        <div class="container-edit-content">
+            <i id="headBandTitle" class="fa fa-pencil fa-2x btn-edit-content "></i>
+            <span id="headbandTitle2">{{ parent() }}</span>
+        </div>
+    {% endblock %}
+
+    {% block headbandText %}
+        <div class="container-edit-content">
+            <i id="headBandText" class="fa fa-pencil fa-2x btn-edit-content"></i>
+            <span id="headbandText2">{{ parent() }}</span>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block menu %}
+    {% set i = 0 %}
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            {% for menuItem in menuItems %}
+                {% if menuItem.children is null %}
+                    {% if menuItem.depth == 1 %}
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
+                    <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
+                    </li>
+                {% else %}
+                    {% if menuItem.depth == 1 %}
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li id="menuItemTitle{{ loop.index+i }}" data-pageId="{{ menuItem.page.id }}"
+                            data-menuItemId="{{ menuItem.id }}" data-toggle="modal" data-target="#menuItemModal" class="menu-edit-content btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
+                    {% set idLoop = loop.index %}
+                    <span class="spanMenuItem" id="spanMenuItem{{ menuItem.id }}">{{ menuItem.title }}</span>
+                        <ul class="backgroundcolor">
+                            {% for menuItemChild in menuItem.children  %}
+                                {% set i = idLoop+1 %}
+                                {% set idLoop = idLoop+i %}
+                                {% if menuItem.depth == 1 %}
+                                <li id="menuItemTitle{{ idLoop }}" data-pageId="{{ menuItemChild.page.id }}"
+                                    data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn first
+                                        {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                ">
+                                {% elseif menuItem.depth == menuItems|length %}
+                                    <li id="menuItemTitle{{ idLoop }}" data-pageId="{{ menuItemChild.page.id }}"
+                                        data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn last
+                                        {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                                {% else %}
+                                    <li id="menuItemTitle{{ idLoop }}" data-pageId="{{ menuItemChild.page.id }}"
+                                        data-menuItemId="{{ menuItemChild.id }}" class="menu-edit-content btn
+                                        {% if (conference.id ~ "/" ~ menuItemChild.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                                {% endif %}
+                                <span class="spanMenuItem" id="spanMenuItem{{ menuItemChild.id }}">{{ menuItemChild.title }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% block addMenuItem %}
+            {% endblock %}
+            <li>
+                <a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}">
+                    <i class="fa fa-plus-square"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block contentText %}
+    {% if( isContact == 0) %}
+        <div class="container-edit-content">
+            <i id="contentText" class="btn-edit-content fa fa-pencil fa-2x"></i>
+            <i id="deleteContent{{ content.id }}" class="btn-delete-content fa fa-close fa-2x"></i>
+            <div id="content{{ content.id }}">
+                {{ parent() }}
+            </div>
+        </div>
+    {% else %}
+        <div id="content{{ content.id }}">
+            {{ parent() }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block addContent %}
+    {% if( isContact == 0 ) %}
+        <i id="addContentButton" class="fa fa-plus-square fa-2x"></i>
+    {% endif %}
+{% endblock %}
 {% block footerText %}
-    <p contenteditable="true" id="footerText">{{ parent() }}</p>
+    <footer class="container-edit-content backgroundcolor">
+        <i id="footerText" class="fa fa-pencil fa-2x btn-edit-content "></i>
+        <p id="footerText2">{{ parent() }}</p>
+    </footer>
 {% endblock %}
 
 {% block body %}
@@ -32,87 +158,18 @@
     <input type="hidden" id="idConference" value="{{ conference.id }}">
     <input type="hidden" id="idPage" value="{{ app.request.get('idPage') }}">
     <!-- fin inputs cachés -->
-    <button class="btn btn-success" id="saveChangesAdminConference">Valider les changements</button>
-    <div id="menuItemOptions" class="hidden" style="background-color: #269abc; padding: 10px 10px;">
-        <a href="/" class="btn btn-success">
-            Aller à
-        </a>
-        <a href="/" class="btn btn-primary">
-            Editer
-        </a>
-        <a href="/" class="btn btn-default">
-            AJouter un bouton
-        </a>
-    </div>
+    {% include 'CGGConferenceBundle:Admin/Partials:headerModal.html.twig' %}
+    {% include 'CGGConferenceBundle:Admin/Partials:editModal.html.twig' %}
+    {% include 'CGGConferenceBundle:Admin/Partials:menuItemModal.html.twig' %}
+    {% include 'CGGConferenceBundle:Admin/Partials:imageModal.html.twig' %}
 {% endblock %}
-{#TODO : intégrer le js dans admin.js (problème avec le routing => fosjsrouting)#}
+
 {% block javascript %}
     {{ parent() }}
-    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' %}
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-        <script type='text/javascript' src="{{ asset_url }}"></script>
+    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' '@CGGConferenceBundle/Resources/public/js/ckeditor/ckeditor.js' %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type='text/javascript' src="{{ asset_url }}"></script>
     {% endjavascripts %}
-   {# <script>
-        $(document).ready(function(){
-            $("#saveChangesAdminConference").click(function (){
-                var data = [];
-                var url = "{{ path('cgg_conference_admin_saveChangesConference', {'idConference':conference.id, 'idPage': app.request.get('idPage')}) }}";
-                var nbMenuItemTitle = $(".navbar-nav a").length;
-                var nbContent = $(".container div").length;
-                for(var i=1; i<=nbMenuItemTitle ; i++){
-                    data.push({name: 'menuItemTitle'+i, value:$("#menuItemTitle"+i).text()});
-                }
-                for(i=1; i<=nbContent; i++){
-                    data.push({name: 'content'+i, value: $("#content"+i).text()});
-                }
-                data.push({name: 'headbandTitle', value: $('#headbandTitle').text()});
-                data.push({name: 'headbandText', value: $('#headbandText').text()});
-                data.push({name: 'footerText', value: $('#footerText').text()});
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: data,
-                    dataType: 'html',
-                    success: function(data){
-                    }
-                });
-            });
-            /*var mouseX;
-            var mouseY;
-            $(document).mousemove( function(e) {
-                mouseX = e.pageX;
-                mouseY = e.pageY;
-            });*/
-            /*$(".navbar-nav li:not(:last-child)").click(function(){
-                $('#menuItemOptions').css({'top':mouseY,'left':mouseX,'position':'absolute'}).fadeIn('slow');
-                $('#menuItemOptions').removeClass('hidden');
-            });*/
-            $('.navbar-nav li:not(:last-child)').click(function(event){
-                var itemId = event.target.id;
-                var offsets = $('#'+itemId).offset();
-                var top = offsets.top;
-                var left = offsets.left;
-                $('#menuItemOptions').css({'top':(top+50),'left':(left-100),'position':'absolute'}).fadeIn('slow');
-                $('#menuItemOptions').removeClass('hidden');
-            })
-            /*$('.navbar-nav li:not(:last-child)').mouseout(function(){
-                alert('p');
-                *//**//*var timer;
-
-                $("#a, #b").mouseleave(function() {
-                    timer = setTimeout(doSomething, 10);
-                }).mouseenter(function() {
-                    clearTimeout(timer);
-                });
-
-
-                function doSomething() {
-                    alert('mouse left');
-                }
-            })*/
-        });
-    </script>#}
 {% endblock %}
 

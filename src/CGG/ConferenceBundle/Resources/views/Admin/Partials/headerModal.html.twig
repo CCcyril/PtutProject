@@ -1,0 +1,53 @@
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-image-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Réglage de votre site</h4>
+            </div>
+            <div class="modal-body" id="conference_id" data-id="{{ conference.id }}">
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div id="reponseValidation"></div>
+                        <h3>Informations générales</h3>
+                        <div class="col-md-4">
+                            <h4>Couleur prinicpal de votre site</h4>
+                            <input class="form-control" type="color" id="mainColor" value="{{ conference.mainColor }}"/>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Couleur secondaire de votre site</h4>
+                            <input class="form-control " type="color" id="secondaryColor" value="{{ conference.secondaryColor }}"/>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Adresse email de contact</h4>
+                            <input class="form-control" type="text" id="emailContact" value="{{ conference.emailContact }}"/>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h3>Information de votre carte</h3>
+                        <div class="col-md-4">
+                            <h4>Longitude</h4>
+                            <input class="form-control" type="text" id="longitude" value="{{ conference.longitude }}"/>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Latitude</h4>
+                            <input class="form-control" type="text" id="latitude" value="{{ conference.latitude }}"/>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Information</h4>
+                            <input class="form-control" type="text" id="info" value="{{ conference.infoMap }}"/>
+                        </div>
+                    </div>
+                    <div class="btn-group col-md-12 btn-group-justified btn-add-pages">
+                        <div class="btn-group"><a href="{{ path('cgg_conference_admin_addMenuItem', {'idConference':conference.id}) }}" class="btn btn-primary">Ajouter une page</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveSetting">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

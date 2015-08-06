@@ -1,0 +1,176 @@
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-image-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class='row'>
+                    <div class='col-md-8 col-sm-8 col-xs-12'>
+                        <img src='' class='img-responsive'/>
+                    </div>
+                    <div class='col-md-4 col-sm-4 col-xs-12'>
+                        <h3></h3>
+                        <p class="description"></p>
+                        <p class="buttonComment">
+                            {% if is_granted('VIEW', conference) %}
+                                <span class="valueRating valueRatingModal"></span>
+
+                                <button><i class="fa fa-heart"></i></button> |
+                                <span class="valueComment"></span>
+                                <i class="fa fa-comments"></i>
+
+                                <form>
+                                    <div class="comments">
+                                    </div>
+                                    <input type="text" id="comment" class="form-control" placeholder="Ecrire un commentaire..."/>
+                                    <button class="btn btn-primary" id="btncomment">Envoyer</button>
+                                </form>
+                            {% else %}
+                                <span class="valueRating valueRatingModal"></span>
+
+                                <button><i class="fa fa-heart"></i></button> |
+                                <span class="valueComment"></span>
+                                <i class="fa fa-comments"></i>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>Compétition d'image</h2>
+<div style="margin-bottom: 20px;" class="col-md-12">
+    <form id="orderForm" method="POST" action="{{ path('cgg_image_competition_ordered', {'idConference': idConf}) }}">
+        <span>Trier par : </span>
+        <select class="input-sm" name="order" id="selectOrder" >
+            <option value="id" {% if order == "id" %}selected{% endif %}>Ancienneté</option>
+            <option value="rating" {% if order == "rating" %}selected{% endif %}>Nombre de votes</option>
+        </select>
+        <a class="btn addImageBtn" href="{{ path('cgg_image_competition_add_image', {'idConference': idConf}) }}">Ajouter une image à la compétition</a>
+    </form>
+</div>
+{% for image in imageList %}
+    <div class="col-md-3 col-sm-3 col-xd-12">
+        <div class="openModal" data-id="{{ image.id }}">
+            <img src="{{ image.getWebPath() }}" class="img-responsive img-thumbnail"/>
+        </div>
+        <div class="descriptioImage">
+            <h3>{{ image.title }}</h3>
+            <p>{{ image.description | truncate(100, false, '')}}..</p>
+            <p class="buttonComment">
+                {% if is_granted('VIEW', conference) %}
+                    {% if is_granted('VIEW', image) %}
+                        <span class="valueRating">{{ image.rating }}</span>
+                        <i class="fa fa-heart"></i></button> |
+                        <span class="valueComment">{{ image.nbComment }}</span>
+                        <i class="fa fa-comments"></i>
+                    {% else %}
+                        <button class="rating" data-id="{{ image.id }}"><span class="valueRating">{{ image.rating }}</span>
+                        <i class="fa fa-heart"></i></button> |
+                        <span class="valueComment">{{ image.nbComment }}</span>
+                        <i class="fa fa-comments"></i>
+                    {% endif %}
+                {% else %}
+                    <span class="valueRating">{{ image.rating }}</span>
+                    <i class="fa fa-heart"></i></button> |
+                    <span class="valueComment">{{ image.nbComment }}</span>
+                    <i class="fa fa-comments"></i>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+{% endfor %}
+<div class="navigation col-md-12">
+    {{ knp_pagination_render(imageList) }}
+</div>
+<script>
+
+    $(document).ready(function () {
+
+        $('#selectOrder').on('change', function () {
+            $('#orderForm').submit();
+        });
+
+        $('.rating').on("click", function () {
+            var idImage = $(this).attr("data-id");
+            var valueRating = parseInt($(this).children('.valueRating').html());
+            valueRating = valueRating + 1;
+            var url = "{{ path('cgg_image_competition_add_rating') }}";
+            $(".rating[data-id=" + idImage + "]").children('.valueRating').empty();
+            $(".rating[data-id=" + idImage + "]").children('.valueRating').append(valueRating);
+            data = [];
+            data.push({name: 'idImage', value: idImage});
+            data.push({name: 'valueRating', value: valueRating});
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                dataType: 'html',
+                success: function (html) {
+
+                }
+            });
+        });
+        $('.openModal').on("click", function () {
+            var idImage = $(this).data('id');
+            var url = "{{ path('cgg_image_competition_show_modal') }}";
+            data = [];
+            data.push({name: 'idImage', value: idImage});
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                dataType: 'json',
+                success: function (json) {
+                    $('#imageModal').modal('show');
+                    $(".modal-body h3").empty();
+                    $(".modal-body h3").append(json['title']);
+                    $(".modal-body img").attr("src", "/uploads/" + json['path']);
+                    $(".modal-body .description").empty();
+                    $(".modal-body .description").append(json['description']);
+                    $(".valueRatingModal").empty();
+                    $(".valueRatingModal").append(json['rating']);
+                    $(".ratingModal").attr("data-id", idImage);
+                    $(".valueComment").empty();
+                    $(".valueComment").append(json['nbComment']);
+                    $(".comments").empty();
+                    for (i = 0; i < json['listComments'].length; i++) {
+                        $(".comments").append("<p>" + json['listComments'][i] + "</p>");
+                    }
+                }
+            });
+        });
+        $("#btncomment").on("click", function () {
+            var comment = $("#comment").val();
+            var idImage = $(".ratingModal").attr("data-id");
+            var nombrecomment = parseInt($(".valueCommentModal").text());
+            if (comment == "") {
+                $("#comment").addClass("NotValid");
+            }
+            else {
+                nombrecomment = nombrecomment + 1;
+                $(".comments").append("<p>" + comment + "</p>");
+                $(".valueComment").empty();
+                $(".valueComment").append(nombrecomment);
+                $("#comment").val("");
+                var url = "{{ path('cgg_image_competition_add_comment') }}";
+                data = [];
+                data.push({name: 'idImage', value: idImage});
+                data.push({name: 'comment', value: comment});
+                data.push({name: 'nbComment', value: nombrecomment});
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    dataType: 'json',
+                    success: function (json) {
+                    }
+                });
+            }
+            /* évite de refermer la box*/
+            return false;
+        });
+    });
+</script>

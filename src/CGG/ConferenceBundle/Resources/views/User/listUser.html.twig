@@ -7,7 +7,7 @@
                 <th>#</th>
                 <th>Nom :</th>
                 <th>Email :</th>
-                <th>Rôle : </th>
+                <th>Action : </th>
             </tr>
         </thead>
         <tbody>
@@ -16,7 +16,7 @@
                 <th scope="row">{{ loop.index }}</th>
                 <td id="username">{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                {% for userRole in user.roles %}
+                {#{% for userRole in user.roles %}
                     <td id="userRole">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="true" value="{{ userRole.name }}">
@@ -33,14 +33,14 @@
                             </ul>
                         </div>
                     </td>
-                {% endfor %}
-                <td></td>
+                {% endfor %}#}
+                <td><a href="{{ path('cgg_conference_admin_remove_user', {'idUser':user.id}) }}" type="input" class="btn btn-danger"><i class="fa fa-trash"></i>Supprimer</a></td>
             </tr>
         {% endfor %}
         <tbody>
     </table>
 {% endblock %}
-{% block js %}
+{#{% block js %}
     <script>
         $(document).ready(function() {
             $(".list-group li")
@@ -93,5 +93,5 @@
             });
         });
     </script>
-{% endblock %}
+{% endblock %}#}
 

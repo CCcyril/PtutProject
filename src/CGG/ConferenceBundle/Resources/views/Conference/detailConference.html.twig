@@ -1,17 +1,98 @@
 {% extends "::conferenceBase.html.twig" %}
 
-{% block headbandTitle %}
-    <h1>{{ parent() }}</h1>
+{% block imageHeader %}
+      {{ parent() }}
 {% endblock %}
 
-{% block headbandText %}
-    <span>{{ parent() }}</span>
-{% endblock %}
-
-{% block menuItemTitle %}
-    <a href="{{ path('cgg_conference_detailConference',{'idConference':conference.id, 'idPage':menuItem.page.id}) }}">
+{% block headband %}
+    {% block headbandTitle %}
         {{ parent() }}
-    </a>
+    {% endblock %}
+
+    {% block headbandText %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
+
+{% block menu %}
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            {% for menuItem in menuItems %}
+                {% if menuItem.children is null %}
+                    {% if menuItem.depth == 1 %}
+                    <li class="btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li class="btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li class="btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
+                    <a href="{{ path('cgg_conference_detailConference', {'idConference': conference.id, 'idPage':menuItem.page.id}) }}"> {{ menuItem.title }}</a>
+                    </li>
+                {% else %}
+                    {% if menuItem.depth == 1 %}
+                    <li data-id="childrenOK" class="btn first
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% elseif menuItem.depth == menuItems|length %}
+                        <li data-id="childrenOK" class="btn last
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% else %}
+                        <li data-id="childrenOK" class="btn
+                                {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                    active
+                                {% endif %}
+                        ">
+                    {% endif %}
+                    <a href="{{ path('cgg_conference_detailConference', {'idConference': conference.id, 'idPage':menuItem.page.id}) }}"> {{ menuItem.title }}</a>
+                    <ul class="backgroundcolor">
+                        {% for menuItemChild in menuItem.children  %}
+                            {% if menuItem.depth == 1 %}
+                            <li class="btn first
+                                        {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                ">
+                            {% elseif menuItem.depth == menuItems|length %}
+                                <li class="btn last
+                                        {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                            {% else %}
+                                <li class="btn
+                                        {% if (conference.id ~ "/" ~ menuItem.page.id) in app.request.uri %}
+                                            active
+                                        {% endif %}
+                                    ">
+                            {% endif %}
+                            <a href="{{ path('cgg_conference_detailConference', {'idConference': conference.id, 'idPage':menuItemChild.page.id}) }}"> {{ menuItemChild.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% block addMenuItem %}
+            {% endblock %}
+        </ul>
+    </div>
 {% endblock %}
 
 {% block contentText %}
@@ -21,6 +102,21 @@
 {% endblock %}
 
 {% block footerText %}
-    <p>{{ parent() }}</p>
+    <footer class="backgroundcolor">
+        <p>{{ parent() }}</p>
+    </footer>
+{% endblock %}
+{% block body %}
+<!-- inputs cachés -->
+<input type="hidden" id="idConference" value="{{ conference.id }}">
+<input type="hidden" id="idPage" value="{{ app.request.get('idPage') }}">
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@CGGConferenceBundle/Resources/public/js/admin.js' '@CGGConferenceBundle/Resources/public/js/ckeditor/ckeditor.js' %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type='text/javascript' src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 

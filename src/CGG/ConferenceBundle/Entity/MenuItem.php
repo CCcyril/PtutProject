@@ -11,7 +11,9 @@ class MenuItem
     private $title;
     private $depth;
     private $menuItem_menu;
+    private $idMenuItemParent = NULL;
     private $page;
+    private $children;
 
     public function __construct(Page $page){
         $this->setPage($page);
@@ -54,12 +56,35 @@ class MenuItem
         $this->menuItem_menu = $menu;
     }
 
+    public function getParent(){
+        return $this->idMenuItemParent;
+    }
+
+    public function setParent($idMenuItem){
+        $this->idMenuItemParent = $idMenuItem;
+    }
+
     public function getPage(){
         return $this->page;
     }
 
     public function setPage(Page $page){
         $this->page = $page;
+    }
+
+    public function addChildren(MenuItem $menuItem)
+    {
+        $this->children[] = $menuItem;
+        return $this;
+    }
+
+    public function removeChildren(MenuItem $menuItem)
+    {
+        $this->contents->removeElement($menuItem);
+    }
+
+    public function getChildren(){
+        return $this->children;
     }
 
 }

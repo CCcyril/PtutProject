@@ -1,5 +1,4 @@
 security:
-    # TODO : check : bcrypt plutôt que sha512 : symfony bonnes pratiques => empêche le rainbow table attack
     encoders:
         CGG\ConferenceBundle\Entity\User: bcrypt
 
@@ -35,6 +34,8 @@ security:
         - { path: ^/createConference, roles: ROLE_USER}
         - { path: ^/liste-nouvelle-conferences, roles: ROLE_ADMIN}
         - { path: ^/admin, roles: ROLE_ADMIN}
+        - { path: ^/gestion-des-images, roles: ROLE_ADMIN}
+        - { path: ^/competition-image/ajouter-image, roles: ROLE_USER}
 
     acl:
        connection: default

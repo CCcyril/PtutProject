@@ -8,27 +8,44 @@
             <generator strategy="AUTO" />
         </id>
         <field name="name" type="string" length="255" />
-        <field name="description" type="string" length="25" />
+        <field name="description" type="text" length="255" />
         <field name="creationDate" type="string" length="255" />
-        <field name="startDate" type="string" length="255"/>
-        <field name="endDate" type="string" length="255"/>
+        <field name="startDate" type="string" length="255" />
+        <field name="endDate" type="string" length="255" />
         <field name="status" type="string" length="255"/>
+        <field name="mainColor" type="string" length="255"/>
+        <field name="secondaryColor" type="string" length="255"/>
+        <field name="emailContact" type="string" length="255" nullable="true"/>
+        <field name="imagePath" type="string" length="255" nullable="true"/>
+        <field name="longitude" type="string" length="255" nullable="true"/>
+        <field name="latitude" type="string" length="255" nullable="true"/>
+        <field name="infoMap" type="string" length="255" nullable="true"/>
 
         <one-to-one field="headband" target-entity="HeadBand">
-            <cascade><cascade-persist/></cascade>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
             <join-column name="headband_id" referenced-column-name="id"/>
         </one-to-one>
         <one-to-one field="menu" target-entity="Menu">
-            <cascade><cascade-persist/></cascade>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
             <join-column name="menu_id" referenced-column-name="id"/>
         </one-to-one>
         <one-to-one field="footer" target-entity="Footer">
-            <cascade><cascade-persist/></cascade>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
             <join-column name="footer_id" referenced-column-name="id"/>
         </one-to-one>
         <one-to-many target-entity="Page" mapped-by="page_conference_id" field="pages" >
             <cascade>
                 <cascade-persist/>
+                <cascade-remove/>
             </cascade>
         </one-to-many>
     </entity>

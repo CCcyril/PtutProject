@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new CGG\ConferenceBundle\CGGConferenceBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

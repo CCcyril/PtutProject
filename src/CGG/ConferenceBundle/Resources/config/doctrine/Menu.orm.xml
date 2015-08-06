@@ -8,6 +8,7 @@
       <one-to-many target-entity="MenuItem" mapped-by="menuItem_menu" field="menuItem">
         <cascade>
             <cascade-persist/>
+            <cascade-remove/>
         </cascade>
       </one-to-many>
   </entity>

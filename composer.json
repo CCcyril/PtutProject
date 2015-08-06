@@ -21,7 +21,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "knplabs/knp-menu-bundle": "~2",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
-        "friendsofsymfony/jsrouting-bundle": "~1.5"
+        "friendsofsymfony/jsrouting-bundle": "~1.5",
+        "egeloen/ckeditor-bundle": "~2.0",
+        "knplabs/knp-paginator-bundle": "~2.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

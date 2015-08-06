@@ -4,113 +4,365 @@ namespace CGG\ConferenceBundle\Controller;
 
 use CGG\ConferenceBundle\Entity\Conference;
 use CGG\ConferenceBundle\Entity\Content;
-use CGG\ConferenceBundle\Entity\Footer;
-use CGG\ConferenceBundle\Entity\HeadBand;
-use CGG\ConferenceBundle\Entity\Menu;
 use CGG\ConferenceBundle\Entity\MenuItem;
 use CGG\ConferenceBundle\Form\ConferenceType;
-use Proxies\__CG__\CGG\ConferenceBundle\Entity\Page;
+use CGG\ConferenceBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use CGG\ConferenceBundle\Form\Type\ContentType;
+use CGG\ConferenceBundle\Form\Type\ImageHeaderType;
 
 class AdminController extends Controller
 {
-    public function adminAction($idConference, $idPage) {
+    public function adminAction(Request $request, $idConference, $idPage) {
 
         $conference = $this->get('conference_repository')->find($idConference);
+        $page = $this->get('page_repository')->find($idPage);
 
-        $pages = $this->get('page_repository')->findByConferenceId($idConference);
-
-        foreach ($pages as $page) {
-            $conference->addPageId($page);
-        }
-
-        $headBand = $conference->getHeadBand();
-
-        $menu = $conference->getMenu();
-
-        $idMenu = $menu->getId();
-
-        $menuItems = $this->get('menuItem_repository')->findByMenuId($idMenu);
-
-        $contents = $this->get('content_repository')->findByPageId($idPage);
-
-        $footer = $conference->getFooter();
-
+        $isContact = $page->getContact();
         if ($conference !== NULL) {
-            return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
-                'conference' => $conference,
-                'headband' => $headBand,
-                'menuItems' => $menuItems,
-                'contents' => $contents,
-                'footer' => $footer
-            ));
-        } else {
+            $pages = $this->get('page_repository')->findByConferenceId($idConference);
+            if ($this->get('check_if_page_belong_conference')->checkIfPageBelongConference()) {
+                foreach ($pages as $page) {
+                    $conference->addPageId($page);
+                }
+
+                $form = $this->createForm(New ContentType());
+                $formImage = $this->createForm(New ImageHeaderType(),$conference);
+
+                if($request->isMethod('POST')){
+
+                    $formImage->submit($request);
+                    if($formImage->isValid()) {
+                        $conference->upload();
+                        $this->get('conference_repository')->save($conference);
+                    }
+                }
+
+                $headBand = $conference->getHeadBand();
+                $menu = $conference->getMenu();
+                $idMenu = $menu->getId();
+                $menuItems = $this->get('menuitem_repository')->findMenuItemWithoutParentOrderedByDepth($idMenu);
+
+                foreach($menuItems as $menuItem){
+                    $idMenuItem = $menuItem->getId();
+                    $children = $this->get('menuitem_repository')->findMenuItemChildren($idMenuItem, $idMenu);
+                    foreach($children as $child){
+                        $menuItem->addChildren($child);
+                    }
+                }
+
+                $contents = $this->get('content_repository')->findByPageId($idPage);
+
+                $footer = $conference->getFooter();
+
+                return $this->render('CGGConferenceBundle:Admin:adminConference.html.twig', array(
+                    'menuItems'=>$menuItems,
+                    'conference' => $conference,
+                    'headband' => $headBand,
+                    'contents' => $contents,
+                    'footer' => $footer,
+                    'form' => $form->createView(),
+                    'formImage' => $formImage->createView(),
+                    'isContact' => $isContact
+                ));
+
+            }else{
+                return $this->render('CGGConferenceBundle:Conference:pageNotFound.html.twig', array());
+            }
+        }else{
             return $this->render('CGGConferenceBundle:Conference:conferenceNotFound.html.twig', array());
         }
     }
 
     public function saveChangesAdminConferenceAction(Request $request, $idConference, $idPage){
-        /*TODO : ajouter if xhtmlrequest + verif*/
-        /*TODO : Une fonction ajax nommée pour chaque parties, un bouton par partie. Nommé les fonctions pour toutes les appeler si le bouton pour sauver tous les changements est cliqué*/
-        $conference = $this->get('conference_repository')->find($idConference);
-        $page = $this->get('page_repository')->find($idPage);
+        if($request->isXmlHttpRequest()) {
+            $conference = $this->get('conference_repository')->find($idConference);
+            $page = $this->get('page_repository')->find($idPage);
 
-        /*TODO : Gérer les images*/
-        $headbandTitle = $request->request->get('headbandTitle');
-        $headbandText = $request->request->get('headbandText');
-        $headband = $conference->getHeadBand();
-        $headband->setTitle($headbandTitle);
-        $headband->setText($headbandText);
+            $headbandTitle = $request->request->get('headbandTitle');
+            $headbandText = $request->request->get('headbandText');
+            $headband = $conference->getHeadBand();
+            $headband->setTitle($headbandTitle);
+            $headband->setText($headbandText);
 
-        $menu = $conference->getMenu();
-        $menuItems = $this->get('menuItem_repository')->findByMenuId($menu->getId());
-        $numberIdMenuItem = 1;
-        foreach($menuItems as $menuItem){
-            $menuItemTitle = $request->request->get('menuItemTitle'.$numberIdMenuItem);
-            $menuItem->setTitle($menuItemTitle);
-            $numberIdMenuItem += 1;
+            $menu = $conference->getMenu();
+            $idMenu = $menu->getId();
+            $menuItems = $this->get('menuItem_repository')->findByMenuIdOrderByDepth($idMenu);
+            $numberIdMenuItem = 1;
+            foreach ($menuItems as $menuItem) {
+                $menuItemTitle = $request->request->get('menuItemTitle' . $numberIdMenuItem);
+                $menuItem->setTitle($menuItemTitle);
+                $numberIdMenuItem += 1;
+            }
+
+            $contents = $this->get('content_repository')->findByPageId($idPage);
+            $numberIdContent = 1;
+            foreach ($contents as $content) {
+                $contentText = $request->request->get('content' . $numberIdContent);
+                $content->setText($contentText);
+                $numberIdContent += 1;
+            }
+
+            $footer = $conference->getFooter();
+            $footerText = $request->request->get('footerText');
+            $footer->setText($footerText);
+
+            $this->get('page_repository')->save($page);
+            $this->get('conference_repository')->save($conference);
+
+            $this->addFlash('success', 'Modifications enregistrées avec succès');
+
+            return new Response('ok');
         }
+    }
 
-        $contents = $this->get('content_repository')->findByPageId($idPage);
-        $numberIdContent = 1;
-        foreach($contents as $content){
-            $contentText = $request->request->get('content'.$numberIdContent);
-            $content->setText($contentText);
-            $numberIdContent += 1;
-        }
+    public function saveButtonNameAction(Request $request) {
 
-        $footer = $conference->getFooter();
-        $footerText = $request->request->get('footerText');
-        $footer->setText($footerText);
+        $menuItem = $this->get('menuitem_repository')->find($request->request->get('idMenuItem'));
 
-        $this->get('page_repository')->save($page);
-        $this->get('conference_repository')->save($conference);
+        $menuItem->setTitle($request->request->get('buttonName'));
 
+        $this->get('menuitem_repository')->save($menuItem);
 
+        return new Response('ok');
     }
 
     public function addMenuItemAction($idConference){
+
         $conferenceRepository = $this->get('conference_repository');
         $conference = $conferenceRepository->find($idConference);
+
         $menu = $conference->getMenu();
-        $newPage = new Page();
-        $newPage->setTitle('test');
-        /*TODO : count select depth => maxdepth+1*/
-        $newPage->setIsHome('0');
+        $idMenu = $menu->getId();
+
+        $newPage = $this->createNewPage();
 
         $menuItem = new MenuItem($newPage);
         $menuItem->setTitle($newPage->getTitle());
-        $menuItem->setDepth(5);
+        $depth = $this->get('menuitem_repository')->countMenuItemDepth($idMenu);
+        $menuItem->setDepth($depth+1);
 
         $menu->addMenuItem($menuItem);
-        $newPage->setPageMenu($menu);
 
         $conference->addPageId($newPage);
         $conferenceRepository->save($conference);
 
         return $this->redirect($this->generateUrl('cgg_conference_adminConference', ['idPage'=>$newPage->getId(), 'idConference'=>$idConference]));
     }
+
+    public function saveChangeContentAction(Request $request){
+        $idConference = $request->request->get('idConference');
+        $idPage = $request->request->get('idPage');
+        $entity = $request->request->get('entity');
+        $content = $request->request->get('content');
+        $idContent = $request->request->get('idContent');
+
+        $conference = $this->get('conference_repository')->find($idConference);
+
+        switch ($entity) {
+            case 'headBandTitle':
+                $modifiedContent = $conference->getHeadband();
+                $modifiedContent->setTitle($content);
+                $repo = 'headband_repository';
+                break;
+            case 'headBandText':
+                $modifiedContent = $conference->getHeadband();
+                $modifiedContent->setText($content);
+                $repo = 'headband_repository';
+                break;
+            case 'contentText':
+                $modifiedContent = $this->get('content_repository')->find($idContent);
+                $modifiedContent->setText($content);
+                $repo = 'content_repository';
+                break;
+            case 'footerText':
+                $modifiedContent = $conference->getFooter();
+                $modifiedContent->setText($content);
+                $repo = 'footer_repository';
+                break;
+        }
+
+        $this->get($repo)->save($modifiedContent);
+        $this->addFlash('success', 'Changements effectués avec succès');
+        return new Response('ok');
+    }
+
+    public function addSubItemAction(Request $request){
+
+        $conferenceRepository = $this->get('conference_repository');
+        $idConference = $request->request->get('idConference');
+        $conference = $conferenceRepository->find($idConference);
+
+        $menu = $conference->getMenu();
+        $idMenu = $menu->getId();
+
+        $newPage = $this->createNewPage();
+
+        $menuItem = new MenuItem($newPage);
+        $menuItem->setTitle($newPage->getTitle());
+        $depth = $this->get('menuitem_repository')->countMenuItemDepth($idMenu);
+        $menuItem->setDepth($depth+1);
+        $idParent = $request->request->get('idParent');
+        $menuItem->setParent($idParent);
+
+        $menu->addMenuItem($menuItem);
+
+        $conference->addPageId($newPage);
+        $conferenceRepository->save($conference);
+
+        $this->addFlash('success', 'Sous menu ajouté avec succès');
+
+        return new Response('ok');
+    }
+
+    public function removePageAction(Request $request){
+
+        $idMenuItem = $request->request->get('idMenuItem');
+        $menuItem = $this->get('menuitem_repository')->find($idMenuItem);
+        $children = $this->get('menuitem_repository')->findMenuItemChildren($idMenuItem, $menuItem->getMenu()->getId());
+        $idConference = $request->request->get('idConference');
+        $currentUrl = $request->request->get('currentUrl');
+        $data = array('idHomePage'=>null);
+
+        foreach($children as $child){
+            $page = $child->getPage();
+            $this->get('menuitem_repository')->removeMenuItem($child);
+            $this->get('page_repository')->removePage($page);
+        }
+
+        $page = $menuItem->getPage();
+        if(preg_match("#" . $page->getId() . "#", $currentUrl)){
+            if($page->isHome()){
+                $pages = $this->get('page_repository')->getFirstPageWhichIsNotHome($page->getId(), $idConference);
+                $newHome = array_shift($pages);
+                $newHome->setHome('1');
+                $page->setHome("0");
+                $data = array('idHomePage'=>$newHome->getId());
+            }else{
+                $homePage = $this->get('page_repository')->findHome($idConference);
+                $data = array('idHomePage'=>$homePage->getId());
+            }
+        }
+
+        $this->get('menuitem_repository')->removeMenuItem($menuItem);
+        $this->get('page_repository')->removePage($page);
+        $this->addFlash('success', 'Page ' . $page->getTitle() . ' a été supprimée');
+
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function createNewPage(){
+
+        $newPage = new Page();
+        $newPage->setTitle('Nouvelle page');
+        $newPage->setHome('0');
+
+        $content = new Content();
+        $content->setText( "Contenu par défaut de la page. Vous pouvez modifier ce bloc ou en ajouter des nouveaux." );
+
+        $newPage->addContent($content);
+
+        return $newPage;
+    }
+
+    public function saveSettingAction(){
+        /* Recupère les datas de l'ajax */
+        $request = $this->container->get('request');
+        $idConference = $request->request->get('idConference');
+        $mainColor = $request->request->get('mainColor');
+        $secondaryColor = $request->request->get('secondaryColor');
+        $emailContact = $request->request->get('emailContact');
+        $longitude = $request->request->get('longitude');
+        $latitude = $request->request->get('latitude');
+        $info = $request->request->get('info');
+        $data = array();
+        if($mainColor == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur principale");
+        }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $mainColor)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur principale correcte");
+        }else if($secondaryColor == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre couleur secondaire");
+        }else if(!preg_match("/#(?:[0-9a-fA-F]{6})/", $secondaryColor)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner une couleur secondaire correcte");
+        }else if($emailContact == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre mail");
+        }else if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $emailContact)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner un mail valide");
+        }else if($longitude == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude");
+        }else if(!preg_match("/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/", $longitude)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre longitude correcte");
+        }else if($latitude == ""){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude");
+        }else if(!preg_match("/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/", $latitude)){
+            $data = array("erreur"=>true, "message"=>"Veuillez renseigner votre latitude correcte");
+        }else{
+            $conference = $this->get('conference_repository')->find($idConference);
+
+            $conference->setMainColor($mainColor);
+            $conference->setSecondaryColor($secondaryColor);
+            $conference->setEmailContact($emailContact);
+            $conference->setLongitude($longitude);
+            $conference->setLatitude($latitude);
+            $conference->setInfoMap($info);
+
+            $this->get('conference_repository')->save($conference);
+        }
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    public function addContentAction(Request $request){
+        $idPage = $request->request->get('idPage');
+        $page = $this->get('page_repository')->find($idPage);
+        $content = new Content();
+
+        $content->setPage($page);
+        $content->setText('');
+
+        $this->get('content_repository')->save($content);
+
+        return new Response('ok');
+    }
+
+    public function deleteContentAction(Request $request){
+        $idContent = $request->request->get('idContent');
+        $content = $this->get('content_repository')->find($idContent);
+
+        $this->get('content_repository')->delete($content);
+
+        return new Response('ok');
+    }
+
+    public function uploadImageHeaderAction(Request $request){
+        $idConference = $request->request->get('idConference');
+        $conference = $this->get('conference_repository')->find($idConference);
+
+        $conference->setImagePath($this->file);
+        $conference->upload();
+
+        return new Response('ok');
+    }
+    public function showMapAction(Request $request){
+        $idConference = $request->request->get('idConference');
+        $conference = $this->get('conference_repository')->find($idConference);
+        $data = array(
+            "longitude"=>$conference->getLongitude(),
+            "latitude"=>$conference->getLatitude(),
+            "infoMap"=>$conference->getInfoMap()
+        );
+        $response = new Response();
+        $response->setContent(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+
+    }
+
 }

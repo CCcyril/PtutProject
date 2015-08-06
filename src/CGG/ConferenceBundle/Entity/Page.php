@@ -11,20 +11,28 @@ use CGG\ConferenceBundle\Entity\HeadBand;
 
 class Page
 {
-
-    /*TODO : trucs inutiles à virer*/
     private $id;
     private $title;
     private $isHome;
     private $page_conference_id;
-    private $page_menu;
-    private $page_headBand;
-    private $page_footer;
     private $contents;
+    private $isContact;
+    private $isLegal = "0";
 
     function __construct()
     {
         $this->contents = new ArrayCollection();
+        $this->isContact = 0;
+    }
+
+    public function getIsLegal()
+    {
+        return $this->isLegal;
+    }
+
+    public function setIsLegal($isLegal)
+    {
+        $this->isLegal = $isLegal;
     }
 
     public function getId()
@@ -64,42 +72,6 @@ class Page
         return $this->page_conference_id;
     }
 
-    public function setPageMenu(Menu $pageMenu = null)
-    {
-        $this->page_menu = $pageMenu;
-
-        return $this;
-    }
-
-    public function getPageMenu()
-    {
-        return $this->page_menu;
-    }
-
-    public function setPageHeadBand(HeadBand $pageHeadBand = null)
-    {
-        $this->page_headBand = $pageHeadBand;
-
-        return $this;
-    }
-
-    public function getPageHeadBand()
-    {
-        return $this->page_headBand;
-    }
-
-    public function setPageFooter(Footer $pageFooter = null)
-    {
-        $this->page_footer = $pageFooter;
-
-        return $this;
-    }
-
-    public function getPageFooter()
-    {
-        return $this->page_footer;
-    }
-
     public function addContent(Content $content)
     {
         $this->contents[] = $content;
@@ -116,4 +88,13 @@ class Page
     {
         return $this->contents;
     }
+    public function getContact()
+    {
+        return $this->isContact;
+    }
+    public function setContact($isContact)
+    {
+        $this->isContact = $isContact;
+    }
+
 }
