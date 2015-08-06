@@ -47,6 +47,56 @@
             <argument>CGG\ConferenceBundle\entity\Role</argument>
         </service>
 
+        <service id="image_competition_repository" class="CGG\ConferenceBundle\Repository\ImageCompetitionRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="comments_image_competition_repository" class="CGG\ConferenceBundle\Repository\CommentImageRepository">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="twig.extension.text" class="Twig_Extensions_Extension_Text">
+            <tag name="twig.extension"></tag>
+        </service>
+
+        <service id="check_if_page_belong_conference" class="CGG\ConferenceBundle\Tools\CheckIfPageBelongConference">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="page_repository"/>
+        </service>
+
+        <service id="mail_admin_conference_created" class="CGG\ConferenceBundle\Tools\MailAdminConferenceCreated">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
+            <argument type="service" id="user_repository"/>
+            <argument type="service" id="security.authorization_checker"/>
+            <call method="mailAdminConferenceCreated"/>
+        </service>
+
+        <service id="mail_forgot_your_password" class="CGG\ConferenceBundle\Tools\MailForgotYourPassword">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
+        </service>
+
+        <service id="generate_password" class="CGG\ConferenceBundle\Tools\GeneratePassword"/>
+
+        <service id="request_take_part_conference" class="CGG\ConferenceBundle\Tools\MailRequestTakePartConference">
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
+        </service>
+
+
+        <service id="mail_contact_conference" class="CGG\ConferenceBundle\Tools\MailContactConference">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="templating"/>
+        </service>
+
     </services>
 
 </container>

@@ -31,12 +31,13 @@ class DefaultConferenceController extends Controller {
 
         $menu->setTitle('wtf');
 
-        $footer->setText('CGG Comférence © 2015 - <a href="#">Mentions légales</a> - <a href="#">Plan du site</a>');
-
         $homePage = $this->createDefaultHomePageAction($menu);
         $presentationPage = $this->createDefaultPresentationPageAction($menu);
         $informationPage = $this->createDefaultInformationPageAction($menu);
         $contactPage = $this->createDefaultContactPageAction($menu);
+        $mentionsLegalesPage = $this->createDefaultMentionsLegalesPageAction($menu);
+
+        $footer->setText('');
 
         $conference->setHeadband($headBand);
         $conference->setMenu($menu);
@@ -45,6 +46,7 @@ class DefaultConferenceController extends Controller {
         $conference->addPageId($presentationPage);
         $conference->addPageId($informationPage);
         $conference->addPageId($contactPage);
+        $conference->addPageId($mentionsLegalesPage);
 
         return $conference;
     }
@@ -55,6 +57,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $homePage->setHome('1');
+        $homePage->setContact('0');
         $homePage->setTitle('Accueil');
 
         $menuItem->setTitle($homePage->getTitle());
@@ -62,15 +65,7 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('"Contenu par défaut, vous pouvez le modifier ou en ajouter un nouveau."');
 
         $homePage->addContent($content);
 
@@ -83,6 +78,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $presentationPage->setHome('0');
+        $presentationPage->setContact('0');
         $presentationPage->setTitle('Présentation');
 
         $menuItem->setTitle($presentationPage->getTitle());
@@ -90,15 +86,7 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('Contenu par défaut, vous pouvez le modifier ou en ajouter un nouveau.');
 
         $presentationPage->addContent($content);
 
@@ -111,6 +99,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $informationPage->setHome('0');
+        $informationPage->setContact('0');
         $informationPage->setTitle('Informations');
 
         $menuItem->setTitle($informationPage->getTitle());
@@ -118,15 +107,7 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('Contenu par défaut, vous pouvez le modifier ou en ajouter un nouveau.');
 
         $informationPage->addContent($content);
 
@@ -139,6 +120,7 @@ class DefaultConferenceController extends Controller {
         $content = new Content();
 
         $contactPage->setHome('0');
+        $contactPage->setContact('1');
         $contactPage->setTitle('Contact');
 
         $menuItem->setTitle($contactPage->getTitle());
@@ -146,18 +128,64 @@ class DefaultConferenceController extends Controller {
 
         $menu->addMenuItem($menuItem);
 
-        $content->setText('"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                            incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                            exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                            autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-                            illum qui dolorem eum fugiat quo voluptas nulla pariatur?"');
+        $content->setText('<div class="col-md-6">
+            <div id="reponseContact"></div>
+            <h2>Formulaire de contact</h2>
+                <div class="form-group">
+                    <label>Nom :</label>
+                    <input type="text" id="name" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Prénom :</label>
+                    <input type="text" id="firstName" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Mail :</label>
+                    <input type="email" id="email" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Sujet :</label>
+                    <input type="text" id="sujet" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>Message :</label>
+                    <textarea id="message" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="envoieEmail">Contact</button>
+                </div>
+        </div>
+        <div class="col-md-6">
+            <div id="map"></div>
+        </div> ');
 
         $contactPage->addContent($content);
 
         return $contactPage;
+    }
+    public function createDefaultMentionsLegalesPageAction(Menu $menu){
+        $mentionsLegalesPage = new Page();
+        $menuItem = new MenuItem($mentionsLegalesPage);
+        $content = new Content();
+
+        $mentionsLegalesPage->setHome('0');
+        $mentionsLegalesPage->setContact('0');
+        $mentionsLegalesPage->setTitle('Mentions légales');
+        $mentionsLegalesPage->setIsLegal('1');
+
+        $content->setText('
+        <h3>CGGConference</h3>
+        <h4>Ce site internet a été réalisé par :</h4>
+        <p>Les étudiants de la licence professionnelle METINET 2014/2015</p>
+        <p>71 Rue Peter Fink, 01000 Bourg-en-Bresse</p>
+        <p>04 74 45 50 50</p>
+        <h4>Directeur de la publication : </h4>
+        <p>IUT Lyon 1 Bourg en bresse</p>
+        <h4>Hébergement</h4>
+        ');
+
+        $mentionsLegalesPage->addContent($content);
+
+        return $mentionsLegalesPage;
     }
 }

@@ -21,8 +21,17 @@ class ContentRepository extends EntityRepository
         return $query->getResult();
     }
 
+    public function find($idContent){
+        return $this->entityManager->find("CGGConferenceBundle:Content", $idContent);
+    }
+
     public function save(Content $content){
         $this->entityManager->persist($content);
+        $this->entityManager->flush();
+    }
+
+    public function delete(Content $content){
+        $this->entityManager->remove($content);
         $this->entityManager->flush();
     }
 }

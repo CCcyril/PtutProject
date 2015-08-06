@@ -1,0 +1,32 @@
+<h2>Gestion des images</h2>
+{% for image in imageList %}
+    <div class="col-md-3 col-sm-3 col-xd-12 delete">
+        <span class="fa fa-times remove" id="{{ image.id }}"></span>
+        <h3>{{ image.title }}</h3>
+        <img id="{{ image.id }}_deleteImage" src="{{ image.getWebPath() }}" class="img-responsive"/>
+        <p>{{ image.description | truncate(100, false, '')}}..</p>
+        <p class="buttonComment">
+            <span>{{ image.rating }}</span>
+            <i class="fa fa-heart"></i></button> |
+            <span>{{ image.nbComment }}</span>
+            <i class="fa fa-comments"></i>
+        </p>
+    </div>
+{% endfor %}
+<script>
+    $(".remove").click(function(){
+        var idImage = $(this).attr("id");
+        var url = "{{ path('cgg_image_competition_remove_image') }}";
+        data = [];
+        data.push({name: 'idImage', value: idImage});
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            dataType: 'html',
+            success: function(html){
+                window.location.reload();
+            }
+        });
+    });
+</script>

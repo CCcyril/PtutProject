@@ -4,6 +4,7 @@ namespace CGG\ConferenceBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Conference
 {
@@ -19,12 +20,31 @@ class Conference
     private $menu;
     private $footer;
     private $status;
+    private $mainColor;
+    private $secondaryColor;
+    private $emailContact;
+    private $imagePath;
+    private $longitude;
+    private $latitude;
+    private $infoMap;
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    public $file;
 
     function __construct()
     {
         $this->creationDate = \date('r');
         $this->pages = new ArrayCollection();
         $this->setStatus('P');
+        $this->mainColor = "#2B1138";
+        $this->secondaryColor = "#E84349";
+        $this->emailContact = null;
+        $this->imagePath = null;
+        $this->longitude = "5.2415621";
+        $this->latitude = "46.2153648";
+        $this->infoMap = "IUT Lyon 1 site de Bourg-en-Bresse";
     }
 
     public function getId()
@@ -114,6 +134,16 @@ class Conference
         return null;
     }
 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
     public function getStatus()
     {
         return $this->status;
@@ -147,4 +177,100 @@ class Conference
     public function setFooter(Footer $footer){
         $this->footer = $footer;
     }
+    public function getMainColor()
+    {
+        return $this->mainColor;
+    }
+    public function setMainColor($mainColor)
+    {
+        $this->mainColor = $mainColor;
+    }
+    public function getSecondaryColor()
+    {
+        return $this->secondaryColor;
+    }
+    public function setSecondaryColor($secondaryColor)
+    {
+        $this->secondaryColor = $secondaryColor;
+    }
+    public function getEmailContact()
+    {
+        return $this->emailContact;
+    }
+    public function setEmailContact($emailContact)
+    {
+        $this->emailContact = $emailContact;
+    }
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
+    }
+    public function getAbsolutePath()
+    {
+        return null === $this->imagePath ? null : $this->getUploadRootDir().'/'.$this->imagePath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->imagePath ? null : $this->getUploadDir().'/'.$this->imagePath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../web'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return '/uploads/logos';
+    }
+    public function upload()
+    {
+        if (null === $this->file) {
+            return;
+        }
+
+        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+        $this->imagePath = $this->file->getClientOriginalName();
+    }
+
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
+    }
+
+
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
+
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+    public function getInfoMap()
+    {
+        return $this->infoMap;
+    }
+    public function setInfoMap($infoMap)
+    {
+        $this->infoMap = $infoMap;
+    }
+
 }
